@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>JG — Find Skills. Find Opportunities.</title>
+
+<style>
+/* =========================================================
+   JG — SINGLE FILE APPLICATION
+   HTML + CSS + JAVASCRIPT
+   ========================================================= */
+
+:root {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --surface-2: #eef4ff;
+    --text: #101828;
+    --muted: #667085;
+    --border: #e4e7ec;
+    --primary: #2563eb;
+    --primary-2: #7c3aed;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg: #070b14;
+    --surface: #101827;
+    --surface-2: #111f3b;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --border: #1f2937;
+    --primary: #3b82f6;
+    --primary-2: #8b5cf6;
+    --shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 13px 16px;
+    background: rgba(255,255,255,.88);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+}
+
+[data-theme="dark"] .header {
+    background: rgba(16,24,39,.9);
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-2)
+    );
+    box-shadow: 0 8px 20px rgba(37,99,235,.25);
+}
+
+.brand-name {
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.brand-subtitle {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .07em;
+}
+
+.theme-button {
+    width: 43px;
+    height: 43px;
+    border: 0;
+    border-radius: 14px;
+    color: var(--text);
+    background: var(--surface-2);
+    font-size: 19px;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    padding: 18px 16px 110px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.hero {
+    padding: 22px 2px 18px;
+}
+
+.eyebrow {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.hero h1 {
+    margin: 8px 0 12px;
+    font-size: 35px;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+}
+
+.hero p {
+    max-width: 620px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    min-height: 48px;
+    border: 0;
+    border-radius: 15px;
+    padding: 0 17px;
+    font-weight: 800;
+    transition: transform .15s ease, opacity .15s ease;
+}
+
+.btn:active {
+    transform: scale(.97);
+}
+
+.primary {
+    color: #fff;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-2)
+    );
+}
+
+.secondary {
+    color: var(--primary);
+    background: var(--surface-2);
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 17px;
+    color: var(--text);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.card h3,
+.card h4 {
+    margin-bottom: 7px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.section {
+    margin-top: 24px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 11px;
+}
+
+.section-header h2 {
+    font-size: 20px;
+}
+
+.link-button {
+    border: 0;
+    color: var(--primary);
+    background: transparent;
+    font-weight: 800;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* =========================================================
+   ADVERTISEMENT
+   ========================================================= */
+
+.ad-slot {
+    margin: 15px 0;
+    padding: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 18px;
+    text-align: center;
+    color: var(--muted);
+    background: var(--surface);
+    font-size: 12px;
+}
+
+.ad-slot strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+
+/* =========================================================
+   COURSE
+   ========================================================= */
+
+.course-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    text-align: left;
+}
+
+.course-icon {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--surface-2);
+    font-size: 22px;
+}
+
+.progress {
+    height: 7px;
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--border);
+}
+
+.progress-bar {
+    width: 32%;
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--primary-2)
+    );
+}
+
+.price {
+    display: inline-flex;
+    margin-top: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--primary);
+    background: var(--surface-2);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+/* =========================================================
+   WORK
+   ========================================================= */
+
+.job-card {
+    display: flex;
+    gap: 13px;
+    text-align: left;
+}
+
+.company-avatar {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: var(--primary);
+    background: var(--surface-2);
+    font-weight: 900;
+}
+
+.tag {
+    display: inline-flex;
+    margin-top: 8px;
+    padding: 6px 9px;
+    border-radius: 999px;
+    color: var(--primary);
+    background: var(--surface-2);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   AI
+   ========================================================= */
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message {
+    max-width: 88%;
+    padding: 12px 14px;
+    border-radius: 17px;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.message.ai {
+    align-self: flex-start;
+    background: var(--surface-2);
+}
+
+.message.user {
+    align-self: flex-end;
+    color: #fff;
+    background: var(--primary);
+}
+
+.ai-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.ai-input {
+    min-width: 0;
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    outline: none;
+    padding: 13px;
+    color: var(--text);
+    background: var(--surface);
+}
+
+.ai-input:focus {
+    border-color: var(--primary);
+}
+
+/* =========================================================
+   PREMIUM
+   ========================================================= */
+
+.premium-card {
+    color: #fff;
+    border: 0;
+    background:
+        radial-gradient(circle at top right, #4f46e5, transparent 35%),
+        linear-gradient(145deg,#111827,#312e81);
+}
+
+.premium-card p {
+    color: #dbe4ff;
+}
+
+.premium-price {
+    margin: 10px 0 18px;
+    font-size: 29px;
+    font-weight: 900;
+}
+
+.feature {
+    padding: 8px 0;
+    color: #fff;
+}
+
+.feature::before {
+    content: "✓";
+    margin-right: 9px;
+    color: #7dd3fc;
+    font-weight: 900;
+}
+
+/* =========================================================
+   BOTTOM NAVIGATION
+   ========================================================= */
+
+.bottom-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 90;
+    padding:
+        8px
+        10px
+        calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,.93);
+    backdrop-filter: blur(18px);
+}
+
+[data-theme="dark"] .bottom-nav {
+    background: rgba(16,24,39,.94);
+}
+
+.nav-inner {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+
+.nav-button {
+    border: 0;
+    padding: 6px 2px;
+    color: var(--muted);
+    background: transparent;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.nav-button.active {
+    color: var(--primary);
+}
+
+.nav-icon {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 20px;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    background: rgba(0,0,0,.55);
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-panel {
+    width: 100%;
+    max-width: 760px;
+    max-height: 86vh;
+    margin: auto;
+    overflow-y: auto;
+    padding: 22px 18px calc(25px + env(safe-area-inset-bottom));
+    border-radius: 26px 26px 0 0;
+    background: var(--surface);
+}
+
+.modal-close {
+    float: right;
+    width: 39px;
+    height: 39px;
+    border: 0;
+    border-radius: 12px;
+    color: var(--text);
+    background: var(--surface-2);
+}
+
+.modal-panel h2 {
+    margin: 4px 0 10px;
+}
+
+.modal-panel p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.topic {
+    display: flex;
+    gap: 10px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.topic-number {
+    color: var(--primary);
+    font-weight: 900;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (min-width: 700px) {
+    .hero h1 {
+        font-size: 46px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<header class="header">
+    <div class="header-inner">
+
+        <div class="brand">
+            <div class="logo">JG</div>
+
+            <div>
+                <div class="brand-name">JG</div>
+                <span class="brand-subtitle">
+                    FIND SKILLS. FIND OPPORTUNITIES.
+                </span>
+            </div>
+        </div>
+
+        <button
+            class="theme-button"
+            id="themeButton"
+            aria-label="Toggle theme"
+        >
+            ☾
+        </button>
+
+    </div>
+</header>
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<main>
+
+<!-- HOME -->
+
+<section class="screen active" id="home">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            WELCOME TO JG
+        </div>
+
+        <h1>
+            Build skills.<br>
+            Find opportunities.
+        </h1>
+
+        <p>
+            Learn practical digital skills, discover opportunities,
+            build your professional profile and get intelligent
+            assistance from JG AI.
+        </p>
+
+        <div class="actions">
+
+            <button
+                class="btn primary"
+                data-screen="learn"
+            >
+                Start Learning
+            </button>
+
+            <button
+                class="btn secondary"
+                data-screen="work"
+            >
+                Find Work
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="ad-slot">
+        <strong>Sponsored space</strong>
+        Advertising helps support JG. Premium members can enjoy
+        an ad-free experience.
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Continue Learning</h2>
+
+            <button
+                class="link-button"
+                data-screen="learn"
+            >
+                View all
+            </button>
+        </div>
+
+
+        <div class="card course-card">
+
+            <div class="course-icon">
+                💻
+            </div>
+
+            <div style="flex:1">
+
+                <h3>Web Development</h3>
+
+                <p>
+                    Lesson 7 of 24
+                </p>
+
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Explore JG</h2>
+        </div>
+
+        <div class="grid">
+
+            <button
+                class="card"
+                data-screen="learn"
+                style="text-align:left"
+            >
+                <h3>📚 Learn</h3>
+                <p>
+                    Courses, lessons and certificates.
+                </p>
+            </button>
+
+
+            <button
+                class="card"
+                data-screen="work"
+                style="text-align:left"
+            >
+                <h3>💼 Work</h3>
+                <p>
+                    Discover external opportunities.
+                </p>
+            </button>
+
+
+            <button
+                class="card"
+                data-screen="ai"
+                style="text-align:left"
+            >
+                <h3>✨ JG AI</h3>
+                <p>
+                    Get intelligent help with your goals.
+                </p>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LEARN -->
+
+<section class="screen" id="learn">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            LEARNING HUB
+        </div>
+
+        <h1>
+            Learn. Practice. Grow.
+        </h1>
+
+        <p>
+            Build useful digital skills through structured
+            courses created for practical learning.
+        </p>
+
+    </div>
+
+
+    <div
+        class="ad-slot"
+    >
+        <strong>Sponsored space</strong>
+        Advertisement placement
+    </div>
+
+
+    <div
+        class="list"
+        id="courseList"
+    ></div>
+
+</section>
+
+
+<!-- WORK -->
+
+<section class="screen" id="work">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            OPPORTUNITIES
+        </div>
+
+        <h1>
+            Find your next opportunity.
+        </h1>
+
+        <p>
+            Explore opportunities posted by organizations.
+            JG connects users with opportunities but does not
+            pay users for applying or working through the platform.
+        </p>
+
+    </div>
+
+
+    <div
+        class="list"
+        id="jobList"
+    ></div>
+
+</section>
+
+
+<!-- AI -->
+
+<section class="screen" id="ai">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            JG AI
+        </div>
+
+        <h1>
+            Your intelligent JG assistant.
+        </h1>
+
+        <p>
+            Ask about learning, CVs, interviews, skills,
+            opportunities and JG features.
+        </p>
+
+    </div>
+
+
+    <div
+        class="chat"
+        id="chat"
+    >
+
+        <div class="message ai">
+            Hi 👋 I'm JG AI. What are you working on today?
+        </div>
+
+    </div>
+
+
+    <div class="ai-input-row">
+
+        <input
+            class="ai-input"
+            id="aiInput"
+            type="text"
+            placeholder="Ask JG AI..."
+        >
+
+        <button
+            class="btn primary"
+            id="sendAI"
+        >
+            Send
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ACCOUNT -->
+
+<section class="screen" id="account">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            YOUR ACCOUNT
+        </div>
+
+        <h1>
+            Profile & settings.
+        </h1>
+
+        <p>
+            Manage your profile, certificates and account
+            security.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            👤 JG Member
+        </h3>
+
+        <p>
+            Complete your profile to personalize your
+            JG experience.
+        </p>
+
+        <button
+            class="btn secondary"
+            id="profileButton"
+            style="width:100%;margin-top:15px"
+        >
+            Edit Profile
+        </button>
+
+    </div>
+
+
+    <div class="section grid">
+
+        <button
+            class="card"
+            id="certificateButton"
+            style="text-align:left"
+        >
+            <h3>
+                🏆 Certificates
+            </h3>
+
+            <p>
+                View verified certificates earned from
+                completed courses.
+            </p>
+        </button>
+
+
+        <button
+            class="card"
+            id="securityButton"
+            style="text-align:left"
+        >
+            <h3>
+                🔐 Security
+            </h3>
+
+            <p>
+                Manage your account protection.
+            </p>
+        </button>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="card premium-card">
+
+            <h3>
+                JG Premium
+            </h3>
+
+            <p>
+                Unlock premium features, enhanced AI access
+                and an ad-free experience.
+            </p>
+
+            <button
+                class="btn primary"
+                data-screen="premium"
+                style="
+                    width:100%;
+                    margin-top:15px;
+                    background:#fff;
+                    color:#312e81;
+                "
+            >
+                View Premium
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PREMIUM -->
+
+<section class="screen" id="premium">
+
+    <div class="hero">
+
+        <div class="eyebrow">
+            JG PREMIUM
+        </div>
+
+        <h1>
+            More JG.<br>
+            Fewer limits.
+        </h1>
+
+        <p>
+            Premium is a subscription paid to JG.
+            JG users do not receive payouts from the platform.
+        </p>
+
+    </div>
+
+
+    <div class="card premium-card">
+
+        <h2>
+            JG Premium
+        </h2>
+
+        <div class="premium-price">
+            ₦2,500 / month
+        </div>
+
+
+        <div class="feature">
+            Ad-free JG experience
+        </div>
+
+        <div class="feature">
+            Enhanced JG AI access
+        </div>
+
+        <div class="feature">
+            Premium learning features
+        </div>
+
+        <div class="feature">
+            Priority access to selected new features
+        </div>
+
+
+        <button
+            class="btn primary"
+            id="subscribeButton"
+            style="
+                width:100%;
+                margin-top:18px;
+                background:#fff;
+                color:#312e81;
+            "
+        >
+            Continue to Premium
+        </button>
+
+    </div>
+
+
+    <div class="ad-slot">
+
+        <strong>
+            JG Revenue Model
+        </strong>
+
+        JG generates revenue through Premium subscriptions
+        and advertising.
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     BOTTOM NAVIGATION
+     ======================================================= -->
+
+<nav class="bottom-nav">
+
+    <div class="nav-inner">
+
+        <button
+            class="nav-button active"
+            data-screen="home"
+        >
+            <span class="nav-icon">⌂</span>
+            Home
+        </button>
+
+
+        <button
+            class="nav-button"
+            data-screen="learn"
+        >
+            <span class="nav-icon">📚</span>
+            Learn
+        </button>
+
+
+        <button
+            class="nav-button"
+            data-screen="work"
+        >
+            <span class="nav-icon">💼</span>
+            Work
+        </button>
+
+
+        <button
+            class="nav-button"
+            data-screen="ai"
+        >
+            <span class="nav-icon">✦</span>
+            AI
+        </button>
+
+
+        <button
+            class="nav-button"
+            data-screen="account"
+        >
+            <span class="nav-icon">◉</span>
+            Account
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =======================================================
+     MODAL
+     ======================================================= -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modal-panel">
+
+        <button
+            class="modal-close"
+            id="closeModal"
+        >
+            ✕
+        </button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+/* =========================================================
+   JG APPLICATION JAVASCRIPT
+   ========================================================= */
+
+
+/* =========================================================
+   DATA
+   ========================================================= */
+
+const courses = [
+
+    {
+        name: "Web Development",
+        icon: "💻",
+        description:
+            "Build modern websites and web applications.",
+        price: "₦25,000",
+        topics: [
+            "HTML & semantic structure",
+            "CSS & responsive design",
+            "JavaScript fundamentals",
+            "APIs & web applications",
+            "Deployment & project building"
+        ]
+    },
+
+    {
+        name: "Graphic Design",
+        icon: "🎨",
+        description:
+            "Create professional visual designs and brand assets.",
+        price: "₦20,000",
+        topics: [
+            "Design principles",
+            "Typography & colour",
+            "Canva workflow",
+            "Brand identity",
+            "Social media design"
+        ]
+    },
+
+    {
+        name: "Video Editing",
+        icon: "🎬",
+        description:
+            "Edit engaging videos for social media and business.",
+        price: "₦22,000",
+        topics: [
+            "Editing fundamentals",
+            "Cuts & transitions",
+            "Audio & captions",
+            "Colour basics",
+            "Exporting for platforms"
+        ]
+    },
+
+    {
+        name: "Python Programming",
+        icon: "🐍",
+        description:
+            "Learn programming fundamentals using Python.",
+        price: "₦25,000",
+        topics: [
+            "Python syntax",
+            "Variables & data",
+            "Conditions & loops",
+            "Functions",
+            "Projects & problem solving"
+        ]
+    }
+
+];
+
+
+const opportunities = [
+
+    {
+        company: "Tech Startup",
+        title: "Junior Web Developer",
+        type: "Remote"
+    },
+
+    {
+        company: "Creative Studio",
+        title: "Graphic Design Intern",
+        type: "Hybrid"
+    },
+
+    {
+        company: "Media Company",
+        title: "Video Editor",
+        type: "Remote"
+    },
+
+    {
+        company: "Software Team",
+        title: "Python Intern",
+        type: "Remote"
+    }
+
+];
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+   ========================================================= */
+
+function showScreen(screenID) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
+
+
+    const target =
+        document.getElementById(screenID);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".nav-button")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.screen === screenID
+            );
+
+        });
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   NAVIGATION BUTTONS
+   ========================================================= */
+
+document
+    .querySelectorAll("[data-screen]")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            showScreen(
+                button.dataset.screen
+            );
+
+        });
+
+    });
+
+
+/* =========================================================
+   COURSE LIST
+   ========================================================= */
+
+const courseList =
+    document.getElementById("courseList");
+
+
+courses.forEach(course => {
+
+    const card =
+        document.createElement("button");
+
+    card.className =
+        "card course-card";
+
+    card.innerHTML = `
+
+        <div class="course-icon">
+            ${course.icon}
+        </div>
+
+        <div style="flex:1">
+
+            <h3>
+                ${course.name}
+            </h3>
+
+            <p>
+                ${course.description}
+            </p>
+
+            <span class="price">
+                ${course.price}
+            </span>
+
+        </div>
+
+    `;
+
+
+    card.addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                ${course.icon}
+                ${course.name}
+            </h2>
+
+            <p>
+                ${course.description}
+            </p>
+
+            <h3 style="margin-top:20px">
+                Course Topics
+            </h3>
+
+            ${course.topics.map(
+                (topic, index) => `
+                    <div class="topic">
+
+                        <span class="topic-number">
+                            ${index + 1}
+                        </span>
+
+                        <span>
+                            ${topic}
+                        </span>
+
+                    </div>
+                `
+            ).join("")}
+
+
+            <button
+                class="btn primary"
+                style="width:100%;margin-top:20px"
+                onclick="startEnrollment('${course.name}')"
+            >
+                Start Enrollment
+            </button>
+
+        `);
+
+    });
+
+
+    courseList.appendChild(card);
+
+});
+
+
+/* =========================================================
+   OPPORTUNITIES
+   ========================================================= */
+
+const jobList =
+    document.getElementById("jobList");
+
+
+opportunities.forEach(job => {
+
+    const card =
+        document.createElement("button");
+
+    card.className =
+        "card job-card";
+
+
+    card.innerHTML = `
+
+        <div class="company-avatar">
+            ${job.company.charAt(0)}
+        </div>
+
+        <div>
+
+            <h3>
+                ${job.title}
+            </h3>
+
+            <p>
+                ${job.company} · ${job.type}
+            </p>
+
+            <span class="tag">
+                External opportunity
+            </span>
+
+        </div>
+
+    `;
+
+
+    card.addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                ${job.title}
+            </h2>
+
+            <p>
+                <strong>${job.company}</strong>
+                <br>
+                ${job.type}
+            </p>
+
+            <p style="margin-top:15px">
+
+                This is an external opportunity.
+                JG does not employ applicants or pay
+                users for applying through the app.
+
+            </p>
+
+
+            <button
+                class="btn primary"
+                style="width:100%;margin-top:18px"
+                onclick="externalOpportunity()"
+            >
+                View Opportunity
+            </button>
+
+        `);
+
+    });
+
+
+    jobList.appendChild(card);
+
+});
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+const themeButton =
+    document.getElementById("themeButton");
+
+
+function updateThemeButton() {
+
+    const isDark =
+        document.documentElement
+            .getAttribute("data-theme") === "dark";
+
+    themeButton.textContent =
+        isDark ? "☀" : "☾";
+
+}
+
+
+themeButton.addEventListener("click", () => {
+
+    const isDark =
+        document.documentElement
+            .getAttribute("data-theme") === "dark";
+
+
+    if (isDark) {
+
+        document.documentElement
+            .removeAttribute("data-theme");
+
+        localStorage.setItem(
+            "jg-theme",
+            "light"
+        );
+
+    } else {
+
+        document.documentElement
+            .setAttribute(
+                "data-theme",
+                "dark"
+            );
+
+        localStorage.setItem(
+            "jg-theme",
+            "dark"
+        );
+
+    }
+
+
+    updateThemeButton();
+
+});
+
+
+if (
+    localStorage.getItem("jg-theme")
+    === "dark"
+) {
+
+    document.documentElement
+        .setAttribute(
+            "data-theme",
+            "dark"
+        );
+
+}
+
+
+updateThemeButton();
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+const modal =
+    document.getElementById("modal");
+
+const modalContent =
+    document.getElementById("modalContent");
+
+const closeModalButton =
+    document.getElementById("closeModal");
+
+
+function openModal(content) {
+
+    modalContent.innerHTML =
+        content;
+
+    modal.classList.add("show");
+
+}
+
+
+function closeModal() {
+
+    modal.classList.remove("show");
+
+}
+
+
+closeModalButton.addEventListener(
+    "click",
+    closeModal
+);
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === modal
+        ) {
+            closeModal();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ENROLLMENT
+   ========================================================= */
+
+function startEnrollment(courseName) {
+
+    closeModal();
+
+    openModal(`
+
+        <h2>
+            Enrollment
+        </h2>
+
+        <p>
+
+            You selected
+            <strong>${courseName}</strong>.
+
+        </p>
+
+        <p style="margin-top:12px">
+
+            The production version will connect this
+            enrollment flow to JG's secure backend and
+            payment system.
+
+        </p>
+
+        <button
+            class="btn primary"
+            style="width:100%;margin-top:18px"
+            onclick="closeModal()"
+        >
+            Continue
+        </button>
+
+    `);
+
+}
+
+
+/* =========================================================
+   EXTERNAL OPPORTUNITY
+   ========================================================= */
+
+function externalOpportunity() {
+
+    closeModal();
+
+    openModal(`
+
+        <h2>
+            Opportunity Provider
+        </h2>
+
+        <p>
+
+            The production version will securely connect
+            this opportunity to its verified external provider.
+
+        </p>
+
+        <button
+            class="btn primary"
+            style="width:100%;margin-top:18px"
+            onclick="closeModal()"
+        >
+            Close
+        </button>
+
+    `);
+
+}
+
+
+/* =========================================================
+   JG AI
+   ========================================================= */
+
+const aiInput =
+    document.getElementById("aiInput");
+
+const sendAIButton =
+    document.getElementById("sendAI");
+
+const chat =
+    document.getElementById("chat");
+
+
+function getAIResponse(question) {
+
+    const q =
+        question.toLowerCase();
+
+
+    if (
+        q.includes("course") ||
+        q.includes("learn")
+    ) {
+
+        return `
+            You can start with Web Development,
+            Graphic Design, Video Editing or Python
+            Programming. I can also help you create
+            a personal study plan.
+        `;
+
+    }
+
+
+    if (
+        q.includes("cv") ||
+        q.includes("resume")
+    ) {
+
+        return `
+            I can help you structure a professional CV
+            around your skills, projects, education and
+            measurable results.
+        `;
+
+    }
+
+
+    if (
+        q.includes("job") ||
+        q.includes("work")
+    ) {
+
+        return `
+            Open the Work section to explore opportunities.
+            JG helps users discover opportunities but does
+            not pay users directly.
+        `;
+
+    }
+
+
+    if (
+        q.includes("premium")
+    ) {
+
+        return `
+            JG Premium is a paid subscription that supports
+            the JG platform and can provide enhanced AI
+            access, premium features and an ad-free experience.
+        `;
+
+    }
+
+
+    return `
+        I can help with learning, skills, CVs,
+        interviews, opportunities and JG features.
+
+        Tell me what you want to accomplish.
+    `;
+
+}
+
+
+function sendAI() {
+
+    const question =
+        aiInput.value.trim();
+
+
+    if (!question) {
+        return;
+    }
+
+
+    const userMessage =
+        document.createElement("div");
+
+    userMessage.className =
+        "message user";
+
+    userMessage.textContent =
+        question;
+
+
+    chat.appendChild(
+        userMessage
+    );
+
+
+    const aiMessage =
+        document.createElement("div");
+
+    aiMessage.className =
+        "message ai";
+
+    aiMessage.textContent =
+        getAIResponse(question);
+
+
+    chat.appendChild(
+        aiMessage
+    );
+
+
+    aiInput.value = "";
+
+
+    aiMessage.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+sendAIButton.addEventListener(
+    "click",
+    sendAI
+);
+
+
+aiInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            sendAI();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ACCOUNT
+   ========================================================= */
+
+document
+    .getElementById("profileButton")
+    .addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                Edit Profile
+            </h2>
+
+            <p>
+
+                Your profile system will be connected
+                to JG's secure authentication and database
+                when the production backend is added.
+
+            </p>
+
+            <button
+                class="btn primary"
+                style="width:100%;margin-top:18px"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+        `);
+
+    });
+
+
+document
+    .getElementById("certificateButton")
+    .addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                🏆 Certificates
+            </h2>
+
+            <p>
+
+                Your verified JG certificates will appear
+                here after you successfully complete eligible
+                courses.
+
+            </p>
+
+        `);
+
+    });
+
+
+document
+    .getElementById("securityButton")
+    .addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                🔐 Account Security
+            </h2>
+
+            <p>
+
+                The production JG backend will use secure
+                authentication, server-side authorization,
+                protected sessions and secure data handling.
+
+            </p>
+
+            <p style="margin-top:12px">
+
+                Private API keys and payment secrets will
+                never be stored inside this frontend.
+
+            </p>
+
+        `);
+
+    });
+
+
+/* =========================================================
+   PREMIUM
+   ========================================================= */
+
+document
+    .getElementById("subscribeButton")
+    .addEventListener("click", () => {
+
+        openModal(`
+
+            <h2>
+                JG Premium Checkout
+            </h2>
+
+            <p>
+
+                Premium costs
+                <strong>₦2,500/month</strong>.
+
+            </p>
+
+            <p style="margin-top:12px">
+
+                The production version will connect this
+                button to a secure server-side payment
+                provider.
+
+            </p>
+
+            <p style="margin-top:12px">
+
+                No real payment information is processed
+                by this frontend version.
+
+            </p>
+
+            <button
+                class="btn primary"
+                style="width:100%;margin-top:18px"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+        `);
+
+    });
+
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+showScreen("home");
+
+</script>
+
+</body>
+</html>
