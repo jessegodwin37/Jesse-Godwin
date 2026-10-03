@@ -2,105 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>JG App — Global Premium | Learn, Earn & Grow</title>
-<meta name="theme-color" content="#635bff">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JG App - Dark Premium</title>
 <style>
-:root{--bg:#f8f7ff;--card:#fff;--line:#e9e5ff;--line2:#e4e7ec;--text:#101828;--muted:#667085;--p:#635bff;--p2:#7c3aed;--ok:#16a34a;--r:20px;--shadow:0 8px 24px rgba(99,91,255,.1)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-.top{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.brand{display:flex;gap:10px;align-items:center}.logo{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#7c3aed,#635bff,#06b6d4);display:grid;place-items:center;color:#fff;font-weight:900;font-size:16px;box-shadow:0 6px 16px rgba(99,91,255,.35)}
-.wrap{max-width:480px;margin:0 auto;padding:12px 16px 110px}
-h1{font-size:32px;line-height:1.1;letter-spacing:-1px;margin:14px 0 0;font-weight:900}.sub{color:var(--muted);font-size:14px;margin-top:6px}
-.bar{margin-top:14px;background:linear-gradient(90deg,#eef2ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:16px;padding:12px;display:flex;gap:10px;align-items:flex-start}
-.bar b{color:#4338ca;font-size:13px}
-.card{background:var(--card);border:1.5px solid var(--line2);border-radius:20px;padding:18px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow);margin-top:12px;cursor:pointer;transition:.18s}
-.card:active{transform:scale(.99)}
-.card.pop{border-color:var(--p2);border-width:2px;background:linear-gradient(180deg,#fff,#faf5ff);position:relative;margin-top:24px;box-shadow:0 12px 28px rgba(99,91,255,.18)}
-.badge{position:absolute;top:-12px;right:14px;background:linear-gradient(90deg,#635bff,#7c3aed);color:#fff;font-size:10px;font-weight:800;letter-spacing:.4px;padding:7px 12px;border-radius:99px;box-shadow:0 4px 12px rgba(99,91,255,.4)}
-.b-left b{font-size:20px;font-weight:800}.b-right{text-align:right}.b-right b{font-size:22px;font-weight:900;display:block;letter-spacing:-.5px}.b-right small{color:var(--muted);font-size:12px}
-.save{background:#dcfce7;border:1px solid #bbf7d0;color:#166534;font-size:11px;font-weight:700;padding:6px 10px;border-radius:99px;margin-top:8px;display:inline-flex;align-items:center;gap:6px}
-.features{margin-top:22px}.features h3{font-size:18px;margin:0 0 14px;display:flex;gap:8px;align-items:center}
-.feat{display:flex;gap:12px;align-items:center;margin:12px 0;font-weight:600;font-size:14px}.check{width:24px;height:24px;border-radius:99px;background:#dcfce7;color:var(--ok);display:grid;place-items:center;font-weight:900;font-size:13px;flex:0 0 24px}
-.cta{position:sticky;bottom:80px;z-index:30;margin-top:20px}
-.btn{width:100%;border:0;border-radius:18px;padding:18px 16px;background:linear-gradient(90deg,#635bff,#7c3aed);color:#fff;font-weight:900;font-size:15px;letter-spacing:.2px;cursor:pointer;box-shadow:0 10px 24px rgba(99,91,255,.35)}
-.btn:active{transform:scale(.98)}
-.note{text-align:center;color:var(--muted);font-size:11px;margin-top:10px}
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line2);display:flex;justify-content:center;padding:8px 0 10px}
-.tabs-inner{width:min(480px,100%);display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
-.tabs button{border:0;background:none;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;padding:6px 0}.tabs button.active{color:var(--p)}
-.sheet{position:fixed;inset:0;z-index:100;display:none}.sheet.open{display:block}.sheet-bg{position:absolute;inset:0;background:rgba(16,24,40,.4);backdrop-filter:blur(6px)}.sheet-card{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 0 0;padding:22px 18px 28px;box-shadow:0 -10px 40px rgba(0,0,0,.15);animation:up .3s ease}
-@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0a14;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#0a0a14;position:sticky;top:0;z-index:10}
+.logo{width:38px;height:38px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border-radius:10px;display:grid;place-items:center;font-weight:900}
+.wrap{max-width:420px;margin:0 auto;padding:12px 16px 90px}
+.card-dark{background:#16162a;border:1px solid #23233d;border-radius:20px;padding:18px;margin-top:14px}
+.badge{font-size:10px;background:#2a244f;color:#a78bfa;padding:4px 10px;border-radius:20px;font-weight:700}
+.progress{height:8px;background:#23233d;border-radius:20px;overflow:hidden;flex:1;margin:0 10px}.progress i{display:block;height:100%;width:73%;background:linear-gradient(90deg,#7c3aed,#06b6d4);border-radius:20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.ad{background:#16162a;border:1px solid #23233d;border-radius:18px;padding:18px 10px;text-align:center;cursor:pointer;transition:.2s}
+.ad:active{transform:scale(.97);border-color:#7c3aed}
+.ad-icon{font-size:32px;margin-bottom:8px}.ad b{font-size:11px;display:block;margin-top:6px}
+.premium{margin-top:18px;background:linear-gradient(135deg,#7c3aed 0%,#635bff 40%,#06b6d4 100%);border-radius:24px;padding:20px;position:relative;overflow:hidden}
+.premium::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,.15);border-radius:50%;filter:blur(20px)}
+.btn-white{background:#fff;color:#111;border:0;border-radius:14px;padding:14px;width:100%;font-weight:800;margin-top:14px;cursor:pointer}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:#0f0f1e;border-top:1px solid #23233d;display:flex;justify-content:space-around;padding:10px 0 14px;z-index:20}
+.tabs div{font-size:10px;text-align:center;color:#6b7280;cursor:pointer}.tabs .on{color:#7c3aed}
 </style>
 </head>
 <body>
 <div class="top">
-<div class="brand"><div class="logo">✦</div><div style="font-weight:900;font-size:22px;letter-spacing:-.6px">JG app</div></div>
-<div style="display:flex;gap:14px;font-size:20px;align-items:center"><span>🌐</span><span>⚙️</span></div>
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">JG</div><b style="font-size:18px">JG App</b></div>
+<div style="display:flex;gap:14px;font-size:18px"><span>🔍</span><span>🔔</span></div>
 </div>
 
 <div class="wrap">
-<h1>Global Premium</h1>
-<div class="sub">Subscription plans — upgrade for full access</div>
-
-<div class="bar">
-<div style="font-size:18px">🌐</div>
-<div><b>Currency converter • Auto-detect: Nigeria (Lagos) 📍</b><br><span style="color:var(--muted);font-size:12px">Prices shown in NGN • USD • EUR • GBP are updated automatically</span></div>
+<div class="card-dark" onclick="alert('Lesson 7: Neural Networks & Ad Optimization - 73%')">
+<div style="display:flex;justify-content:space-between;align-items:center"><b>Lesson 7 • Active</b><span class="badge">Active</span></div>
+<div style="color:#9ca3af;font-size:13px;margin-top:6px">Neural Networks & Ad Optimization</div>
+<div style="display:flex;align-items:center;margin-top:14px;font-size:11px;color:#22d3ee"><span>Progress — 73%</span><div class="progress"><i></i></div><span style="font-weight:800">73%</span></div>
+<div style="color:#9ca3af;font-size:11px;margin-top:8px">Completed 11 of 15 lessons • 2 lessons remaining</div>
 </div>
 
-<div class="card" onclick="openSheet('weekly')">
-<div class="b-left"><b>Weekly</b></div>
-<div class="b-right"><b>₦3,450</b><small>$2.99 • €2.79 • £2.49</small></div>
+<div style="margin-top:22px"><b style="font-size:18px">Ad Networks</b><div style="color:#9ca3af;font-size:12px;margin-top:4px">Connected platforms • 5 active</div></div>
+
+<div class="grid">
+<div class="ad" onclick="alert('AdMob Connected - Earning ₦1,200 today')"><div class="ad-icon">🅰️</div><b>AdMob</b></div>
+<div class="ad" onclick="alert('Meta Ads Connected - 3 campaigns active')"><div class="ad-icon" style="color:#1877f2">∞</div><b>Meta Ads</b></div>
+<div class="ad" onclick="alert('TikTok Ads Connected')"><div class="ad-icon">🎵</div><b>TikTok Ads</b></div>
+</div>
+<div class="grid2">
+<div class="ad" onclick="alert('Unity Ads Connected')"><div class="ad-icon">⬣</div><b>Unity Ads</b></div>
+<div class="ad" onclick="alert('Amazon Ads Connected')"><div class="ad-icon" style="color:#ff9900">⌒</div><b>Amazon Ads</b></div>
 </div>
 
-<div class="card pop" onclick="openSheet('monthly')">
-<div class="badge">⭐ POPULAR • BEST VALUE</div>
-<div class="b-left"><b>Monthly</b><div class="save">✅ Best value — Save 28% compared to weekly</div></div>
-<div class="b-right"><b>₦7,500</b><small>$6.99 • €6.49 • £5.99</small></div>
-</div>
-
-<div class="card" onclick="openSheet('yearly')">
-<div class="b-left"><b>Yearly</b></div>
-<div class="b-right"><b>₦65,000</b><small>$59.99 • €55.99 • £49.99</small></div>
-</div>
-
-<div class="features">
-<h3>Features comparison <span style="width:20px;height:20px;border:1px solid #98a2b3;border-radius:50%;display:inline-grid;place-items:center;font-size:12px">i</span></h3>
-<div class="feat"><div class="check">✓</div> No Ads</div>
-<div class="feat"><div class="check">✓</div> Unlimited AI — ChatGPT level</div>
-<div class="feat"><div class="check">✓</div> Offline Mode</div>
-<div class="feat"><div class="check">✓</div> Certificates Download</div>
-<div class="feat"><div class="check">✓</div> Priority Jobs</div>
-<div class="feat"><div class="check">✓</div> AI Project Generator</div>
-</div>
-
-<div class="cta">
-<button class="btn" onclick="openSheet('monthly')">Continue to Monthly — ₦7,500 / month</button>
-<div class="note">Cancel anytime • Secure payment • Manage in Profile</div>
-</div>
-
-<!-- Extra sections from your roadmap - hidden but inside same file -->
-<div style="margin-top:28px;background:#fff;border:1px solid var(--line2);border-radius:20px;padding:16px">
-<div style="background:linear-gradient(90deg,#0f766e,#06b6d4);color:#fff;font-size:10px;font-weight:800;display:inline-block;padding:6px 10px;border-radius:99px">🛡️ GOVERNMENT ROADMAP • 3-6 MONTHS</div>
-<h4 style="margin:10px 0 6px">ITF → NBTE → Federal Ministry → NIN/NIMC → Blockchain QR</h4>
-<p style="font-size:12px;color:var(--muted);margin:0">Full certification & secure verification already built inside this same file. Ready for Play Store.</p>
+<div class="premium">
+<div style="background:rgba(255,255,255,.2);display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">⭐ Premium</div>
+<div style="font-size:13px;margin-top:8px;opacity:.9">Unlock advanced analytics & no ads</div>
+<div style="font-size:28px;font-weight:900;margin-top:6px">₦2,500 / month</div>
+<div style="font-size:11px;margin-top:8px;line-height:1.6">✓ Real-time performance insights<br>✓ Custom reports & export</div>
+<button class="btn-white" onclick="alert('Upgrade to Premium ₦2,500 - Paystack would open')">Upgrade to Premium</button>
 </div>
 </div>
 
-<div class="tabs"><div class="tabs-inner">
-<button class="active">🏠<br>Home</button>
-<button>📚<br>Learn</button>
-<button>💰<br>Earn</button>
-<button>👤<br>Account</button>
-</div></div>
-
-<!-- Clean Bottom Sheet (NO black alert) -->
-<div id="sheet" class="sheet" onclick="if(event.target===this||event.target.classList.contains('sheet-bg'))closeSheet()">
-<div class="sheet-bg"></div>
-<div class="sheet-card">
-<div style="width:36px;height:5px;background:#d0d5dd;border-radius:99px;margin:0 auto 14px"></div>
-<h3 id="sheetTitle" style="margin:0;font-size:20px">Monthly — ₦7,500</h3>
-<p id="sheetDesc" style="color:var(--muted);font-size:13px;margin:8px 0 0">Best value • Save 28% • Auto NGN detection via Paystack / Flutterwave</p>
-<div style="margin-top:14px;display:grid;gap:10px">
-<button class="btn" onclick="alert('Paystack Checkout would open here - NGN auto-detected!')">Pay with Paystack • NGN</button>
-<button style="width:100%;border:1px solid var(--line2
+<div class="tabs">
+<div class="on">🏠<br>Home</div><div>📚<br>Learn</div><div>📊<br>Campaigns</div><div>👤<br>Profile</div>
+</div>
+</body>
+</html>
