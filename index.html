@@ -1,66 +1,2738 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JG App - Dark Premium</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JG">
+<title>JG — Find Skills. Find Work.</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0a14;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
-.top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#0a0a14;position:sticky;top:0;z-index:10}
-.logo{width:38px;height:38px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border-radius:10px;display:grid;place-items:center;font-weight:900}
-.wrap{max-width:420px;margin:0 auto;padding:12px 16px 90px}
-.card-dark{background:#16162a;border:1px solid #23233d;border-radius:20px;padding:18px;margin-top:14px}
-.badge{font-size:10px;background:#2a244f;color:#a78bfa;padding:4px 10px;border-radius:20px;font-weight:700}
-.progress{height:8px;background:#23233d;border-radius:20px;overflow:hidden;flex:1;margin:0 10px}.progress i{display:block;height:100%;width:73%;background:linear-gradient(90deg,#7c3aed,#06b6d4);border-radius:20px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.ad{background:#16162a;border:1px solid #23233d;border-radius:18px;padding:18px 10px;text-align:center;cursor:pointer;transition:.2s}
-.ad:active{transform:scale(.97);border-color:#7c3aed}
-.ad-icon{font-size:32px;margin-bottom:8px}.ad b{font-size:11px;display:block;margin-top:6px}
-.premium{margin-top:18px;background:linear-gradient(135deg,#7c3aed 0%,#635bff 40%,#06b6d4 100%);border-radius:24px;padding:20px;position:relative;overflow:hidden}
-.premium::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,.15);border-radius:50%;filter:blur(20px)}
-.btn-white{background:#fff;color:#111;border:0;border-radius:14px;padding:14px;width:100%;font-weight:800;margin-top:14px;cursor:pointer}
-.tabs{position:fixed;bottom:0;left:0;right:0;background:#0f0f1e;border-top:1px solid #23233d;display:flex;justify-content:space-around;padding:10px 0 14px;z-index:20}
-.tabs div{font-size:10px;text-align:center;color:#6b7280;cursor:pointer}.tabs .on{color:#7c3aed}
+/* =========================================================
+   JG — FIND SKILLS. FIND WORK.
+   SINGLE FILE APPLICATION
+   ========================================================= */
+
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface2:#f0f3f9;
+  --text:#111827;
+  --muted:#687386;
+  --border:#e4e8f0;
+  --primary:#6d45ff;
+  --primary2:#16c7d9;
+  --danger:#ef4444;
+  --success:#16a34a;
+  --shadow:0 12px 35px rgba(20,25,45,.08);
+  --radius:22px;
+}
+
+[data-theme="dark"]{
+  --bg:#070a12;
+  --surface:#101522;
+  --surface2:#171d2b;
+  --text:#f8fafc;
+  --muted:#9aa5b5;
+  --border:#252d3d;
+  --shadow:0 18px 45px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible{
+  outline:3px solid rgba(109,69,255,.25);
+  outline-offset:2px;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* TOP BAR */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px max(18px,calc((100vw - 1180px)/2));
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--border);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  cursor:pointer;
+}
+
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-weight:950;
+  letter-spacing:-1px;
+  background:linear-gradient(135deg,#6d45ff,#16c7d9);
+  box-shadow:0 8px 22px rgba(109,69,255,.28);
+}
+
+.brand-text{
+  line-height:1.05;
+}
+
+.brand-text strong{
+  font-size:17px;
+  display:block;
+}
+
+.brand-text span{
+  font-size:8px;
+  color:var(--muted);
+  letter-spacing:1.3px;
+  font-weight:800;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
+  transition:.2s;
+}
+
+.icon-btn:hover{
+  transform:translateY(-1px);
+  border-color:var(--primary);
+}
+
+/* MAIN */
+
+.main{
+  width:min(1180px,100%);
+  margin:auto;
+  padding:25px 18px 105px;
+}
+
+.screen{
+  display:none;
+  animation:screenIn .25s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* HERO */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:30px;
+  padding:30px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(22,199,217,.25),transparent 30%),
+    radial-gradient(circle at 15% 100%,rgba(109,69,255,.25),transparent 35%),
+    linear-gradient(135deg,#101426,#18162d);
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.hero small{
+  color:#b9c1d3;
+  font-weight:800;
+  letter-spacing:.8px;
+}
+
+.hero h1{
+  max-width:650px;
+  margin-top:10px;
+  font-size:clamp(31px,5vw,56px);
+  line-height:1.02;
+  letter-spacing:-2px;
+}
+
+.hero p{
+  max-width:650px;
+  margin-top:14px;
+  color:#b9c1d3;
+  line-height:1.65;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
+
+/* BUTTONS */
+
+.btn{
+  min-height:46px;
+  padding:0 17px;
+  border-radius:14px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  color:white;
+  background:linear-gradient(135deg,var(--primary),#835fff);
+  box-shadow:0 8px 22px rgba(109,69,255,.2);
+}
+
+.btn-secondary{
+  color:var(--text);
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+
+.btn-light{
+  background:white;
+  color:#111827;
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.full{
+  width:100%;
+}
+
+/* SECTION */
+
+.section{
+  margin-top:28px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:15px;
+  margin-bottom:13px;
+}
+
+.section-head h2{
+  font-size:21px;
+  letter-spacing:-.5px;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.link-btn{
+  background:none;
+  color:var(--primary);
+  font-weight:800;
+}
+
+/* CARDS */
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.course-card{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.course-card:hover{
+  transform:translateY(-3px);
+}
+
+.course-icon{
+  width:54px;
+  height:54px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  background:var(--surface2);
+}
+
+.course-card h3{
+  margin-top:16px;
+  font-size:17px;
+}
+
+.course-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+  margin-top:7px;
+}
+
+.meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:16px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+
+/* PROGRESS */
+
+.progress-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:15px;
+}
+
+.progress{
+  height:8px;
+  flex:1;
+  background:var(--surface2);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  width:73%;
+  background:linear-gradient(90deg,var(--primary),var(--primary2));
+  border-radius:20px;
+}
+
+/* QUICK ACTIONS */
+
+.quick{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.quick button{
+  min-height:95px;
+  padding:13px;
+  border-radius:19px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  text-align:left;
+  box-shadow:var(--shadow);
+}
+
+.quick-icon{
+  font-size:23px;
+}
+
+.quick strong{
+  display:block;
+  margin-top:8px;
+  font-size:13px;
+}
+
+.quick span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* PREMIUM */
+
+.premium{
+  position:relative;
+  overflow:hidden;
+  color:white;
+  border-radius:27px;
+  padding:25px;
+  background:linear-gradient(135deg,#6438e8,#754cff 45%,#12bfcf);
+  box-shadow:0 18px 40px rgba(109,69,255,.22);
+}
+
+.premium:after{
+  content:"";
+  position:absolute;
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  right:-70px;
+  top:-70px;
+}
+
+.premium-content{
+  position:relative;
+  z-index:2;
+}
+
+.premium h2{
+  margin-top:8px;
+  font-size:26px;
+}
+
+.premium p{
+  margin-top:8px;
+  color:#e5e7eb;
+  line-height:1.55;
+  max-width:600px;
+}
+
+.price{
+  font-size:30px;
+  font-weight:950;
+  margin-top:15px;
+}
+
+/* BADGES */
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 9px;
+  border-radius:20px;
+  background:var(--surface2);
+  color:var(--primary);
+  font-size:10px;
+  font-weight:900;
+}
+
+/* WORK */
+
+.job{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.job-logo{
+  width:50px;
+  height:50px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:var(--surface2);
+  font-weight:900;
+}
+
+.job-main{
+  flex:1;
+}
+
+.job-main h3{
+  font-size:15px;
+}
+
+.job-main p{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* AI */
+
+.ai-shell{
+  min-height:560px;
+  border-radius:30px;
+  padding:30px;
+  background:
+    radial-gradient(circle at 80% 10%,rgba(22,199,217,.15),transparent 30%),
+    var(--surface);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.ai-label{
+  color:var(--primary);
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.ai-shell h1{
+  margin-top:10px;
+  font-size:clamp(30px,5vw,50px);
+  letter-spacing:-1.7px;
+}
+
+.ai-shell>p{
+  margin-top:10px;
+  color:var(--muted);
+  max-width:650px;
+  line-height:1.6;
+}
+
+.ai-modes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:22px;
+}
+
+.ai-mode{
+  padding:9px 13px;
+  border-radius:12px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-weight:800;
+  font-size:12px;
+}
+
+.ai-mode.active{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:white;
+}
+
+.ai-input{
+  margin-top:22px;
+  padding:15px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  border-radius:20px;
+}
+
+.ai-input textarea{
+  width:100%;
+  min-height:130px;
+  resize:vertical;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+}
+
+.ai-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.ai-status{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* CAMPAIGNS / ADS */
+
+.ad-card{
+  position:relative;
+  overflow:hidden;
+}
+
+.ad-card .ad-symbol{
+  width:50px;
+  height:50px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  background:var(--surface2);
+}
+
+.ad-card h3{
+  margin-top:15px;
+}
+
+.ad-card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+  margin-top:5px;
+}
+
+.status{
+  margin-top:15px;
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.status.ready{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+[data-theme="dark"] .status.ready{
+  background:#12351f;
+  color:#86efac;
+}
+
+/* PROFILE */
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:17px;
+}
+
+.avatar{
+  width:76px;
+  height:76px;
+  border-radius:24px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  font-weight:950;
+  color:white;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+
+.profile-head h1{
+  font-size:24px;
+}
+
+.profile-head p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.settings-list{
+  margin-top:15px;
+  display:grid;
+  gap:8px;
+}
+
+.setting{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px;
+  border-radius:16px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.setting-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.setting-icon{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:var(--surface);
+}
+
+/* SEARCH */
+
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 15px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+.search-box input{
+  flex:1;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  z-index:200;
+  width:min(700px,100%);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:4px;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  border:1px solid var(--border);
+  box-shadow:0 -8px 30px rgba(0,0,0,.08);
+}
+
+.nav-btn{
+  min-height:54px;
+  border-radius:15px;
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+}
+
+.nav-btn span{
+  display:block;
+  font-size:19px;
+  margin-bottom:3px;
+}
+
+.nav-btn.active{
+  color:var(--primary);
+  background:var(--surface2);
+}
+
+/* MODAL */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(0,0,0,.58);
+  padding:15px;
+}
+
+.modal-backdrop.open{
+  display:flex;
+}
+
+.modal{
+  width:min(650px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:28px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  box-shadow:0 25px 80px rgba(0,0,0,.35);
+  padding:23px;
+  animation:modalIn .22s ease;
+}
+
+@keyframes modalIn{
+  from{transform:translateY(30px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--surface2);
+  color:var(--text);
+}
+
+.modal-body{
+  margin-top:18px;
+}
+
+.modal-body p{
+  color:var(--muted);
+  line-height:1.65;
+  font-size:14px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.modal-actions .btn{
+  flex:1;
+}
+
+/* FORM */
+
+.field{
+  margin-top:15px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text);
+  border-radius:13px;
+  padding:13px;
+  outline:none;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  z-index:800;
+  left:50%;
+  bottom:92px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:12px 16px;
+  border-radius:14px;
+  background:#111827;
+  color:white;
+  font-size:12px;
+  font-weight:800;
+  transition:.25s;
+  max-width:90%;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* NOTIFICATION */
+
+.notification{
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.notification:last-child{
+  border-bottom:0;
+}
+
+.notification strong{
+  font-size:13px;
+}
+
+.notification p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+  line-height:1.5;
+}
+
+/* EMPTY */
+
+.empty{
+  text-align:center;
+  padding:45px 15px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .quick{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .topbar{
+    height:65px;
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .main{
+    padding:17px 13px 105px;
+  }
+
+  .hero{
+    padding:23px;
+    border-radius:25px;
+  }
+
+  .hero h1{
+    letter-spacing:-1.3px;
+  }
+
+  .grid,
+  .grid2{
+    grid-template-columns:1fr;
+  }
+
+  .quick{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .card{
+    border-radius:20px;
+  }
+
+  .ai-shell{
+    padding:22px;
+    border-radius:23px;
+  }
+
+  .premium{
+    padding:21px;
+  }
+
+  .modal-backdrop{
+    padding:0;
+  }
+
+  .modal{
+    border-radius:28px 28px 0 0;
+    max-height:92vh;
+  }
+}
+
+/* DESKTOP */
+
+@media(min-width:1000px){
+  .bottom-nav{
+    width:560px;
+    bottom:18px;
+    border-radius:22px;
+  }
+
+  .main{
+    padding-bottom:120px;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">JG</div><b style="font-size:18px">JG App</b></div>
-<div style="display:flex;gap:14px;font-size:18px"><span>🔍</span><span>🔔</span></div>
+
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand" data-action="home">
+      <div class="logo">JG</div>
+      <div class="brand-text">
+        <strong>JG</strong>
+        <span>FIND SKILLS. FIND WORK.</span>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" data-action="search" aria-label="Search">⌕</button>
+      <button class="icon-btn" data-action="notifications" aria-label="Notifications">♢</button>
+      <button class="icon-btn" data-action="theme" aria-label="Change theme">☾</button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ================= HOME ================= -->
+    <section id="home" class="screen active">
+
+      <div class="hero">
+        <small>JG • YOUR DIGITAL GROWTH PLATFORM</small>
+
+        <h1>Build skills. Discover opportunities. Grow.</h1>
+
+        <p>
+          Learn valuable skills, discover work opportunities, use JG AI,
+          build your portfolio and access premium tools — all in one place.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-action="learn">
+            Start Learning
+          </button>
+
+          <button class="btn btn-secondary" data-action="work">
+            Find Work
+          </button>
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="section">
+        <div class="card">
+          <div class="section-head">
+            <div>
+              <h2>Your Learning</h2>
+              <p>Web Development • Lesson 7 of 15</p>
+            </div>
+
+            <span class="badge">73% Complete</span>
+          </div>
+
+          <div class="progress-row">
+            <span style="font-size:12px;color:var(--muted)">Progress</span>
+
+            <div class="progress">
+              <i></i>
+            </div>
+
+            <strong style="font-size:12px">73%</strong>
+          </div>
+
+          <p style="margin-top:9px;color:var(--muted);font-size:11px">
+            11 of 15 lessons completed • 4 lessons remaining
+          </p>
+
+          <button
+            class="btn btn-primary"
+            style="margin-top:16px"
+            data-action="lesson">
+            Continue Lesson
+          </button>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Quick Access</h2>
+            <p>Everything you need in one place.</p>
+          </div>
+        </div>
+
+        <div class="quick">
+
+          <button data-action="learn">
+            <div class="quick-icon">📚</div>
+            <strong>Learn</strong>
+            <span>Courses & lessons</span>
+          </button>
+
+          <button data-action="work">
+            <div class="quick-icon">💼</div>
+            <strong>Find Work</strong>
+            <span>Explore opportunities</span>
+          </button>
+
+          <button data-action="ai">
+            <div class="quick-icon">✦</div>
+            <strong>JG AI</strong>
+            <span>Think, solve & create</span>
+          </button>
+
+          <button data-action="premium">
+            <div class="quick-icon">⭐</div>
+            <strong>Premium</strong>
+            <span>Unlock more features</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- COURSES -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Popular Courses</h2>
+            <p>Build skills that matter.</p>
+          </div>
+
+          <button class="link-btn" data-action="learn">View all</button>
+        </div>
+
+        <div class="grid">
+
+          <article class="card course-card" data-course="Web Development">
+            <div class="course-icon">💻</div>
+            <h3>Web Development</h3>
+            <p>HTML, CSS, JavaScript and modern web applications.</p>
+            <div class="meta">
+              <span>15 Lessons</span>
+              <span>Beginner → Advanced</span>
+            </div>
+          </article>
+
+          <article class="card course-card" data-course="Graphic Design">
+            <div class="course-icon">🎨</div>
+            <h3>Graphic Design</h3>
+            <p>Design principles, branding, social media and visual content.</p>
+            <div class="meta">
+              <span>12 Lessons</span>
+              <span>Practical</span>
+            </div>
+          </article>
+
+          <article class="card course-card" data-course="Video Editing">
+            <div class="course-icon">🎬</div>
+            <h3>Video Editing</h3>
+            <p>Editing, storytelling, effects and professional content creation.</p>
+            <div class="meta">
+              <span>14 Lessons</span>
+              <span>Practical</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="section">
+        <div class="premium">
+          <div class="premium-content">
+
+            <span class="badge" style="background:rgba(255,255,255,.16);color:white">
+              ⭐ JG PREMIUM
+            </span>
+
+            <h2>More power. Less limitation.</h2>
+
+            <p>
+              Unlock advanced JG features, enhanced AI access, premium learning
+              tools and an ad-free experience.
+            </p>
+
+            <div class="price">₦2,500 <small style="font-size:13px">/ month</small></div>
+
+            <button
+              class="btn btn-light"
+              style="margin-top:17px"
+              data-action="premium">
+              Explore Premium
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= LEARN ================= -->
+    <section id="learn" class="screen">
+
+      <div class="section-head">
+        <div>
+          <h2 style="font-size:30px">Learn</h2>
+          <p>Develop practical skills through structured learning.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <article class="card course-card" data-course="Web Development">
+          <div class="course-icon">💻</div>
+          <h3>Web Development</h3>
+          <p>Build websites and full web applications from the ground up.</p>
+          <div class="meta">
+            <span>15 Lessons</span>
+            <span>Certificate</span>
+          </div>
+          <button class="btn btn-primary full" style="margin-top:16px">
+            Open Course
+          </button>
+        </article>
+
+        <article class="card course-card" data-course="Graphic Design">
+          <div class="course-icon">🎨</div>
+          <h3>Graphic Design</h3>
+          <p>Learn visual communication, branding and professional design.</p>
+          <div class="meta">
+            <span>12 Lessons</span>
+            <span>Certificate</span>
+          </div>
+          <button class="btn btn-primary full" style="margin-top:16px">
+            Open Course
+          </button>
+        </article>
+
+        <article class="card course-card" data-course="Video Editing">
+          <div class="course-icon">🎬</div>
+          <h3>Video Editing</h3>
+          <p>Turn raw footage into polished, engaging video content.</p>
+          <div class="meta">
+            <span>14 Lessons</span>
+            <span>Certificate</span>
+          </div>
+          <button class="btn btn-primary full" style="margin-top:16px">
+            Open Course
+          </button>
+        </article>
+
+        <article class="card course-card" data-course="Python Programming">
+          <div class="course-icon">🐍</div>
+          <h3>Python Programming</h3>
+          <p>Learn programming logic, Python fundamentals and projects.</p>
+          <div class="meta">
+            <span>16 Lessons</span>
+            <span>Certificate</span>
+          </div>
+          <button class="btn btn-primary full" style="margin-top:16px">
+            Open Course
+          </button>
+        </article>
+
+      </div>
+
+      <div class="section">
+        <div class="card">
+          <h2>Certificate Verification</h2>
+          <p style="color:var(--muted);font-size:13px;margin-top:6px">
+            Verify a JG certificate using its certificate ID.
+          </p>
+
+          <div class="field">
+            <input id="certificateInput" placeholder="Enter certificate ID">
+          </div>
+
+          <button class="btn btn-primary" style="margin-top:10px" data-action="verify">
+            Verify Certificate
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= WORK ================= -->
+    <section id="work" class="screen">
+
+      <div class="hero">
+        <small>OPPORTUNITIES</small>
+        <h1>Find work that matches your skills.</h1>
+        <p>
+          Discover external job and freelance opportunities. JG does not pay
+          users for finding or completing work.
+        </p>
+
+        <button class="btn btn-light" style="margin-top:20px" data-action="search">
+          Search Opportunities
+        </button>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Recommended Opportunities</h2>
+            <p>Example opportunities for the app experience.</p>
+          </div>
+        </div>
+
+        <div class="grid2">
+
+          <div class="card">
+            <div class="job">
+              <div class="job-logo">WD</div>
+              <div class="job-main">
+                <h3>Junior Web Developer</h3>
+                <p>Remote • Full-time</p>
+              </div>
+            </div>
+
+            <span class="badge" style="margin-top:15px">JavaScript</span>
+
+            <button class="btn btn-primary full" style="margin-top:15px" data-action="job">
+              View Opportunity
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="job">
+              <div class="job-logo">GD</div>
+              <div class="job-main">
+                <h3>Graphic Designer</h3>
+                <p>Remote • Freelance</p>
+              </div>
+            </div>
+
+            <span class="badge" style="margin-top:15px">Design</span>
+
+            <button class="btn btn-primary full" style="margin-top:15px" data-action="job">
+              View Opportunity
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= AI ================= -->
+    <section id="ai" class="screen">
+
+      <div class="ai-shell">
+
+        <div class="ai-label">JG INTELLIGENCE</div>
+
+        <h1>What would you like to figure out?</h1>
+
+        <p>
+          JG AI is designed as an intelligent workspace for learning,
+          coding, analysis, research, problem solving and creation.
+          It is not limited to customer-support conversations.
+        </p>
+
+        <div class="ai-modes">
+
+          <button class="ai-mode active" data-ai-mode="Solve">Solve</button>
+          <button class="ai-mode" data-ai-mode="Learn">Learn</button>
+          <button class="ai-mode" data-ai-mode="Code">Code</button>
+          <button class="ai-mode" data-ai-mode="Analyze">Analyze</button>
+          <button class="ai-mode" data-ai-mode="Create">Create</button>
+
+        </div>
+
+        <div class="ai-input">
+
+          <textarea
+            id="aiPrompt"
+            placeholder="Ask JG AI anything...&#10;&#10;Example: Explain how neural networks work and give me a Python example."></textarea>
+
+          <div class="ai-bottom">
+
+            <span class="ai-status" id="aiStatus">
+              AI backend ready to connect
+            </span>
+
+            <button class="btn btn-primary" id="aiSend">
+              Ask JG AI
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="aiResult" style="display:none;margin-top:18px"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= CAMPAIGNS / AD CENTER ================= -->
+    <section id="campaigns" class="screen">
+
+      <div class="hero">
+        <small>JG BUSINESS SYSTEM</small>
+
+        <h1>Advertising & Premium revenue.</h1>
+
+        <p>
+          This area represents JG's business-side advertising system.
+          Users do not earn money from these integrations. Advertising
+          revenue belongs to JG.
+        </p>
+
+        <button class="btn btn-light" style="margin-top:20px" data-action="ad-info">
+          Advertising Information
+        </button>
+      </div>
+
+      <div class="section">
+
+        <div class="section-head">
+          <div>
+            <h2>Advertising Integrations</h2>
+            <p>Backend integrations can be connected later.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+
+          <div class="card ad-card">
+            <div class="ad-symbol">A</div>
+            <h3>Ad Network</h3>
+            <p>Advertising integration placeholder. No live revenue is displayed here.</p>
+            <span class="status ready">Integration Ready</span>
+            <button class="btn btn-secondary full" style="margin-top:15px" data-action="ad-info">
+              Configure
+            </button>
+          </div>
+
+          <div class="card ad-card">
+            <div class="ad-symbol">S</div>
+            <h3>Sponsored Content</h3>
+            <p>Create sponsored placements and promotional campaigns inside JG.</p>
+            <span class="status ready">Ready</span>
+            <button class="btn btn-secondary full" style="margin-top:15px" data-action="campaign">
+              Manage Campaign
+            </button>
+          </div>
+
+          <div class="card ad-card">
+            <div class="ad-symbol">📈</div>
+            <h3>Analytics</h3>
+            <p>Track impressions, clicks and campaign performance after backend integration.</p>
+            <span class="status ready">Backend Required</span>
+            <button class="btn btn-secondary full" style="margin-top:15px" data-action="analytics">
+              View Analytics
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+        <div class="premium">
+          <div class="premium-content">
+            <span class="badge" style="background:rgba(255,255,255,.16);color:white">
+              ⭐ JG PREMIUM
+            </span>
+
+            <h2>Another JG revenue channel.</h2>
+
+            <p>
+              Premium subscriptions give users additional features while
+              generating subscription revenue for JG.
+            </p>
+
+            <button class="btn btn-light" style="margin-top:16px" data-action="premium">
+              Manage Premium
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= PROFILE ================= -->
+    <section id="profile" class="screen">
+
+      <div class="card">
+
+        <div class="profile-head">
+          <div class="avatar" id="avatar">JG</div>
+
+          <div>
+            <h1 id="profileName">Jesse Godwin</h1>
+            <p id="profileEmail">JG Member</p>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="margin-top:20px" data-action="edit-profile">
+          Edit Profile
+        </button>
+
+      </div>
+
+      <div class="section">
+
+        <div class="card">
+
+          <div class="section-head">
+            <div>
+              <h2>Account</h2>
+              <p>Manage your JG experience.</p>
+            </div>
+          </div>
+
+          <div class="settings-list">
+
+            <button class="setting" data-action="premium">
+              <div class="setting-left">
+                <div class="setting-icon">⭐</div>
+                <span>JG Premium</span>
+              </div>
+              <strong>›</strong>
+            </button>
+
+            <button class="setting" data-action="security">
+              <div class="setting-left">
+                <div class="setting-icon">🔐</div>
+                <span>Security</span>
+              </div>
+              <strong>›</strong>
+            </button>
+
+            <button class="setting" data-action="theme">
+              <div class="setting-left">
+                <div class="setting-icon">☾</div>
+                <span>Appearance</span>
+              </div>
+              <strong id="themeLabel">Dark</strong>
+            </button>
+
+            <button class="setting" data-action="notifications">
+              <div class="setting-left">
+                <div class="setting-icon">♢</div>
+                <span>Notifications</span>
+              </div>
+              <strong>›</strong>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+        <div class="card">
+
+          <h2>About JG</h2>
+
+          <p style="color:var(--muted);font-size:13px;line-height:1.65;margin-top:8px">
+            JG — Find Skills. Find Work. is a digital platform focused on
+            learning, opportunities, AI-powered productivity and premium
+            digital services.
+          </p>
+
+          <p style="color:var(--muted);font-size:11px;margin-top:12px">
+            Version 5.0 • Single-file application foundation
+          </p>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <button class="nav-btn active" data-nav="home">
+      <span>⌂</span>
+      Home
+    </button>
+
+    <button class="nav-btn" data-nav="learn">
+      <span>▣</span>
+      Learn
+    </button>
+
+    <button class="nav-btn" data-nav="work">
+      <span>◈</span>
+      Work
+    </button>
+
+    <button class="nav-btn" data-nav="ai">
+      <span>✦</span>
+      AI
+    </button>
+
+    <button class="nav-btn" data-nav="profile">
+      <span>●</span>
+      Account
+    </button>
+
+  </nav>
+
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+
+    <div class="modal">
+
+      <div class="modal-head">
+        <h2 id="modalTitle">JG</h2>
+
+        <button class="close" id="modalClose">×</button>
+      </div>
+
+      <div class="modal-body" id="modalBody"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
 </div>
 
-<div class="wrap">
-<div class="card-dark" onclick="alert('Lesson 7: Neural Networks & Ad Optimization - 73%')">
-<div style="display:flex;justify-content:space-between;align-items:center"><b>Lesson 7 • Active</b><span class="badge">Active</span></div>
-<div style="color:#9ca3af;font-size:13px;margin-top:6px">Neural Networks & Ad Optimization</div>
-<div style="display:flex;align-items:center;margin-top:14px;font-size:11px;color:#22d3ee"><span>Progress — 73%</span><div class="progress"><i></i></div><span style="font-weight:800">73%</span></div>
-<div style="color:#9ca3af;font-size:11px;margin-top:8px">Completed 11 of 15 lessons • 2 lessons remaining</div>
-</div>
 
-<div style="margin-top:22px"><b style="font-size:18px">Ad Networks</b><div style="color:#9ca3af;font-size:12px;margin-top:4px">Connected platforms • 5 active</div></div>
+<script>
+/* =========================================================
+   JG APPLICATION ENGINE
+   ========================================================= */
 
-<div class="grid">
-<div class="ad" onclick="alert('AdMob Connected - Earning ₦1,200 today')"><div class="ad-icon">🅰️</div><b>AdMob</b></div>
-<div class="ad" onclick="alert('Meta Ads Connected - 3 campaigns active')"><div class="ad-icon" style="color:#1877f2">∞</div><b>Meta Ads</b></div>
-<div class="ad" onclick="alert('TikTok Ads Connected')"><div class="ad-icon">🎵</div><b>TikTok Ads</b></div>
-</div>
-<div class="grid2">
-<div class="ad" onclick="alert('Unity Ads Connected')"><div class="ad-icon">⬣</div><b>Unity Ads</b></div>
-<div class="ad" onclick="alert('Amazon Ads Connected')"><div class="ad-icon" style="color:#ff9900">⌒</div><b>Amazon Ads</b></div>
-</div>
+(function(){
 
-<div class="premium">
-<div style="background:rgba(255,255,255,.2);display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">⭐ Premium</div>
-<div style="font-size:13px;margin-top:8px;opacity:.9">Unlock advanced analytics & no ads</div>
-<div style="font-size:28px;font-weight:900;margin-top:6px">₦2,500 / month</div>
-<div style="font-size:11px;margin-top:8px;line-height:1.6">✓ Real-time performance insights<br>✓ Custom reports & export</div>
-<button class="btn-white" onclick="alert('Upgrade to Premium ₦2,500 - Paystack would open')">Upgrade to Premium</button>
-</div>
-</div>
+  "use strict";
 
-<div class="tabs">
-<div class="on">🏠<br>Home</div><div>📚<br>Learn</div><div>📊<br>Campaigns</div><div>👤<br>Profile</div>
-</div>
+  const state = {
+    screen: localStorage.getItem("jg-screen") || "home",
+    theme: localStorage.getItem("jg-theme") || "dark",
+    premium: localStorage.getItem("jg-premium") === "true",
+    aiMode: "Solve",
+    profile: JSON.parse(
+      localStorage.getItem("jg-profile") ||
+      '{"name":"Jesse Godwin","email":"JG Member"}'
+    )
+  };
+
+  const screens = document.querySelectorAll(".screen");
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const toast = document.getElementById("toast");
+
+
+  /* ================= THEME ================= */
+
+  function applyTheme(){
+
+    document.documentElement.dataset.theme = state.theme;
+
+    localStorage.setItem("jg-theme",state.theme);
+
+    document.querySelectorAll("[data-action='theme']").forEach(btn=>{
+      btn.textContent = state.theme === "dark" ? "☀" : "☾";
+    });
+
+    const themeLabel = document.getElementById("themeLabel");
+
+    if(themeLabel){
+      themeLabel.textContent =
+        state.theme === "dark" ? "Dark" : "Light";
+    }
+
+  }
+
+
+  function toggleTheme(){
+
+    state.theme = state.theme === "dark" ? "light" : "dark";
+
+    applyTheme();
+
+    showToast(
+      state.theme === "dark"
+      ? "Dark mode enabled"
+      : "Light mode enabled"
+    );
+
+  }
+
+
+  /* ================= NAVIGATION ================= */
+
+  function showScreen(name){
+
+    const target = document.getElementById(name);
+
+    if(!target) return;
+
+    screens.forEach(screen=>{
+      screen.classList.remove("active");
+    });
+
+    target.classList.add("active");
+
+    navButtons.forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.nav === name
+      );
+    });
+
+    state.screen = name;
+
+    localStorage.setItem("jg-screen",name);
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+
+  /* ================= TOAST ================= */
+
+  let toastTimer;
+
+  function showToast(message){
+
+    clearTimeout(toastTimer);
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    toastTimer = setTimeout(()=>{
+      toast.classList.remove("show");
+    },2600);
+
+  }
+
+
+  /* ================= MODAL ================= */
+
+  function openModal(title,html){
+
+    modalTitle.textContent = title;
+
+    modalBody.innerHTML = html;
+
+    modalBackdrop.classList.add("open");
+
+  }
+
+
+  function closeModal(){
+
+    modalBackdrop.classList.remove("open");
+
+  }
+
+
+  /* ================= COURSE ================= */
+
+  function openCourse(course){
+
+    const data = {
+
+      "Web Development":{
+        icon:"💻",
+        description:
+        "Learn how websites and modern web applications are designed and built.",
+        topics:
+        "HTML • CSS • JavaScript • Responsive Design • APIs • Git • Deployment • Security"
+      },
+
+      "Graphic Design":{
+        icon:"🎨",
+        description:
+        "Learn visual design, branding and digital content creation.",
+        topics:
+        "Design Principles • Typography • Color • Branding • Social Media • Layout • Canva"
+      },
+
+      "Video Editing":{
+        icon:"🎬",
+        description:
+        "Learn professional video editing and storytelling techniques.",
+        topics:
+        "Editing • Transitions • Audio • Color • Motion • Storytelling • Export"
+      },
+
+      "Python Programming":{
+        icon:"🐍",
+        description:
+        "Learn Python programming from fundamentals to practical projects.",
+        topics:
+        "Variables • Functions • Loops • Data Structures • OOP • APIs • Projects"
+      }
+
+    }[course];
+
+    if(!data) return;
+
+    openModal(
+      `${data.icon} ${course}`,
+      `
+        <p>${data.description}</p>
+
+        <div class="card" style="margin-top:15px;background:var(--surface2);box-shadow:none">
+          <strong>Course Topics</strong>
+          <p style="margin-top:8px">${data.topics}</p>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="enrollCourse">
+            Start Course
+          </button>
+
+          <button class="btn btn-secondary" id="closeCourse">
+            Close
+          </button>
+        </div>
+      `
+    );
+
+    document.getElementById("enrollCourse").onclick = ()=>{
+
+      closeModal();
+
+      showToast(`${course} added to your learning plan`);
+
+      setTimeout(()=>{
+        showScreen("learn");
+      },300);
+
+    };
+
+    document.getElementById("closeCourse").onclick =
+      closeModal;
+
+  }
+
+
+  /* ================= PREMIUM ================= */
+
+  function openPremium(){
+
+    openModal(
+      "JG Premium",
+      `
+        <div class="premium" style="border-radius:20px">
+          <div class="premium-content">
+            <span class="badge" style="background:rgba(255,255,255,.15);color:white">
+              ⭐ PREMIUM
+            </span>
+
+            <h2>Upgrade your JG experience.</h2>
+
+            <div class="price">
+              ₦2,500
+              <small style="font-size:12px">/ month</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:15px;background:var(--surface2);box-shadow:none">
+
+          <strong>Premium features</strong>
+
+          <p style="margin-top:9px">
+            ✓ Advanced JG AI access<br>
+            ✓ Ad-free experience<br>
+            ✓ Advanced learning tools<br>
+            ✓ Premium productivity features<br>
+            ✓ Enhanced account features
+          </p>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button class="btn btn-primary" id="premiumButton">
+            ${state.premium ? "Premium Active" : "Continue"}
+          </button>
+
+          <button class="btn btn-secondary" id="premiumClose">
+            Close
+          </button>
+
+        </div>
+      `
+    );
+
+    document.getElementById("premiumClose").onclick =
+      closeModal;
+
+    document.getElementById("premiumButton").onclick = ()=>{
+
+      if(state.premium){
+
+        showToast("JG Premium is already active");
+
+        return;
+
+      }
+
+      /*
+        PAYMENT BACKEND PLACEHOLDER
+
+        A real payment provider should be connected here later.
+        Never put private payment/API secrets inside this file.
+      */
+
+      showToast(
+        "Premium payment system is ready for backend connection"
+      );
+
+    };
+
+  }
+
+
+  /* ================= NOTIFICATIONS ================= */
+
+  function openNotifications(){
+
+    openModal(
+      "Notifications",
+      `
+        <div class="notification">
+          <strong>Welcome to JG</strong>
+          <p>Your JG learning and productivity experience is ready.</p>
+        </div>
+
+        <div class="notification">
+          <strong>Continue learning</strong>
+          <p>You have 4 lessons remaining in your current course.</p>
+        </div>
+
+        <div class="notification">
+          <strong>JG AI</strong>
+          <p>Use the AI workspace to solve problems, learn, code and analyze.</p>
+        </div>
+      `
+    );
+
+  }
+
+
+  /* ================= SEARCH ================= */
+
+  function openSearch(){
+
+    openModal(
+      "Search JG",
+      `
+        <div class="search-box">
+          <span>⌕</span>
+          <input id="globalSearch" autofocus placeholder="Search courses, skills, work...">
+        </div>
+
+        <div id="searchResults" style="margin-top:15px"></div>
+      `
+    );
+
+    const input = document.getElementById("globalSearch");
+    const results = document.getElementById("searchResults");
+
+    input.addEventListener("input",()=>{
+
+      const query = input.value.trim().toLowerCase();
+
+      if(!query){
+
+        results.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">⌕</div>
+            Start typing to search JG.
+          </div>
+        `;
+
+        return;
+      }
+
+      const items = [
+        "Web Development",
+        "Graphic Design",
+        "Video Editing",
+        "Python Programming",
+        "Find Work",
+        "JG AI",
+        "JG Premium",
+        "Certificate Verification"
+      ];
+
+      const matches = items.filter(item=>
+        item.toLowerCase().includes(query)
+      );
+
+      results.innerHTML = matches.length
+
+        ? matches.map(item=>`
+            <button
+              class="setting"
+              style="width:100%;margin-top:8px"
+              data-search-item="${item}">
+              <span>${item}</span>
+              <strong>›</strong>
+            </button>
+          `).join("")
+
+        : `
+          <div class="empty">
+            No matching results.
+          </div>
+        `;
+
+      results.querySelectorAll("[data-search-item]")
+      .forEach(btn=>{
+
+        btn.onclick = ()=>{
+
+          const item = btn.dataset.searchItem;
+
+          closeModal();
+
+          if(item === "Find Work"){
+            showScreen("work");
+          }
+          else if(item === "JG AI"){
+            showScreen("ai");
+          }
+          else if(item === "JG Premium"){
+            openPremium();
+          }
+          else if(item === "Certificate Verification"){
+            showScreen("learn");
+          }
+          else{
+            openCourse(item);
+          }
+
+        };
+
+      });
+
+    });
+
+  }
+
+
+  /* ================= AI ================= */
+
+  document.querySelectorAll(".ai-mode")
+  .forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+      document.querySelectorAll(".ai-mode")
+      .forEach(btn=>btn.classList.remove("active"));
+
+      button.classList.add("active");
+
+      state.aiMode = button.dataset.aiMode;
+
+      document.getElementById("aiPrompt").placeholder =
+        `${state.aiMode} with JG AI...\n\nAsk a detailed question.`;
+
+    });
+
+  });
+
+
+  async function sendAI(){
+
+    const input = document.getElementById("aiPrompt");
+    const result = document.getElementById("aiResult");
+    const status = document.getElementById("aiStatus");
+    const prompt = input.value.trim();
+
+    if(!prompt){
+
+      showToast("Enter a question for JG AI first");
+
+      input.focus();
+
+      return;
+
+    }
+
+    status.textContent = "Processing...";
+
+    result.style.display = "block";
+
+    result.innerHTML = `
+      <div class="card">
+        <span class="badge">JG AI • ${state.aiMode}</span>
+
+        <h3 style="margin-top:12px">
+          Preparing your answer...
+        </h3>
+
+        <p style="margin-top:8px;color:var(--muted);font-size:13px">
+          The production AI endpoint can be connected to this workspace
+          through your secure backend.
+        </p>
+      </div>
+    `;
+
+    /*
+      PRODUCTION AI CONNECTION
+
+      When your secure backend is available, this function can call:
+
+      POST /api/ai/chat
+
+      The AI provider's private API key must remain on the server.
+
+      Example request structure:
+
+      {
+        message: prompt,
+        mode: state.aiMode
+      }
+
+      The browser must never contain the private AI API key.
+    */
+
+    try{
+
+      const response = await fetch("/api/ai/chat",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        credentials:"include",
+        body:JSON.stringify({
+          message:prompt,
+          mode:state.aiMode
+        })
+      });
+
+      if(!response.ok){
+        throw new Error("AI backend unavailable");
+      }
+
+      const data = await response.json();
+
+      const answer =
+        data.answer ||
+        data.message ||
+        "The AI returned no answer.";
+
+      result.innerHTML = `
+        <div class="card">
+          <span class="badge">JG AI • ${state.aiMode}</span>
+
+          <h3 style="margin-top:12px">
+            JG AI Result
+          </h3>
+
+          <p style="margin-top:10px;line-height:1.7">
+            ${escapeHTML(answer)}
+          </p>
+        </div>
+      `;
+
+      status.textContent = "Connected";
+
+    }catch(error){
+
+      result.innerHTML = `
+        <div class="card">
+
+          <span class="badge">JG AI • Backend Required</span>
+
+          <h3 style="margin-top:12px">
+            AI workspace ready
+          </h3>
+
+          <p style="margin-top:9px">
+            Your question was received, but the secure JG AI backend
+            is not connected yet.
+          </p>
+
+          <div class="card"
+            style="margin-top:15px;background:var(--surface2);box-shadow:none">
+
+            <strong>Your request</strong>
+
+            <p style="margin-top:8px">
+              ${escapeHTML(prompt)}
+            </p>
+
+          </div>
+
+          <p style="margin-top:15px;font-size:12px">
+            Once the backend is connected, JG AI can answer advanced
+            questions instead of using canned chatbot replies.
+          </p>
+
+        </div>
+      `;
+
+      status.textContent =
+        "Backend not connected";
+
+    }
+
+  }
+
+
+  document.getElementById("aiSend")
+  .addEventListener("click",sendAI);
+
+
+  /* ================= CERTIFICATE ================= */
+
+  function verifyCertificate(){
+
+    const input =
+      document.getElementById("certificateInput");
+
+    const value = input.value.trim();
+
+    if(!value){
+
+      showToast("Enter a certificate ID");
+
+      input.focus();
+
+      return;
+
+    }
+
+    openModal(
+      "Certificate Verification",
+      `
+        <div class="card" style="background:var(--surface2);box-shadow:none">
+
+          <span class="badge">Verification Request</span>
+
+          <h3 style="margin-top:12px">
+            ${escapeHTML(value)}
+          </h3>
+
+          <p style="margin-top:8px">
+            The certificate verification service requires the JG
+            backend/database to confirm whether this certificate exists.
+          </p>
+
+        </div>
+      `
+    );
+
+  }
+
+
+  /* ================= PROFILE ================= */
+
+  function editProfile(){
+
+    openModal(
+      "Edit Profile",
+      `
+        <div class="field">
+          <label>Name</label>
+          <input id="editName" value="${escapeAttribute(state.profile.name)}">
+        </div>
+
+        <div class="field">
+          <label>Account label</label>
+          <input id="editEmail" value="${escapeAttribute(state.profile.email)}">
+        </div>
+
+        <button class="btn btn-primary full" style="margin-top:18px" id="saveProfile">
+          Save Changes
+        </button>
+      `
+    );
+
+    document.getElementById("saveProfile")
+    .onclick = ()=>{
+
+      const name =
+        document.getElementById("editName").value.trim();
+
+      const email =
+        document.getElementById("editEmail").value.trim();
+
+      if(!name){
+
+        showToast("Enter your name");
+
+        return;
+
+      }
+
+      state.profile = {
+        name,
+        email:email || "JG Member"
+      };
+
+      localStorage.setItem(
+        "jg-profile",
+        JSON.stringify(state.profile)
+      );
+
+      updateProfile();
+
+      closeModal();
+
+      showToast("Profile updated");
+
+    };
+
+  }
+
+
+  function updateProfile(){
+
+    document.getElementById("profileName").textContent =
+      state.profile.name;
+
+    document.getElementById("profileEmail").textContent =
+      state.profile.email;
+
+    const initials =
+      state.profile.name
+      .split(" ")
+      .map(x=>x[0])
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+    document.getElementById("avatar").textContent =
+      initials || "JG";
+
+  }
+
+
+  /* ================= SECURITY ================= */
+
+  function openSecurity(){
+
+    openModal(
+      "Account Security",
+      `
+        <p>
+          JG's production security layer should be handled through a
+          secure backend rather than only browser-side JavaScript.
+        </p>
+
+        <div class="settings-list">
+
+          <div class="setting">
+            <div class="setting-left">
+              <div class="setting-icon">🔐</div>
+              <span>Secure authentication</span>
+            </div>
+            <strong>Ready</strong>
+          </div>
+
+          <div class="setting">
+            <div class="setting-left">
+              <div class="setting-icon">🛡</div>
+              <span>Server-side API secrets</span>
+            </div>
+            <strong>Required</strong>
+          </div>
+
+          <div class="setting">
+            <div class="setting-left">
+              <div class="setting-icon">✓</div>
+              <span>Session protection</span>
+            </div>
+            <strong>Backend</strong>
+          </div>
+
+        </div>
+      `
+    );
+
+  }
+
+
+  /* ================= ADS ================= */
+
+  function openAdInfo(){
+
+    openModal(
+      "JG Advertising",
+      `
+        <p>
+          Advertising is one of JG's revenue channels. Advertisers can
+          eventually pay JG for placements, sponsored content or campaigns.
+        </p>
+
+        <div class="card"
+          style="margin-top:15px;background:var(--surface2);box-shadow:none">
+
+          <strong>Important</strong>
+
+          <p style="margin-top:8px">
+            JG users do not receive advertising revenue, payouts or
+            withdrawal balances from the platform.
+          </p>
+
+        </div>
+      `
+    );
+
+  }
+
+
+  function openCampaign(){
+
+    openModal(
+      "Campaign Manager",
+      `
+        <p>
+          Campaign management will allow the JG owner to create and
+          monitor sponsored placements after the advertising backend
+          is connected.
+        </p>
+
+        <div class="field">
+          <label>Campaign name</label>
+          <input id="campaignName" placeholder="Example: Summer Skills Campaign">
+        </div>
+
+        <button class="btn btn-primary full" style="margin-top:15px" id="createCampaign">
+          Create Campaign
+        </button>
+      `
+    );
+
+    document.getElementById("createCampaign")
+    .onclick = ()=>{
+
+      const name =
+        document.getElementById("campaignName").value.trim();
+
+      if(!name){
+
+        showToast("Enter a campaign name");
+
+        return;
+
+      }
+
+      closeModal();
+
+      showToast(
+        "Campaign saved locally — backend integration required"
+      );
+
+    };
+
+  }
+
+
+  function openAnalytics(){
+
+    openModal(
+      "Advertising Analytics",
+      `
+        <div class="empty">
+          <div class="empty-icon">📊</div>
+
+          <strong>No live analytics connected</strong>
+
+          <p style="margin-top:8px">
+            Live impressions, clicks and advertising revenue will appear
+            here after the secure advertising backend is connected.
+          </p>
+        </div>
+      `
+    );
+
+  }
+
+
+  /* ================= LESSON ================= */
+
+  function openLesson(){
+
+    openModal(
+      "Lesson 7 • Neural Networks",
+      `
+        <span class="badge">73% Complete</span>
+
+        <h3 style="margin-top:14px">
+          Neural Networks & Ad Optimization
+        </h3>
+
+        <p style="margin-top:8px">
+          Continue your current learning path and explore how neural
+          networks process information and how machine learning can be
+          applied to optimization problems.
+        </p>
+
+        <div class="card"
+          style="margin-top:15px;background:var(--surface2);box-shadow:none">
+
+          <strong>Course Progress</strong>
+
+          <div class="progress-row">
+            <div class="progress">
+              <i></i>
+            </div>
+            <strong>73%</strong>
+          </div>
+
+          <p style="margin-top:9px">
+            11 of 15 lessons completed • 4 remaining
+          </p>
+
+        </div>
+
+        <button class="btn btn-primary full" style="margin-top:16px" id="completeLesson">
+          Continue
+        </button>
+      `
+    );
+
+    document.getElementById("completeLesson")
+    .onclick = ()=>{
+
+      closeModal();
+
+      showToast("Lesson opened");
+
+    };
+
+  }
+
+
+  /* ================= ESCAPE HTML ================= */
+
+  function escapeHTML(value){
+
+    return String(value)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+
+  }
+
+
+  function escapeAttribute(value){
+
+    return escapeHTML(value);
+
+  }
+
+
+  /* ================= GLOBAL CLICK HANDLER ================= */
+
+  document.addEventListener("click",(event)=>{
+
+    const nav = event.target.closest("[data-nav]");
+
+    if(nav){
+
+      showScreen(nav.dataset.nav);
+
+      return;
+
+    }
+
+
+    const actionElement =
+      event.target.closest("[data-action]");
+
+    if(actionElement){
+
+      const action =
+        actionElement.dataset.action;
+
+      switch(action){
+
+        case "home":
+          showScreen("home");
+          break;
+
+        case "learn":
+          showScreen("learn");
+          break;
+
+        case "work":
+          showScreen("work");
+          break;
+
+        case "ai":
+          showScreen("ai");
+          break;
+
+        case "premium":
+          openPremium();
+          break;
+
+        case "theme":
+          toggleTheme();
+          break;
+
+        case "search":
+          openSearch();
+          break;
+
+        case "notifications":
+          openNotifications();
+          break;
+
+        case "lesson":
+          openLesson();
+          break;
+
+        case "verify":
+          verifyCertificate();
+          break;
+
+        case "edit-profile":
+          editProfile();
+          break;
+
+        case "security":
+          openSecurity();
+          break;
+
+        case "ad-info":
+          openAdInfo();
+          break;
+
+        case "campaign":
+          openCampaign();
+          break;
+
+        case "analytics":
+          openAnalytics();
+          break;
+
+        case "job":
+          openModal(
+            "Work Opportunity",
+            `
+              <h3>External Opportunity</h3>
+
+              <p style="margin-top:8px">
+                This opportunity is intended to represent an external
+                job or freelance listing. JG does not employ or pay users
+                for completing external opportunities.
+              </p>
+
+              <button class="btn btn-primary full" style="margin-top:18px">
+                Open Opportunity
+              </button>
+            `
+          );
+          break;
+
+      }
+
+      return;
+
+    }
+
+
+    const course =
+      event.target.closest("[data-course]");
+
+    if(course){
+
+      openCourse(course.dataset.course);
+
+    }
+
+  });
+
+
+  /* ================= MODAL CLOSE ================= */
+
+  document.getElementById("modalClose")
+    .addEventListener("click",closeModal);
+
+
+  modalBackdrop.addEventListener("click",(event)=>{
+
+    if(event.target === modalBackdrop){
+      closeModal();
+    }
+
+  });
+
+
+  document.addEventListener("keydown",(event)=>{
+
+    if(event.key === "Escape"){
+      closeModal();
+    }
+
+  });
+
+
+  /* ================= INIT ================= */
+
+  applyTheme();
+
+  updateProfile();
+
+  showScreen(state.screen);
+
+})();
+</script>
+
 </body>
 </html>
