@@ -1,47 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-plan="free">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5f7fb">
-<meta name="description" content="JG — Find Skills. Find Opportunities.">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JG">
 <title>JG — Find Skills. Find Opportunities.</title>
 
 <style>
 /* =========================================================
    JG — FIND SKILLS. FIND OPPORTUNITIES.
-   COMPLETE SINGLE-FILE APPLICATION
-   HTML + CSS + JAVASCRIPT
+   Complete single-file application
    ========================================================= */
 
 :root{
   --bg:#f5f7fb;
   --surface:#ffffff;
-  --surface2:#eef2f8;
+  --surface2:#f0f3f8;
   --text:#101828;
   --muted:#667085;
   --line:#e4e7ec;
   --primary:#2563eb;
-  --primary2:#7c3aed;
-  --cyan:#06b6d4;
+  --primary2:#4f46e5;
+  --accent:#06b6d4;
   --success:#12b76a;
-  --danger:#f04438;
   --warning:#f79009;
+  --danger:#f04438;
   --shadow:0 12px 35px rgba(16,24,40,.08);
-  --shadow2:0 5px 18px rgba(16,24,40,.06);
-  --radius:22px;
-  --radius2:15px;
-  --nav:76px;
+  --shadow2:0 4px 16px rgba(16,24,40,.06);
+  --radius:24px;
+  --nav:78px;
+  --max:1180px;
 }
 
-html[data-theme="dark"]{
+html.dark{
   --bg:#070b14;
-  --surface:#0e1523;
-  --surface2:#151e2f;
-  --text:#f5f7fa;
+  --surface:#101725;
+  --surface2:#161e2e;
+  --text:#f8fafc;
   --muted:#98a2b3;
-  --line:#202b3d;
-  --shadow:0 16px 40px rgba(0,0,0,.32);
+  --line:#273247;
+  --shadow:0 18px 45px rgba(0,0,0,.35);
   --shadow2:0 8px 24px rgba(0,0,0,.25);
 }
 
@@ -50,18 +51,16 @@ html[data-theme="dark"]{
   -webkit-tap-highlight-color:transparent;
 }
 
-html{
-  scroll-behavior:smooth;
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif;
+  transition:background .25s,color .25s;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
-  "Inter","Segoe UI",Arial,sans-serif;
-  transition:background .25s,color .25s;
   overflow-x:hidden;
 }
 
@@ -85,79 +84,212 @@ a{
   text-decoration:none;
 }
 
-svg{
-  display:block;
+/* =========================================================
+   SPLASH
+   ========================================================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(37,99,235,.25),transparent 35%),
+    radial-gradient(circle at 80% 80%,rgba(124,58,237,.2),transparent 35%),
+    #080d19;
+  color:white;
+  transition:opacity .6s,visibility .6s;
 }
 
-.app{
-  min-height:100vh;
-  padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 18px);
+#splash.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
 }
 
-.container{
-  width:min(1120px,100%);
+.splash-inner{
+  text-align:center;
+  width:min(320px,85vw);
+}
+
+.splash-logo{
+  width:84px;
+  height:84px;
   margin:auto;
-  padding:0 18px;
+  border-radius:25px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  box-shadow:0 25px 70px rgba(37,99,235,.45);
+  animation:splashPulse 1.8s infinite;
+}
+
+.splash-logo span{
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:-2px;
+}
+
+.splash-title{
+  margin-top:24px;
+  font-size:28px;
+  font-weight:850;
+  letter-spacing:-1px;
+}
+
+.splash-sub{
+  margin-top:8px;
+  color:#aab5c7;
+  font-size:14px;
+}
+
+.splash-loader{
+  width:100%;
+  height:4px;
+  margin-top:30px;
+  overflow:hidden;
+  border-radius:99px;
+  background:rgba(255,255,255,.12);
+}
+
+.splash-loader span{
+  display:block;
+  height:100%;
+  width:35%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#2563eb,#06b6d4,#7c3aed);
+  animation:loader 1.5s infinite;
+}
+
+@keyframes splashPulse{
+  50%{transform:scale(1.05)}
+}
+
+@keyframes loader{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(320%)}
+}
+
+/* =========================================================
+   APP SHELL
+   ========================================================= */
+
+#app{
+  min-height:100vh;
+  opacity:0;
+  transition:opacity .4s;
+}
+
+#app.ready{
+  opacity:1;
 }
 
 .topbar{
   position:sticky;
   top:0;
-  z-index:50;
-  height:68px;
+  z-index:1000;
+  height:70px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 18px;
-  background:color-mix(in srgb,var(--bg) 88%,transparent);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);
+  padding:0 max(18px,calc((100vw - var(--max))/2));
+  background:rgba(255,255,255,.84);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--line);
+}
+
+.dark .topbar{
+  background:rgba(7,11,20,.82);
 }
 
 .brand{
   display:flex;
   align-items:center;
   gap:11px;
-  font-weight:850;
-  letter-spacing:-.03em;
+  cursor:pointer;
 }
 
-.logo{
-  width:39px;
-  height:39px;
-  border-radius:12px;
+.brand-mark{
+  width:40px;
+  height:40px;
+  border-radius:13px;
   display:grid;
   place-items:center;
-  color:#fff;
+  color:white;
+  font-size:16px;
   font-weight:900;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  box-shadow:0 7px 18px rgba(37,99,235,.25);
+  letter-spacing:-1px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  box-shadow:0 8px 20px rgba(37,99,235,.25);
 }
 
-.brand small{
-  display:block;
-  font-size:10px;
+.brand-copy{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
+
+.brand-copy strong{
+  font-size:16px;
+}
+
+.brand-copy span{
+  margin-top:5px;
   color:var(--muted);
-  font-weight:600;
-  letter-spacing:.01em;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
 .icon-btn{
-  width:42px;
-  height:42px;
-  border-radius:13px;
-  background:var(--surface);
-  color:var(--text);
-  border:1px solid var(--line);
+  width:40px;
+  height:40px;
   display:grid;
   place-items:center;
-  box-shadow:var(--shadow2);
+  border-radius:13px;
+  color:var(--text);
+  background:var(--surface2);
+  border:1px solid var(--line);
+}
+
+.icon-btn svg{
+  width:19px;
+  height:19px;
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+/* =========================================================
+   SCREENS
+   ========================================================= */
+
+main{
+  width:min(100%,var(--max));
+  margin:auto;
+  padding:24px 18px calc(var(--nav) + 30px);
 }
 
 .screen{
   display:none;
-  animation:screenIn .25s ease;
+  animation:screenIn .3s ease;
 }
 
 .screen.active{
@@ -165,170 +297,193 @@ svg{
 }
 
 @keyframes screenIn{
-  from{opacity:0;transform:translateY(7px)}
-  to{opacity:1;transform:none}
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
-.section{
-  padding:28px 0;
-}
+/* =========================================================
+   HOME
+   ========================================================= */
 
-.hero{
-  padding:34px 0 24px;
-}
-
-.hero-card{
+.home-hero{
   position:relative;
   overflow:hidden;
-  padding:30px 24px;
-  border-radius:28px;
-  color:white;
+  min-height:390px;
+  padding:34px 25px;
+  border-radius:32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
   background:
-    radial-gradient(circle at 90% 10%,rgba(255,255,255,.22),transparent 27%),
-    radial-gradient(circle at 5% 100%,rgba(6,182,212,.28),transparent 28%),
-    linear-gradient(135deg,#1d4ed8,#6d28d9 72%,#0891b2);
-  box-shadow:0 20px 55px rgba(37,99,235,.22);
+    radial-gradient(circle at 90% 10%,rgba(6,182,212,.3),transparent 30%),
+    radial-gradient(circle at 10% 20%,rgba(124,58,237,.35),transparent 35%),
+    linear-gradient(135deg,#0b1020,#172554 60%,#111827);
+  color:white;
+  box-shadow:0 24px 60px rgba(15,23,42,.2);
 }
 
-.hero-card:after{
-  content:"";
+.hero-orb{
   position:absolute;
-  width:220px;
-  height:220px;
-  right:-85px;
-  bottom:-105px;
-  border:1px solid rgba(255,255,255,.25);
+  width:230px;
+  height:230px;
+  right:-60px;
+  top:-70px;
   border-radius:50%;
-  box-shadow:0 0 0 30px rgba(255,255,255,.05),
-             0 0 0 60px rgba(255,255,255,.04);
+  background:linear-gradient(135deg,rgba(37,99,235,.5),rgba(6,182,212,.12));
+  filter:blur(1px);
+}
+
+.hero-grid{
+  position:absolute;
+  inset:0;
+  opacity:.14;
+  background-image:
+    linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(to bottom right,black,transparent);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:650px;
 }
 
 .eyebrow{
   display:inline-flex;
   align-items:center;
   gap:7px;
-  padding:7px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.18);
+  width:max-content;
+  padding:8px 11px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:99px;
+  background:rgba(255,255,255,.08);
+  color:#dce7ff;
   font-size:12px;
   font-weight:750;
 }
 
-.hero h1{
-  max-width:700px;
-  margin:18px 0 10px;
-  font-size:clamp(34px,8vw,64px);
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 5px rgba(34,197,94,.12);
+}
+
+.hero-title{
+  margin:20px 0 12px;
+  max-width:650px;
+  font-size:clamp(40px,8vw,70px);
   line-height:.98;
   letter-spacing:-.055em;
 }
 
-.hero p{
-  max-width:650px;
-  margin:0;
+.hero-text{
+  max-width:600px;
+  color:#cbd5e1;
+  font-size:16px;
   line-height:1.65;
-  color:rgba(255,255,255,.83);
 }
 
-.actions{
+.hero-actions{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
-  margin-top:22px;
+  margin-top:25px;
 }
 
 .btn{
   min-height:46px;
   padding:0 17px;
-  border-radius:14px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-  font-weight:750;
+  gap:9px;
+  border-radius:14px;
+  font-weight:780;
   transition:.2s;
 }
 
 .btn-primary{
-  color:#fff;
-  background:var(--primary);
-  box-shadow:0 8px 20px rgba(37,99,235,.2);
-}
-
-.hero .btn-primary{
-  background:#fff;
-  color:#1743a6;
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  box-shadow:0 10px 25px rgba(37,99,235,.25);
 }
 
 .btn-secondary{
-  background:var(--surface);
   color:var(--text);
+  background:var(--surface);
+  border:1px solid var(--line);
+}
+
+.btn-ghost{
+  color:var(--text);
+  background:transparent;
   border:1px solid var(--line);
 }
 
 .hero .btn-secondary{
-  color:#fff;
-  background:rgba(255,255,255,.1);
-  border-color:rgba(255,255,255,.2);
+  color:#101828;
 }
 
-.btn-ghost{
-  color:var(--primary);
-  background:transparent;
-}
+/* =========================================================
+   SECTION
+   ========================================================= */
 
-.btn-danger{
-  color:#fff;
-  background:var(--danger);
-}
-
-.btn-success{
-  color:#fff;
-  background:var(--success);
-}
-
-.btn-full{
-  width:100%;
+.section{
+  margin-top:42px;
 }
 
 .section-head{
   display:flex;
+  align-items:flex-end;
   justify-content:space-between;
-  align-items:end;
-  gap:15px;
-  margin-bottom:15px;
+  gap:16px;
+  margin-bottom:17px;
 }
 
 .section-head h2{
   margin:0;
-  font-size:22px;
+  font-size:24px;
   letter-spacing:-.035em;
 }
 
 .section-head p{
-  margin:4px 0 0;
+  margin:6px 0 0;
   color:var(--muted);
-  font-size:13px;
+  font-size:14px;
 }
 
-.link-btn{
-  background:none;
+.text-btn{
   color:var(--primary);
-  font-weight:750;
-  padding:5px;
+  font-size:13px;
+  font-weight:800;
+  background:none;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
+/* =========================================================
+   CARDS
+   ========================================================= */
 
 .card{
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:var(--radius);
   box-shadow:var(--shadow2);
+}
+
+.course-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
 .course-card{
@@ -338,50 +493,61 @@ svg{
 }
 
 .course-card:hover{
-  transform:translateY(-2px);
+  transform:translateY(-3px);
   box-shadow:var(--shadow);
 }
 
 .course-cover{
-  height:145px;
+  height:155px;
+  padding:16px;
   position:relative;
   overflow:hidden;
+  color:white;
   display:flex;
   align-items:flex-end;
-  padding:16px;
-  color:#fff;
 }
 
-.cover-web{
-  background:
-    linear-gradient(135deg,rgba(37,99,235,.85),rgba(124,58,237,.9)),
-    repeating-linear-gradient(45deg,transparent 0 12px,rgba(255,255,255,.08) 12px 13px);
+.course-cover.web{
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
 }
 
-.cover-design{
-  background:
-    linear-gradient(135deg,#7c3aed,#db2777),
-    repeating-radial-gradient(circle,transparent 0 18px,rgba(255,255,255,.1) 19px 20px);
+.course-cover.design{
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
 }
 
-.cover-video{
-  background:
-    linear-gradient(135deg,#0891b2,#2563eb),
-    repeating-linear-gradient(-45deg,transparent 0 14px,rgba(255,255,255,.08) 14px 15px);
+.course-cover.video{
+  background:linear-gradient(135deg,#f97316,#ef4444);
 }
 
-.cover-python{
-  background:
-    linear-gradient(135deg,#059669,#2563eb),
-    radial-gradient(circle at 30% 30%,rgba(255,255,255,.2),transparent 20%);
+.course-cover.python{
+  background:linear-gradient(135deg,#0891b2,#0f766e);
 }
 
-.cover-label{
+.course-cover:after{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  right:-30px;
+  top:-40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.13);
+}
+
+.cover-icon{
   position:relative;
   z-index:2;
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:-.04em;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.cover-icon svg{
+  width:25px;
 }
 
 .course-body{
@@ -389,982 +555,1360 @@ svg{
 }
 
 .course-body h3{
-  margin:0 0 7px;
-  font-size:17px;
-  letter-spacing:-.025em;
+  margin:0;
+  font-size:16px;
 }
 
 .course-body p{
-  margin:0;
+  margin:7px 0 14px;
   color:var(--muted);
-  font-size:12px;
-  line-height:1.55;
+  font-size:13px;
+  line-height:1.5;
 }
 
 .meta{
   display:flex;
   flex-wrap:wrap;
   gap:7px;
-  margin-top:12px;
 }
 
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:6px 9px;
-  border-radius:999px;
+.tag{
+  padding:6px 8px;
+  border-radius:8px;
   background:var(--surface2);
   color:var(--muted);
-  font-size:11px;
-  font-weight:700;
+  font-size:10px;
+  font-weight:800;
+}
+
+/* =========================================================
+   CONTINUE CARD
+   ========================================================= */
+
+.continue-card{
+  padding:18px;
+  display:flex;
+  gap:17px;
+  align-items:center;
+}
+
+.continue-art{
+  width:86px;
+  height:86px;
+  flex:0 0 86px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.continue-art svg{
+  width:31px;
+}
+
+.continue-info{
+  min-width:0;
+  flex:1;
+}
+
+.continue-info h3{
+  margin:0;
+  font-size:17px;
+}
+
+.continue-info p{
+  margin:6px 0;
+  color:var(--muted);
+  font-size:13px;
 }
 
 .progress{
-  height:6px;
+  height:7px;
+  overflow:hidden;
   border-radius:99px;
   background:var(--surface2);
-  overflow:hidden;
-  margin-top:13px;
 }
 
 .progress span{
   display:block;
+  width:var(--progress,0%);
   height:100%;
-  width:0;
   border-radius:inherit;
-  background:linear-gradient(90deg,var(--primary),var(--primary2));
-  transition:.4s;
+  background:linear-gradient(90deg,#2563eb,#7c3aed);
 }
 
-.search{
-  position:relative;
-  margin:20px 0 13px;
+/* =========================================================
+   QUICK GRID
+   ========================================================= */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
 }
 
-.search svg{
-  position:absolute;
-  left:14px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--muted);
+.quick-card{
+  padding:20px;
+  min-height:150px;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.search input{
-  width:100%;
-  height:50px;
-  border-radius:16px;
-  border:1px solid var(--line);
-  background:var(--surface);
-  color:var(--text);
-  padding:0 15px 0 45px;
-  outline:none;
+.quick-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
 }
 
-.search input:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(37,99,235,.09);
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  scrollbar-width:none;
-  padding-bottom:3px;
-  margin-bottom:16px;
-}
-
-.tabs::-webkit-scrollbar{
-  display:none;
-}
-
-.tab{
-  white-space:nowrap;
-  padding:9px 13px;
-  border-radius:999px;
-  background:var(--surface);
-  color:var(--muted);
-  border:1px solid var(--line);
-  font-weight:700;
-  font-size:12px;
-}
-
-.tab.active{
-  color:#fff;
-  background:var(--primary);
-  border-color:var(--primary);
-}
-
-.ad{
-  min-height:90px;
-  margin:20px 0;
-  border:1px dashed var(--line);
-  border-radius:18px;
-  background:var(--surface);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:15px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.ad strong{
-  display:block;
-  color:var(--text);
-  margin-bottom:3px;
-}
-
-.premium-ad{
-  display:none;
-}
-
-html[data-plan="premium"] .free-ad{
-  display:none;
-}
-
-html[data-plan="premium"] .premium-ad{
-  display:flex;
-}
-
-.back-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:20px 0 5px;
-}
-
-.back-row button{
-  width:40px;
-  height:40px;
-  border-radius:13px;
-  border:1px solid var(--line);
-  background:var(--surface);
-  color:var(--text);
+.quick-icon{
+  width:43px;
+  height:43px;
   display:grid;
   place-items:center;
-}
-
-.detail-hero{
-  padding:20px 0;
-}
-
-.detail-hero .course-cover{
-  height:220px;
-  border-radius:26px;
-}
-
-.detail-hero h1{
-  font-size:32px;
-  line-height:1.05;
-  letter-spacing:-.05em;
-  margin:20px 0 10px;
-}
-
-.detail-hero p{
-  color:var(--muted);
-  line-height:1.7;
-}
-
-.module{
-  padding:17px;
-  margin-bottom:10px;
-}
-
-.module-head{
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-
-.module-number{
-  width:38px;
-  height:38px;
-  flex:none;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
+  border-radius:14px;
+  background:var(--surface2);
   color:var(--primary);
-  background:rgba(37,99,235,.1);
-  font-weight:850;
 }
 
-.module h3{
-  margin:0;
+.quick-icon svg{
+  width:21px;
+}
+
+.quick-card h3{
+  margin:18px 0 5px;
   font-size:15px;
 }
 
-.module small{
-  color:var(--muted);
-}
-
-.lesson-list{
-  margin:15px 0 0 50px;
-  display:grid;
-  gap:7px;
-}
-
-.lesson-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-  border-radius:11px;
-  background:var(--surface2);
+.quick-card p{
+  margin:0;
   color:var(--muted);
   font-size:12px;
+  line-height:1.45;
 }
 
-.lesson-item button{
+/* =========================================================
+   LEARN
+   ========================================================= */
+
+.page-header{
+  padding:10px 0 25px;
+}
+
+.page-kicker{
   color:var(--primary);
-  background:none;
-  font-weight:800;
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
-.lesson-top{
-  padding:25px 0 12px;
-}
-
-.lesson-top h1{
+.page-header h1{
   margin:8px 0;
-  font-size:32px;
-  line-height:1.03;
+  font-size:clamp(32px,7vw,54px);
   letter-spacing:-.05em;
 }
 
-.lesson-top p{
+.page-header p{
+  max-width:650px;
+  margin:0;
   color:var(--muted);
+  line-height:1.65;
 }
 
-.video{
-  min-height:230px;
-  border-radius:24px;
-  overflow:hidden;
+.search-box{
   position:relative;
-  display:grid;
-  place-items:center;
-  background:
-    radial-gradient(circle at 50% 45%,rgba(37,99,235,.38),transparent 24%),
-    linear-gradient(135deg,#09152f,#15102e);
-  border:1px solid #273452;
+  margin-bottom:20px;
 }
 
-.video-info{
-  position:absolute;
-  top:17px;
-  left:17px;
-  right:17px;
-  display:flex;
-  justify-content:space-between;
-  color:#cbd5e1;
-  font-size:11px;
-}
-
-.play{
-  width:68px;
-  height:68px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(10px);
-}
-
-.article{
-  padding:22px 0;
-}
-
-.article h2{
-  margin:25px 0 10px;
-  font-size:22px;
-  letter-spacing:-.035em;
-}
-
-.article h3{
-  margin:21px 0 8px;
-}
-
-.article p,
-.article li{
-  color:var(--muted);
-  line-height:1.75;
-}
-
-.article ul{
-  padding-left:20px;
-}
-
-.code{
-  margin:16px 0;
-  padding:17px;
-  overflow:auto;
-  border-radius:16px;
-  background:#09111f;
-  color:#dbeafe;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:12px;
-  line-height:1.7;
-  border:1px solid #1e293b;
-}
-
-.term{
-  padding:18px;
-  margin:17px 0;
-  border-radius:18px;
-  background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(124,58,237,.08));
-  border:1px solid rgba(37,99,235,.18);
-}
-
-.term strong{
-  display:block;
-  margin-bottom:5px;
-}
-
-.diagram{
-  padding:18px;
-  border-radius:18px;
+.search-box input{
+  width:100%;
+  height:54px;
+  padding:0 18px 0 49px;
+  color:var(--text);
   background:var(--surface);
   border:1px solid var(--line);
+  border-radius:17px;
+  outline:none;
+  box-shadow:var(--shadow2);
 }
 
-.diagram-flow{
+.search-box input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(37,99,235,.1);
+}
+
+.search-box svg{
+  position:absolute;
+  left:18px;
+  top:17px;
+  width:19px;
+  color:var(--muted);
+}
+
+.filters{
   display:flex;
-  align-items:center;
-  justify-content:center;
   gap:8px;
-  flex-wrap:wrap;
-  margin-top:15px;
+  overflow-x:auto;
+  padding-bottom:7px;
+  scrollbar-width:none;
 }
 
-.diagram-box{
-  padding:12px 14px;
-  border-radius:12px;
-  background:var(--surface2);
+.filters::-webkit-scrollbar{
+  display:none;
+}
+
+.filter{
+  white-space:nowrap;
+  padding:9px 13px;
+  border-radius:99px;
+  color:var(--muted);
+  background:var(--surface);
   border:1px solid var(--line);
   font-size:12px;
   font-weight:750;
 }
 
-.quiz{
-  padding:20px;
-  margin:25px 0;
+.filter.active{
+  color:white;
+  background:var(--text);
+  border-color:var(--text);
 }
 
-.quiz h3{
-  margin:0 0 14px;
+/* =========================================================
+   COURSE DETAIL
+   ========================================================= */
+
+.course-detail-hero{
+  overflow:hidden;
+  padding:30px;
+  border-radius:30px;
+  color:white;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a 55%,#0891b2);
 }
 
-.quiz-option{
-  width:100%;
-  text-align:left;
-  padding:13px;
-  margin:7px 0;
-  border-radius:13px;
-  border:1px solid var(--line);
-  background:var(--surface2);
-  color:var(--text);
+.course-detail-hero h1{
+  margin:16px 0 10px;
+  max-width:700px;
+  font-size:clamp(32px,7vw,56px);
+  letter-spacing:-.05em;
 }
 
-.quiz-option.correct{
-  border-color:var(--success);
-  background:rgba(18,183,106,.12);
+.course-detail-hero p{
+  max-width:680px;
+  color:#d7e3f7;
+  line-height:1.65;
 }
 
-.quiz-option.wrong{
-  border-color:var(--danger);
-  background:rgba(240,68,56,.1);
+.detail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:20px 0;
 }
 
-.feedback{
-  margin-top:12px;
-  font-size:13px;
-  font-weight:700;
+.detail-meta span{
+  padding:8px 11px;
+  border-radius:9px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.12);
+  font-size:11px;
 }
 
-.work-list{
-  display:grid;
-  gap:12px;
+.module{
+  margin-top:13px;
+  overflow:hidden;
 }
 
-.work-card{
+.module-head{
   padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
 }
 
-.work-card h3{
-  margin:0 0 7px;
+.module-head strong{
+  font-size:15px;
+}
+
+.module-head span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.lesson-list{
+  border-top:1px solid var(--line);
+}
+
+.lesson-row{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px 18px;
+  color:var(--text);
+  text-align:left;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+}
+
+.lesson-row:last-child{
+  border-bottom:0;
+}
+
+.lesson-number{
+  width:31px;
+  height:31px;
+  flex:0 0 31px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:var(--surface2);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+}
+
+.lesson-row strong{
+  display:block;
+  font-size:13px;
+}
+
+.lesson-row small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+}
+
+/* =========================================================
+   LESSON
+   ========================================================= */
+
+.lesson-layout{
+  max-width:900px;
+  margin:auto;
+}
+
+.lesson-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.back-btn{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+.lesson-top-text{
+  min-width:0;
+}
+
+.lesson-top-text small{
+  color:var(--muted);
+}
+
+.lesson-top-text strong{
+  display:block;
+  margin-top:3px;
+}
+
+.video{
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(37,99,235,.35),transparent 35%),
+    linear-gradient(135deg,#080d19,#111827);
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.video-play{
+  width:70px;
+  height:70px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:white;
+  color:#101828;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.video-play svg{
+  margin-left:3px;
+  width:24px;
+}
+
+.video-label{
+  position:absolute;
+  left:18px;
+  bottom:16px;
+  color:#cbd5e1;
+  font-size:12px;
+}
+
+.lesson-content{
+  margin-top:25px;
+}
+
+.lesson-content h1{
+  margin:0;
+  font-size:32px;
+  letter-spacing:-.045em;
+}
+
+.lesson-content h2{
+  margin-top:34px;
+  font-size:21px;
+}
+
+.lesson-content p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.definition{
+  margin:22px 0;
+  padding:20px;
+  border-left:4px solid var(--primary);
+  border-radius:0 17px 17px 0;
+  background:var(--surface);
+  border-top:1px solid var(--line);
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.definition strong{
+  display:block;
+  margin-bottom:7px;
+  color:var(--primary);
+}
+
+.code{
+  overflow:auto;
+  margin:20px 0;
+  padding:18px;
+  border-radius:17px;
+  color:#dbeafe;
+  background:#0b1020;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.lesson-actions{
+  display:flex;
+  gap:10px;
+  margin-top:30px;
+}
+
+.lesson-actions .btn{
+  flex:1;
+}
+
+/* =========================================================
+   WORK
+   ========================================================= */
+
+.work-hero{
+  padding:27px;
+  border-radius:28px;
+  color:white;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(6,182,212,.3),transparent 30%),
+    linear-gradient(135deg,#111827,#312e81);
+}
+
+.work-hero h1{
+  margin:10px 0;
+  font-size:36px;
+  letter-spacing:-.05em;
+}
+
+.work-hero p{
+  max-width:650px;
+  color:#cbd5e1;
+  line-height:1.65;
+}
+
+.opportunity-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:20px;
+}
+
+.opportunity{
+  padding:20px;
+}
+
+.opportunity-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.company-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:var(--surface2);
+  color:var(--primary);
+  font-weight:900;
+}
+
+.opportunity h3{
+  margin:17px 0 6px;
   font-size:17px;
 }
 
-.work-card p{
-  margin:0;
+.opportunity p{
   color:var(--muted);
-  line-height:1.55;
   font-size:13px;
+  line-height:1.55;
 }
 
-.work-top{
+.opportunity-tags{
   display:flex;
-  justify-content:space-between;
-  gap:10px;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:14px 0;
 }
 
-.external{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  color:var(--primary);
-  font-size:11px;
-  font-weight:800;
-  margin-top:13px;
-}
+/* =========================================================
+   JG AI
+   ========================================================= */
 
 .ai-shell{
-  padding:20px 0;
+  overflow:hidden;
+  min-height:calc(100vh - 180px);
+  display:flex;
+  flex-direction:column;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:var(--surface);
+  box-shadow:var(--shadow2);
 }
 
 .ai-header{
+  padding:17px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
+  border-bottom:1px solid var(--line);
 }
 
-.ai-title{
+.ai-brand{
   display:flex;
   align-items:center;
   gap:11px;
 }
 
 .ai-orb{
-  width:45px;
-  height:45px;
-  border-radius:15px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  box-shadow:0 9px 24px rgba(37,99,235,.23);
-}
-
-.ai-header h1{
-  margin:0;
-  font-size:25px;
-  letter-spacing:-.04em;
-}
-
-.ai-header p{
-  margin:3px 0 0;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.ai-messages{
-  min-height:430px;
-  padding:22px 0 100px;
-}
-
-.message{
-  max-width:88%;
-  margin:10px 0;
-  padding:14px 15px;
-  border-radius:18px;
-  line-height:1.6;
-  font-size:14px;
-}
-
-.message.ai{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-top-left-radius:6px;
-}
-
-.message.user{
-  margin-left:auto;
-  color:#fff;
-  background:var(--primary);
-  border-top-right-radius:6px;
-}
-
-.message small{
-  display:block;
-  margin-bottom:5px;
-  opacity:.65;
-  font-size:10px;
-  font-weight:800;
-}
-
-.ai-composer{
-  position:fixed;
-  left:50%;
-  bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);
-  transform:translateX(-50%);
-  width:min(700px,calc(100% - 28px));
-  z-index:35;
-  display:flex;
-  gap:8px;
-  padding:8px;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:color-mix(in srgb,var(--surface) 92%,transparent);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(18px);
-}
-
-.ai-composer input{
-  min-width:0;
-  flex:1;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:var(--text);
-  padding:0 8px;
-}
-
-.ai-send{
-  width:43px;
-  height:43px;
+  width:40px;
+  height:40px;
   border-radius:13px;
   display:grid;
   place-items:center;
-  color:#fff;
-  background:var(--primary);
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#7c3aed,#06b6d4);
+}
+
+.ai-orb svg{
+  width:20px;
+}
+
+.ai-brand strong{
+  display:block;
+}
+
+.ai-brand small{
+  color:var(--muted);
+}
+
+.ai-header-actions{
+  display:flex;
+  gap:7px;
+}
+
+.ai-body{
+  flex:1;
+  display:flex;
+  min-height:580px;
+}
+
+.ai-history{
+  width:235px;
+  padding:15px;
+  border-right:1px solid var(--line);
+  background:var(--surface2);
+}
+
+.new-chat{
+  width:100%;
+  height:43px;
+  margin-bottom:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  color:white;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  font-weight:800;
+}
+
+.history-title{
+  margin:18px 8px 8px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:850;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.history-item{
+  width:100%;
+  padding:11px;
+  text-align:left;
+  border-radius:11px;
+  color:var(--text);
+  background:transparent;
+}
+
+.history-item.active{
+  background:var(--surface);
+}
+
+.ai-main{
+  min-width:0;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.ai-messages{
+  flex:1;
+  overflow:auto;
+  padding:25px;
+}
+
+.ai-welcome{
+  max-width:650px;
+  margin:25px auto 30px;
+  text-align:center;
+}
+
+.ai-welcome-icon{
+  width:62px;
+  height:62px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.ai-welcome h2{
+  margin:17px 0 8px;
+  font-size:28px;
+  letter-spacing:-.04em;
+}
+
+.ai-welcome p{
+  color:var(--muted);
+  line-height:1.6;
 }
 
 .suggestions{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  padding:5px 0 10px;
-  scrollbar-width:none;
-}
-
-.suggestions::-webkit-scrollbar{
-  display:none;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:22px;
 }
 
 .suggestion{
-  white-space:nowrap;
-  padding:9px 12px;
-  border-radius:999px;
-  background:var(--surface);
+  padding:13px;
+  text-align:left;
+  color:var(--text);
   border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--surface);
+}
+
+.suggestion strong{
+  display:block;
+  font-size:12px;
+}
+
+.suggestion span{
+  display:block;
+  margin-top:4px;
   color:var(--muted);
   font-size:11px;
-  font-weight:700;
 }
 
-.account-head{
-  padding:30px 0 20px;
+.message{
   display:flex;
-  align-items:center;
-  gap:15px;
+  gap:10px;
+  max-width:760px;
+  margin:0 auto 20px;
 }
 
-.avatar{
-  width:62px;
-  height:62px;
-  border-radius:20px;
+.message.user{
+  justify-content:flex-end;
+}
+
+.message-avatar{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
   display:grid;
   place-items:center;
-  color:#fff;
-  font-size:22px;
+  border-radius:11px;
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  font-size:11px;
   font-weight:900;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
 }
 
-.account-head h1{
-  margin:0;
-  font-size:24px;
+.message.user .message-avatar{
+  order:2;
+  background:var(--text);
 }
 
-.account-head p{
-  margin:4px 0;
+.bubble{
+  max-width:min(680px,80%);
+  padding:13px 15px;
+  border-radius:17px;
+  background:var(--surface2);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.message.user .bubble{
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.ai-compose{
+  padding:13px;
+  border-top:1px solid var(--line);
+  background:var(--surface);
+}
+
+.ai-input-wrap{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:var(--surface2);
+}
+
+.ai-input-wrap textarea{
+  flex:1;
+  min-height:38px;
+  max-height:130px;
+  padding:8px;
+  resize:none;
+  color:var(--text);
+  background:transparent;
+  border:0;
+  outline:0;
+}
+
+.ai-send{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  color:white;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.ai-disclaimer{
+  padding:7px 3px 0;
   color:var(--muted);
+  font-size:9px;
+  text-align:center;
 }
 
-.menu-card{
-  overflow:hidden;
+/* =========================================================
+   ACCOUNT
+   ========================================================= */
+
+.profile-card{
+  padding:25px;
+  display:flex;
+  align-items:center;
+  gap:17px;
 }
 
-.menu-item{
-  width:100%;
+.profile-avatar{
+  width:68px;
+  height:68px;
+  display:grid;
+  place-items:center;
+  flex:0 0 68px;
+  border-radius:22px;
+  color:white;
+  font-size:24px;
+  font-weight:900;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.profile-info h2{
+  margin:0;
+  font-size:22px;
+}
+
+.profile-info p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.account-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+  margin-top:18px;
+}
+
+.account-item{
+  padding:18px;
   display:flex;
   align-items:center;
   gap:13px;
-  padding:17px;
-  background:var(--surface);
-  color:var(--text);
-  text-align:left;
-  border-bottom:1px solid var(--line);
+  cursor:pointer;
 }
 
-.menu-item:last-child{
-  border-bottom:0;
-}
-
-.menu-icon{
-  width:39px;
-  height:39px;
-  border-radius:12px;
+.account-item-icon{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
   display:grid;
   place-items:center;
+  border-radius:13px;
   background:var(--surface2);
   color:var(--primary);
 }
 
-.menu-copy{
-  flex:1;
-}
-
-.menu-copy strong{
-  display:block;
+.account-item h3{
+  margin:0;
   font-size:14px;
 }
 
-.menu-copy span{
-  display:block;
+.account-item p{
+  margin:4px 0 0;
   color:var(--muted);
   font-size:11px;
-  margin-top:2px;
 }
 
-.premium{
-  margin:20px 0;
-  padding:23px;
-  color:#fff;
-  border-radius:24px;
+/* =========================================================
+   PREMIUM
+   ========================================================= */
+
+.premium-hero{
+  padding:35px;
+  border-radius:30px;
+  color:white;
   background:
-    radial-gradient(circle at 85% 10%,rgba(255,255,255,.2),transparent 25%),
-    linear-gradient(135deg,#111827,#312e81);
+    radial-gradient(circle at 80% 15%,rgba(255,255,255,.2),transparent 25%),
+    linear-gradient(135deg,#111827,#312e81 55%,#7c3aed);
 }
 
-.premium h2{
-  margin:0 0 7px;
+.premium-badge{
+  display:inline-flex;
+  padding:7px 10px;
+  border-radius:99px;
+  color:#ede9fe;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
+  font-size:11px;
+  font-weight:800;
 }
 
-.premium p{
-  color:#cbd5e1;
-  line-height:1.55;
+.premium-hero h1{
+  max-width:650px;
+  margin:18px 0 10px;
+  font-size:clamp(35px,8vw,60px);
+  letter-spacing:-.05em;
+}
+
+.premium-hero p{
+  max-width:600px;
+  color:#d8dce8;
+  line-height:1.7;
+}
+
+.price{
+  margin:25px 0;
+  font-size:35px;
+  font-weight:900;
+}
+
+.price small{
+  color:#b9c0cf;
   font-size:13px;
+  font-weight:600;
 }
 
-.checks{
+.feature-grid{
   display:grid;
-  gap:9px;
-  margin:17px 0;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+  margin-top:18px;
 }
 
-.check{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  font-size:13px;
-  color:#e2e8f0;
-}
-
-.cert{
-  padding:22px;
-  text-align:center;
-}
-
-.cert-mark{
-  width:70px;
-  height:70px;
-  margin:0 auto 15px;
-  display:grid;
-  place-items:center;
-  border-radius:22px;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-}
-
-.cert h2{
-  margin:0 0 8px;
-}
-
-.cert p{
-  color:var(--muted);
-  line-height:1.6;
-}
-
-.verify-box{
+.feature{
   padding:20px;
 }
 
-.verify-box input{
+.feature svg{
+  width:22px;
+  color:var(--primary);
+}
+
+.feature h3{
+  margin:15px 0 6px;
+  font-size:14px;
+}
+
+.feature p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+}
+
+/* =========================================================
+   CERTIFICATE / SETTINGS
+   ========================================================= */
+
+.center-card{
+  max-width:700px;
+  margin:20px auto;
+  padding:25px;
+}
+
+.form-label{
+  display:block;
+  margin-bottom:7px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.form-input{
   width:100%;
   height:50px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:var(--surface2);
-  color:var(--text);
   padding:0 14px;
+  color:var(--text);
+  background:var(--surface2);
+  border:1px solid var(--line);
+  border-radius:13px;
   outline:none;
-  margin:10px 0;
+}
+
+.form-input:focus{
+  border-color:var(--primary);
 }
 
 .verify-result{
-  margin-top:15px;
-  padding:15px;
+  margin-top:17px;
+  padding:17px;
   border-radius:15px;
-  display:none;
+  background:var(--surface2);
 }
 
-.verify-result.show{
-  display:block;
-}
-
-.verify-result.good{
-  background:rgba(18,183,106,.11);
+.verify-result.success{
   border:1px solid rgba(18,183,106,.3);
 }
 
-.verify-result.bad{
-  background:rgba(240,68,56,.1);
-  border:1px solid rgba(240,68,56,.3);
-}
-
-.settings{
-  display:grid;
-  gap:12px;
-}
-
-.setting{
-  padding:17px;
+.settings-row{
+  padding:17px 0;
   display:flex;
   align-items:center;
-  gap:13px;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid var(--line);
 }
 
-.setting-copy{
-  flex:1;
+.settings-row:last-child{
+  border-bottom:0;
 }
 
-.setting-copy strong{
-  display:block;
+.settings-row h3{
+  margin:0;
+  font-size:14px;
 }
 
-.setting-copy span{
+.settings-row p{
+  margin:5px 0 0;
   color:var(--muted);
   font-size:11px;
 }
 
-.toggle{
-  width:48px;
-  height:28px;
-  padding:3px;
+.switch{
+  position:relative;
+  width:49px;
+  height:29px;
+  flex:0 0 49px;
   border-radius:99px;
-  background:var(--surface2);
-  border:1px solid var(--line);
+  background:var(--line);
 }
 
-.toggle span{
-  display:block;
-  width:20px;
-  height:20px;
+.switch span{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:23px;
+  height:23px;
   border-radius:50%;
-  background:var(--muted);
+  background:white;
   transition:.2s;
+  box-shadow:0 2px 5px rgba(0,0,0,.2);
 }
 
-.toggle.on{
+.switch.on{
   background:var(--primary);
-  border-color:var(--primary);
 }
 
-.toggle.on span{
+.switch.on span{
   transform:translateX(20px);
-  background:#fff;
 }
+
+/* =========================================================
+   BOTTOM NAV
+   ========================================================= */
 
 .bottom-nav{
   position:fixed;
+  z-index:1200;
   left:50%;
-  bottom:0;
-  z-index:60;
-  width:100%;
-  max-width:700px;
+  bottom:max(10px,env(safe-area-inset-bottom));
   transform:translateX(-50%);
-  min-height:var(--nav);
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  width:min(calc(100% - 20px),650px);
+  height:68px;
+  padding:7px;
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  background:color-mix(in srgb,var(--surface) 93%,transparent);
-  border-top:1px solid var(--line);
-  backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
+  gap:3px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  box-shadow:0 18px 50px rgba(16,24,40,.16);
+}
+
+.dark .bottom-nav{
+  background:rgba(16,23,37,.9);
 }
 
 .nav-btn{
+  position:relative;
   min-width:0;
-  border-radius:14px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   gap:4px;
-  background:transparent;
+  border-radius:16px;
   color:var(--muted);
+  background:transparent;
   font-size:9px;
   font-weight:750;
 }
 
+.nav-btn svg{
+  width:19px;
+  height:19px;
+}
+
 .nav-btn.active{
   color:var(--primary);
-  background:rgba(37,99,235,.08);
+  background:rgba(37,99,235,.09);
 }
 
-.nav-btn svg{
-  width:20px;
-  height:20px;
-}
-
-.modal-back{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  place-items:end center;
-  background:rgba(0,0,0,.52);
-  backdrop-filter:blur(5px);
-}
-
-.modal-back.show{
-  display:grid;
-}
+/* =========================================================
+   MODAL
+   ========================================================= */
 
 .modal{
-  width:min(600px,100%);
-  max-height:85vh;
-  overflow:auto;
-  padding:22px;
-  border-radius:25px 25px 0 0;
-  background:var(--surface);
-  border:1px solid var(--line);
-  box-shadow:0 -20px 50px rgba(0,0,0,.2);
-  animation:modalUp .25s ease;
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  padding:15px;
+  background:rgba(2,6,23,.58);
+  backdrop-filter:blur(8px);
 }
 
-@keyframes modalUp{
-  from{transform:translateY(100%)}
-  to{transform:none}
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(620px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:23px;
+  border-radius:27px;
+  background:var(--surface);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+  animation:modalIn .25s ease;
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(25px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .modal-head{
   display:flex;
   justify-content:space-between;
-  gap:10px;
   align-items:center;
+  margin-bottom:18px;
 }
 
-.modal h2{
+.modal-head h2{
   margin:0;
-  font-size:21px;
+  font-size:20px;
 }
 
-.modal-body{
-  color:var(--muted);
-  line-height:1.65;
-  margin:15px 0;
-}
+/* =========================================================
+   TOAST
+   ========================================================= */
 
-.close{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:var(--surface2);
-  color:var(--text);
-}
-
-.toast{
+#toast{
   position:fixed;
-  z-index:150;
+  z-index:9000;
   left:50%;
-  bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 18px);
+  bottom:95px;
   transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
+  width:max-content;
+  max-width:calc(100% - 30px);
   padding:12px 16px;
-  border-radius:14px;
-  color:#fff;
+  border-radius:13px;
+  color:white;
   background:#101828;
-  box-shadow:var(--shadow);
+  box-shadow:0 15px 35px rgba(0,0,0,.25);
   font-size:12px;
   font-weight:700;
+  opacity:0;
+  pointer-events:none;
   transition:.25s;
-  max-width:calc(100% - 30px);
-  text-align:center;
 }
 
-.toast.show{
+#toast.show{
   opacity:1;
   transform:translate(-50%,0);
 }
 
-.empty{
-  padding:35px 20px;
-  text-align:center;
-  color:var(--muted);
+/* =========================================================
+   EMPTY / LOADING
+   ========================================================= */
+
+.typing{
+  display:flex;
+  gap:4px;
+  padding:6px 0;
 }
 
-.hidden{
-  display:none!important;
+.typing span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--muted);
+  animation:typing 1s infinite;
 }
 
-@media(min-width:760px){
-  .container{
-    padding-left:26px;
-    padding-right:26px;
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+
+@keyframes typing{
+  50%{opacity:.2;transform:translateY(-2px)}
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:900px){
+  .course-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .hero{
-    padding-top:45px;
+  .feature-grid{
+    grid-template-columns:1fr;
   }
 
-  .bottom-nav{
-    bottom:15px;
-    border:1px solid var(--line);
-    border-radius:22px;
-    width:calc(100% - 30px);
-    padding-bottom:8px;
-    box-shadow:var(--shadow);
-  }
-
-  .ai-composer{
-    bottom:105px;
-  }
-
-  .app{
-    padding-bottom:120px;
+  .ai-history{
+    display:none;
   }
 }
 
-@media(max-width:520px){
-  .grid{
+@media(max-width:650px){
+  main{
+    padding-left:14px;
+    padding-right:14px;
+    padding-top:16px;
+  }
+
+  .topbar{
+    height:64px;
+    padding:0 13px;
+  }
+
+  .brand-copy span{
+    display:none;
+  }
+
+  .brand-mark{
+    width:38px;
+    height:38px;
+  }
+
+  .top-actions .icon-btn{
+    width:37px;
+    height:37px;
+  }
+
+  .avatar{
+    width:37px;
+    height:37px;
+  }
+
+  .home-hero{
+    min-height:500px;
+    padding:24px 20px;
+    border-radius:27px;
+  }
+
+  .hero-title{
+    font-size:45px;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions .btn{
+    width:100%;
+  }
+
+  .course-grid{
     grid-template-columns:1fr;
   }
 
   .course-cover{
-    height:165px;
+    height:180px;
   }
 
-  .hero-card{
-    padding:26px 20px;
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  .hero h1{
+  .quick-card{
+    min-height:135px;
+    padding:16px;
+  }
+
+  .continue-card{
+    align-items:flex-start;
+  }
+
+  .continue-art{
+    width:62px;
+    height:62px;
+    flex-basis:62px;
+  }
+
+  .opportunity-grid{
+    grid-template-columns:1fr;
+  }
+
+  .profile-card{
+    padding:19px;
+  }
+
+  .account-grid{
+    grid-template-columns:1fr;
+  }
+
+  .premium-hero{
+    padding:25px 20px;
+  }
+
+  .premium-hero h1{
     font-size:40px;
+  }
+
+  .suggestions{
+    grid-template-columns:1fr;
+  }
+
+  .ai-messages{
+    padding:18px 13px;
+  }
+
+  .ai-welcome{
+    margin-top:15px;
+  }
+
+  .ai-shell{
+    min-height:calc(100vh - 155px);
+    border-radius:22px;
+  }
+
+  .ai-body{
+    min-height:560px;
+  }
+
+  .lesson-actions{
+    flex-direction:column;
+  }
+
+  .course-detail-hero{
+    padding:23px 20px;
+  }
+
+  .bottom-nav{
+    height:65px;
+  }
+
+  .nav-btn{
+    font-size:8px;
   }
 }
 </style>
@@ -1372,607 +1916,916 @@ html[data-plan="premium"] .premium-ad{
 
 <body>
 
-<div class="app">
+<!-- =======================================================
+     SPLASH SCREEN
+     ======================================================= -->
 
-<!-- ======================================================
-     TOP BAR
-====================================================== -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="splash-logo">
+      <span>JG</span>
+    </div>
+    <div class="splash-title">JG</div>
+    <div class="splash-sub">Find Skills. Find Opportunities.</div>
+    <div class="splash-loader"><span></span></div>
+  </div>
+</div>
+
+<!-- =======================================================
+     APP
+     ======================================================= -->
+
+<div id="app">
+
 <header class="topbar">
-  <button class="brand" data-go="home" aria-label="JG Home">
-    <span class="logo">JG</span>
-    <span>
-      JG
-      <small>Find Skills. Find Opportunities.</small>
-    </span>
-  </button>
 
-  <button class="icon-btn" id="themeBtn" aria-label="Change theme"></button>
+  <div class="brand" onclick="go('home')">
+    <div class="brand-mark">JG</div>
+    <div class="brand-copy">
+      <strong>JG</strong>
+      <span>FIND SKILLS. FIND OPPORTUNITIES.</span>
+    </div>
+  </div>
+
+  <div class="top-actions">
+
+    <button class="icon-btn" onclick="showNotifications()" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+        <path d="M10 21h4"/>
+      </svg>
+    </button>
+
+    <button class="icon-btn" onclick="toggleTheme()" aria-label="Theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </button>
+
+    <button class="avatar" onclick="go('account')">JG</button>
+
+  </div>
+
 </header>
 
+<main>
 
-<!-- ======================================================
+<!-- =======================================================
      HOME
-====================================================== -->
-<main id="home" class="screen active">
-  <div class="container">
+     ======================================================= -->
 
-    <section class="hero">
-      <div class="hero-card">
-        <span class="eyebrow">
-          <span id="statusDot">●</span>
-          Built for the next generation
-        </span>
+<section id="screen-home" class="screen active">
 
-        <h1>Build skills.<br>Build your future.</h1>
+  <div class="home-hero">
 
-        <p>
-          Learn practical digital skills, understand how they work,
-          practice with real examples and discover opportunities beyond the classroom.
-        </p>
+    <div class="hero-grid"></div>
+    <div class="hero-orb"></div>
 
-        <div class="actions">
-          <button class="btn btn-primary" data-go="learn">
-            Explore Skills
-            <span class="icon-arrow"></span>
-          </button>
+    <div class="hero-content">
 
-          <button class="btn btn-secondary" data-go="ai">
-            Ask JG AI
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Continue learning</h2>
-          <p>Pick up where you stopped.</p>
-        </div>
-        <button class="link-btn" data-go="learn">View all</button>
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Built for the next generation
       </div>
 
-      <div id="continueCard"></div>
-    </section>
+      <h1 class="hero-title">
+        Build skills.<br>
+        Build your future.
+      </h1>
 
-    <div class="ad free-ad">
+      <p class="hero-text">
+        Learn practical digital skills, understand how they work,
+        practice with real examples and discover opportunities beyond
+        the classroom.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="go('learn')">
+          Start learning
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+
+        <button class="btn btn-secondary" onclick="go('ai')">
+          Ask JG AI
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
       <div>
-        <strong>Sponsored space</strong>
-        Relevant advertising helps keep JG free.
+        <h2>Continue learning</h2>
+        <p>Pick up where you stopped.</p>
       </div>
+      <button class="text-btn" onclick="go('learn')">View all</button>
     </div>
 
-    <div class="ad premium-ad">
-      <div>
-        <strong>Premium experience</strong>
-        Your JG experience is ad-free.
-      </div>
-    </div>
+    <div class="card continue-card">
 
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Popular skills</h2>
-          <p>Start with something useful.</p>
+      <div class="continue-art">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/>
+          <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>
+          <path d="M9 7h7M9 10h5"/>
+        </svg>
+      </div>
+
+      <div class="continue-info">
+        <h3>Web Development</h3>
+        <p>Lesson <span id="continueLesson">1</span> of 24 · Beginner</p>
+        <div class="progress">
+          <span id="homeProgress" style="--progress:0%"></span>
         </div>
       </div>
 
-      <div class="grid" id="homeCourses"></div>
-    </section>
+      <button class="icon-btn" onclick="openCourse('web')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+
+    </div>
 
   </div>
-</main>
 
 
-<!-- ======================================================
+  <div class="section">
+
+    <div class="section-head">
+      <div>
+        <h2>Popular skills</h2>
+        <p>Start with something useful.</p>
+      </div>
+    </div>
+
+    <div id="homeCourses" class="course-grid"></div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
+      <div>
+        <h2>Quick access</h2>
+        <p>Everything important, one tap away.</p>
+      </div>
+    </div>
+
+    <div class="quick-grid">
+
+      <div class="card quick-card" onclick="go('learn')">
+        <div class="quick-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/>
+            <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>
+          </svg>
+        </div>
+        <h3>Learn</h3>
+        <p>Practical digital skills.</p>
+      </div>
+
+      <div class="card quick-card" onclick="go('work')">
+        <div class="quick-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="7" width="18" height="13" rx="2"/>
+            <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            <path d="M3 12h18"/>
+          </svg>
+        </div>
+        <h3>Work</h3>
+        <p>Discover external opportunities.</p>
+      </div>
+
+      <div class="card quick-card" onclick="go('ai')">
+        <div class="quick-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+            <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/>
+          </svg>
+        </div>
+        <h3>JG AI</h3>
+        <p>Your intelligent learning workspace.</p>
+      </div>
+
+      <div class="card quick-card" onclick="go('premium')">
+        <div class="quick-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3l2.8 5.7L21 9.6l-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3Z"/>
+          </svg>
+        </div>
+        <h3>Premium</h3>
+        <p>Remove ads and unlock more.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
      LEARN
-====================================================== -->
-<main id="learn" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Learn</h2>
-          <p>Practical skills, explained clearly.</p>
-        </div>
-      </div>
+<section id="screen-learn" class="screen">
 
-      <div class="search">
-        <span id="searchIcon"></span>
-        <input id="courseSearch" type="search" placeholder="Search skills or courses...">
-      </div>
+  <div class="page-header">
+    <div class="page-kicker">JG Learn</div>
+    <h1>Learn something<br>that matters.</h1>
+    <p>
+      Structured learning paths designed to help you understand,
+      practice and apply real digital skills.
+    </p>
+  </div>
 
-      <div class="tabs" id="courseTabs"></div>
+  <div class="search-box">
 
-      <div class="grid" id="courseGrid"></div>
-    </section>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="11" cy="11" r="7"/>
+      <path d="m20 20-4-4"/>
+    </svg>
+
+    <input
+      id="courseSearch"
+      type="search"
+      placeholder="Search skills or courses..."
+      oninput="renderCourses()"
+    >
 
   </div>
-</main>
+
+  <div class="filters">
+    <button class="filter active" onclick="setFilter('all',this)">All</button>
+    <button class="filter" onclick="setFilter('Development',this)">Development</button>
+    <button class="filter" onclick="setFilter('Design',this)">Design</button>
+    <button class="filter" onclick="setFilter('Creative',this)">Creative</button>
+    <button class="filter" onclick="setFilter('Programming',this)">Programming</button>
+  </div>
+
+  <div class="section" style="margin-top:20px">
+    <div id="learnCourses" class="course-grid"></div>
+  </div>
+
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      COURSE DETAIL
-====================================================== -->
-<main id="course-detail" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="learn" aria-label="Back">
-        <span class="icon-back"></span>
-      </button>
-      <span>Course</span>
-    </div>
+<section id="screen-course" class="screen">
 
-    <section id="courseDetail"></section>
+  <div id="courseDetail"></div>
 
-  </div>
-</main>
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      LESSON
-====================================================== -->
-<main id="lesson" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="course-detail" aria-label="Back">
-        <span class="icon-back"></span>
-      </button>
-      <span>Lesson</span>
-    </div>
+<section id="screen-lesson" class="screen">
 
-    <section id="lessonContent"></section>
+  <div id="lessonContainer"></div>
 
-  </div>
-</main>
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      WORK
-====================================================== -->
-<main id="work" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Find Opportunities</h2>
-          <p>Discover opportunities from external platforms.</p>
-        </div>
-      </div>
+<section id="screen-work" class="screen">
 
-      <div class="card" style="padding:17px;margin-bottom:15px;">
-        <strong>How opportunities work</strong>
-        <p style="color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:0;">
-          JG helps you discover opportunities. Applications and work happen
-          on the relevant external platform. JG does not pay users for applying
-          or completing external work.
-        </p>
-      </div>
+  <div class="work-hero">
 
-      <div class="work-list" id="workList"></div>
-    </section>
+    <div class="page-kicker" style="color:#93c5fd">JG Opportunities</div>
+
+    <h1>Find opportunities.<br>Build experience.</h1>
+
+    <p>
+      Discover opportunities from external platforms and organizations.
+      JG helps you find them — applications and work happen outside JG.
+    </p>
+
+    <button class="btn btn-secondary" onclick="showWorkInfo()">
+      How opportunities work
+    </button>
 
   </div>
-</main>
 
+  <div class="section">
 
-<!-- ======================================================
-     JG AI
-====================================================== -->
-<main id="ai" class="screen">
-  <div class="container">
-
-    <section class="ai-shell">
-
-      <div class="ai-header">
-        <div class="ai-title">
-          <div class="ai-orb">
-            <span class="icon-spark"></span>
-          </div>
-
-          <div>
-            <h1>JG AI</h1>
-            <p>Your learning and skills workspace.</p>
-          </div>
-        </div>
-
-        <button class="icon-btn" id="newChatBtn" aria-label="New chat">
-          <span class="icon-plus"></span>
-        </button>
-      </div>
-
-      <div class="suggestions">
-        <button class="suggestion" data-prompt="Explain API to me like I am a beginner.">
-          Explain API
-        </button>
-        <button class="suggestion" data-prompt="Give me a simple HTML practice exercise.">
-          HTML exercise
-        </button>
-        <button class="suggestion" data-prompt="Create a 30 day coding study plan for me.">
-          Study plan
-        </button>
-        <button class="suggestion" data-prompt="What should I learn after HTML and CSS?">
-          What next?
-        </button>
-      </div>
-
-      <div class="ai-messages" id="aiMessages"></div>
-
-    </section>
-
-  </div>
-</main>
-
-
-<!-- ======================================================
-     ACCOUNT
-====================================================== -->
-<main id="account" class="screen">
-  <div class="container">
-
-    <section class="account-head">
-      <div class="avatar">JG</div>
+    <div class="section-head">
       <div>
-        <h1>Your Account</h1>
-        <p id="planText">Free plan</p>
+        <h2>Recommended opportunities</h2>
+        <p>Based on the skills available on JG.</p>
       </div>
-    </section>
-
-    <div class="premium" id="premiumCard">
-      <h2>JG Premium</h2>
-      <p>
-        Upgrade your learning experience with an ad-free interface
-        and premium-ready features.
-      </p>
-
-      <div class="checks">
-        <div class="check">
-          <span class="icon-check"></span>
-          Ad-free experience
-        </div>
-        <div class="check">
-          <span class="icon-check"></span>
-          Premium learning features
-        </div>
-        <div class="check">
-          <span class="icon-check"></span>
-          Priority product access
-        </div>
-      </div>
-
-      <button class="btn btn-primary" data-action="premium" id="premiumAccountBtn">
-        Explore Premium
-      </button>
     </div>
 
-    <div class="card menu-card">
+    <div id="opportunities" class="opportunity-grid"></div>
 
-      <button class="menu-item" data-go="certificates">
-        <span class="menu-icon"><span class="icon-award"></span></span>
-        <span class="menu-copy">
-          <strong>Certificates</strong>
-          <span>View your learning credentials.</span>
-        </span>
-        <span class="icon-arrow"></span>
-      </button>
+  </div>
 
-      <button class="menu-item" data-go="verify">
-        <span class="menu-icon"><span class="icon-shield"></span></span>
-        <span class="menu-copy">
-          <strong>Verify Certificate</strong>
-          <span>Check a JG certificate ID.</span>
-        </span>
-        <span class="icon-arrow"></span>
-      </button>
+</section>
 
-      <button class="menu-item" data-go="settings">
-        <span class="menu-icon"><span class="icon-settings"></span></span>
-        <span class="menu-copy">
-          <strong>Settings & Security</strong>
-          <span>Theme, privacy and local settings.</span>
-        </span>
-        <span class="icon-arrow"></span>
-      </button>
+
+<!-- =======================================================
+     JG AI
+     ======================================================= -->
+
+<section id="screen-ai" class="screen">
+
+  <div class="ai-shell">
+
+    <div class="ai-header">
+
+      <div class="ai-brand">
+
+        <div class="ai-orb">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+            <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/>
+          </svg>
+        </div>
+
+        <div>
+          <strong>JG AI</strong>
+          <small>Your learning workspace</small>
+        </div>
+
+      </div>
+
+      <div class="ai-header-actions">
+
+        <button class="icon-btn" onclick="newChat()" title="New chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+
+        <button class="icon-btn" onclick="showAIInfo()" title="JG AI">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 10v6"/>
+            <path d="M12 7h.01"/>
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="ai-body">
+
+      <aside class="ai-history">
+
+        <button class="new-chat" onclick="newChat()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          New chat
+        </button>
+
+        <div class="history-title">Today</div>
+
+        <button class="history-item active">
+          Learning workspace
+        </button>
+
+        <button class="history-item">
+          Web development
+        </button>
+
+        <button class="history-item">
+          Coding roadmap
+        </button>
+
+      </aside>
+
+
+      <div class="ai-main">
+
+        <div id="aiMessages" class="ai-messages">
+
+          <div id="aiWelcome" class="ai-welcome">
+
+            <div class="ai-welcome-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+              </svg>
+            </div>
+
+            <h2>What are you learning?</h2>
+
+            <p>
+              Ask JG AI to explain concepts, create exercises,
+              build study plans, review code or help you decide
+              what to learn next.
+            </p>
+
+            <div class="suggestions">
+
+              <button class="suggestion" onclick="askSuggestion('Explain API to me like I am a beginner.')">
+                <strong>Explain API</strong>
+                <span>Understand a technical concept</span>
+              </button>
+
+              <button class="suggestion" onclick="askSuggestion('Give me an HTML exercise.')">
+                <strong>HTML exercise</strong>
+                <span>Practice what you learned</span>
+              </button>
+
+              <button class="suggestion" onclick="askSuggestion('Create a coding study plan for me.')">
+                <strong>Study plan</strong>
+                <span>Build a learning roadmap</span>
+              </button>
+
+              <button class="suggestion" onclick="askSuggestion('What should I learn after CSS?')">
+                <strong>What next?</strong>
+                <span>Choose your next skill</span>
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="ai-compose">
+
+          <div class="ai-input-wrap">
+
+            <textarea
+              id="aiInput"
+              rows="1"
+              placeholder="Message JG AI..."
+              onkeydown="handleAIKey(event)"
+            ></textarea>
+
+            <button class="ai-send" onclick="sendAI()">
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m22 2-7 20-4-9-9-4 20-7Z"/>
+                <path d="M22 2 11 13"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+          <div class="ai-disclaimer">
+            JG AI demo mode · Real AI API integration should be connected through a secure backend.
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
   </div>
-</main>
+
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
+     ACCOUNT
+     ======================================================= -->
+
+<section id="screen-account" class="screen">
+
+  <div class="page-header">
+    <div class="page-kicker">Your JG</div>
+    <h1>Account</h1>
+    <p>Manage your learning, certificates and product settings.</p>
+  </div>
+
+  <div class="card profile-card">
+
+    <div class="profile-avatar">JG</div>
+
+    <div class="profile-info">
+      <h2>JG Member</h2>
+      <p id="accountPlan">Free plan · Learning locally on this device</p>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="card account-grid">
+
+      <div class="account-item" onclick="go('premium')">
+        <div class="account-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3l2.8 5.7L21 9.6l-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3Z"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Premium</h3>
+          <p>Ad-free JG experience</p>
+        </div>
+      </div>
+
+
+      <div class="account-item" onclick="go('certificates')">
+        <div class="account-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 3h12v18l-6-3-6 3V3Z"/>
+            <path d="m9 9 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Certificates</h3>
+          <p>View your credentials</p>
+        </div>
+      </div>
+
+
+      <div class="account-item" onclick="go('verify')">
+        <div class="account-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3l8 4v5c0 5-3.4 8.5-8 9-4.6-.5-8-4-8-9V7l8-4Z"/>
+            <path d="m8.5 12 2.2 2.2 4.8-5"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Verify Certificate</h3>
+          <p>Check a JG certificate ID</p>
+        </div>
+      </div>
+
+
+      <div class="account-item" onclick="go('settings')">
+        <div class="account-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+            <path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.06.06-1.8 1.8-.06-.06a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.08 1.65V22h-2.55v-.08a1.8 1.8 0 0 0-1.08-1.65 1.8 1.8 0 0 0-1.98.36l-.06.06-1.8-1.8.06-.06A1.8 1.8 0 0 0 7.9 15a1.8 1.8 0 0 0-1.65-1.08H6.2v-2.55h.05A1.8 1.8 0 0 0 7.9 10a1.8 1.8 0 0 0-.36-1.98l-.06-.06 1.8-1.8.06.06a1.8 1.8 0 0 0 1.98.36 1.8 1.8 0 0 0 1.08-1.65V5h2.55v-.08a1.8 1.8 0 0 0 1.08 1.65 1.8 1.8 0 0 0 1.98-.36l.06-.06 1.8 1.8-.06.06A1.8 1.8 0 0 0 19.4 10a1.8 1.8 0 0 0 1.65 1.08h.05v2.55H21A1.8 1.8 0 0 0 19.4 15Z"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Settings & Security</h3>
+          <p>Privacy and preferences</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
+      <div>
+        <h2>JG Premium</h2>
+        <p>Remove ads and unlock premium features.</p>
+      </div>
+      <button class="text-btn" onclick="go('premium')">Explore</button>
+    </div>
+
+    <div class="card" style="padding:20px">
+      <strong>Premium learning experience</strong>
+      <p style="color:var(--muted);font-size:13px;line-height:1.6">
+        JG's business model is based on advertising and Premium subscriptions.
+        JG does not pay users for using the platform.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
      PREMIUM
-====================================================== -->
-<main id="premium" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="account">
-        <span class="icon-back"></span>
-      </button>
-      <span>Premium</span>
+<section id="screen-premium" class="screen">
+
+  <div class="premium-hero">
+
+    <div class="premium-badge">JG PREMIUM</div>
+
+    <h1>Learn without distractions.</h1>
+
+    <p>
+      Premium is designed for learners who want an ad-free JG
+      experience and access to premium product features.
+    </p>
+
+    <div class="price">
+      ₦2,500 <small>/ month</small>
     </div>
 
-    <section class="section">
-      <div class="premium" style="margin-top:10px;">
-        <span class="eyebrow">JG Premium</span>
-
-        <h1 style="font-size:38px;letter-spacing:-.05em;margin:20px 0 10px;">
-          Learn without distractions.
-        </h1>
-
-        <p>
-          Premium is designed for learners who want an ad-free
-          JG experience and access to premium product features.
-        </p>
-
-        <div class="checks">
-          <div class="check">
-            <span class="icon-check"></span>
-            Ad-free learning
-          </div>
-          <div class="check">
-            <span class="icon-check"></span>
-            Premium learning experience
-          </div>
-          <div class="check">
-            <span class="icon-check"></span>
-            Future premium tools
-          </div>
-        </div>
-
-        <button class="btn btn-primary btn-full" data-action="premium" id="premiumPageBtn">
-          Activate Premium Demo
-        </button>
-      </div>
-
-      <p style="color:var(--muted);font-size:11px;line-height:1.6;">
-        This single-file version uses a local demo subscription state.
-        A production version should connect this button to a secure payment
-        backend before accepting real payments.
-      </p>
-    </section>
+    <button class="btn btn-secondary" onclick="activatePremium()">
+      Activate Premium Demo
+    </button>
 
   </div>
-</main>
 
 
-<!-- ======================================================
+  <div class="feature-grid">
+
+    <div class="card feature">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 6h18M5 6v13h14V6M8 3h8"/>
+      </svg>
+      <h3>Ad-free experience</h3>
+      <p>Enjoy a cleaner learning environment without advertising.</p>
+    </div>
+
+    <div class="card feature">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+      </svg>
+      <h3>Enhanced JG AI</h3>
+      <p>Premium-ready AI experiences and future advanced tools.</p>
+    </div>
+
+    <div class="card feature">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/>
+        <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>
+      </svg>
+      <h3>Premium learning</h3>
+      <p>Unlock premium-ready courses, lessons and learning resources.</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
      CERTIFICATES
-====================================================== -->
-<main id="certificates" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="account">
-        <span class="icon-back"></span>
-      </button>
-      <span>Certificates</span>
-    </div>
+<section id="screen-certificates" class="screen">
 
-    <section class="section">
+  <div class="page-header">
+    <div class="page-kicker">Credentials</div>
+    <h1>Certificates</h1>
+    <p>View learning credentials and verify certificate records.</p>
+  </div>
 
-      <div class="card cert">
-        <div class="cert-mark">
-          <span class="icon-award" style="width:34px;height:34px;"></span>
+  <div class="card center-card">
+
+    <div style="
+      height:190px;
+      display:grid;
+      place-items:center;
+      border-radius:20px;
+      color:white;
+      background:linear-gradient(135deg,#111827,#1e3a8a);
+      margin-bottom:20px;
+    ">
+
+      <div style="text-align:center">
+        <div style="font-size:12px;letter-spacing:.18em;font-weight:800;color:#93c5fd">
+          JG
         </div>
-
-        <h2>Web Development Foundations</h2>
-
-        <p>
-          Complete the learning pathway and assessments to qualify
-          for a JG certificate.
-        </p>
-
-        <div class="pill" style="margin:8px auto;width:max-content;">
-          Demo certificate pathway
+        <div style="margin-top:12px;font-size:25px;font-weight:900">
+          Certificate of Completion
         </div>
-
-        <div style="margin-top:20px;">
-          <strong>Certificate ID</strong>
-          <p style="margin:5px 0;font-family:monospace;">
-            JG-WEB-2026-0007
-          </p>
+        <div style="margin-top:7px;color:#cbd5e1;font-size:12px">
+          Web Development Foundations
         </div>
-
-        <button class="btn btn-primary" data-go="verify" style="margin-top:10px;">
-          Verify Certificate
-        </button>
       </div>
 
-    </section>
+    </div>
+
+    <strong>Web Development Foundations</strong>
+
+    <p style="color:var(--muted);font-size:13px;line-height:1.6">
+      Complete the learning pathway and assessments to qualify for a JG certificate.
+    </p>
+
+    <div class="tag" style="display:inline-block">
+      Demo certificate pathway
+    </div>
+
+    <div style="margin-top:18px">
+      <small style="color:var(--muted)">Certificate ID</small>
+      <div style="margin-top:6px;font-weight:850">JG-WEB-2026-0007</div>
+    </div>
+
+    <button class="btn btn-primary" style="margin-top:18px" onclick="go('verify')">
+      Verify Certificate
+    </button>
 
   </div>
-</main>
+
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      VERIFY
-====================================================== -->
-<main id="verify" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="account">
-        <span class="icon-back"></span>
-      </button>
-      <span>Verification</span>
+<section id="screen-verify" class="screen">
+
+  <div class="page-header">
+    <div class="page-kicker">Verification</div>
+    <h1>Certificate<br>Verification</h1>
+    <p>
+      Enter a JG certificate ID to check the current demo registry.
+    </p>
+  </div>
+
+  <div class="card center-card">
+
+    <label class="form-label" for="certificateInput">
+      Certificate ID
+    </label>
+
+    <input
+      id="certificateInput"
+      class="form-input"
+      value="JG-WEB-2026-0007"
+      placeholder="Example: JG-WEB-2026-0007"
+    >
+
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="verifyCertificate()">
+      Verify Certificate
+    </button>
+
+    <div id="verifyResult" class="verify-result">
+      <strong>Verification status</strong>
+      <p style="color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:0">
+        This demo contains a local JG registry example.
+        Government accreditation is not claimed by this demo.
+      </p>
     </div>
 
-    <section class="section">
-
-      <div class="card verify-box">
-
-        <h2 style="margin:0;">Certificate Verification</h2>
-
-        <p style="color:var(--muted);line-height:1.6;font-size:13px;">
-          Enter a JG certificate ID to check the demo registry.
-        </p>
-
-        <input
-          id="certInput"
-          type="text"
-          autocomplete="off"
-          placeholder="Example: JG-WEB-2026-0007"
-        >
-
-        <button class="btn btn-primary btn-full" id="verifyBtn">
-          Verify Certificate
-        </button>
-
-        <div id="verifyResult" class="verify-result"></div>
-
-      </div>
-
-      <div class="card" style="padding:17px;margin-top:13px;">
-        <strong>Verification status</strong>
-        <p style="color:var(--muted);font-size:12px;line-height:1.6;">
-          This demo contains a local JG registry example.
-          Government accreditation is not claimed by this demo.
-        </p>
-      </div>
-
-    </section>
-
   </div>
-</main>
+
+</section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      SETTINGS
-====================================================== -->
-<main id="settings" class="screen">
-  <div class="container">
+     ======================================================= -->
 
-    <div class="back-row">
-      <button data-go="account">
-        <span class="icon-back"></span>
-      </button>
-      <span>Settings</span>
-    </div>
+<section id="screen-settings" class="screen">
 
-    <section class="section">
+  <div class="page-header">
+    <div class="page-kicker">Preferences</div>
+    <h1>Settings</h1>
+    <p>Manage appearance, privacy and local product settings.</p>
+  </div>
 
-      <div class="settings">
+  <div class="card center-card">
 
-        <div class="card setting">
-          <div class="menu-icon">
-            <span class="icon-sun"></span>
-          </div>
+    <div class="settings-row">
 
-          <div class="setting-copy">
-            <strong>Appearance</strong>
-            <span>Switch between light and dark mode.</span>
-          </div>
-
-          <button class="toggle" id="settingsTheme">
-            <span></span>
-          </button>
-        </div>
-
-        <div class="card setting">
-          <div class="menu-icon">
-            <span class="icon-shield"></span>
-          </div>
-
-          <div class="setting-copy">
-            <strong>Account Security</strong>
-            <span>Production security requires a secure backend.</span>
-          </div>
-
-          <span class="pill">Ready</span>
-        </div>
-
-        <div class="card setting">
-          <div class="menu-icon">
-            <span class="icon-lock"></span>
-          </div>
-
-          <div class="setting-copy">
-            <strong>Local Privacy</strong>
-            <span>Your demo progress is stored locally on this device.</span>
-          </div>
-
-          <span class="pill">Local</span>
-        </div>
-
-        <button class="btn btn-danger btn-full" id="demoReset">
-          Reset JG Demo Data
-        </button>
-
+      <div>
+        <h3>Dark mode</h3>
+        <p>Switch between light and dark appearance.</p>
       </div>
 
-    </section>
+      <button id="darkSwitch" class="switch" onclick="toggleTheme()">
+        <span></span>
+      </button>
+
+    </div>
+
+
+    <div class="settings-row">
+
+      <div>
+        <h3>Local privacy</h3>
+        <p>Your demo progress stays on this device.</p>
+      </div>
+
+      <div class="tag">LOCAL</div>
+
+    </div>
+
+
+    <div class="settings-row">
+
+      <div>
+        <h3>Account security</h3>
+        <p>Production security requires a secure backend.</p>
+      </div>
+
+      <div class="tag">READY</div>
+
+    </div>
+
+
+    <div class="settings-row">
+
+      <div>
+        <h3>Reset JG demo data</h3>
+        <p>Clear local learning progress and preferences.</p>
+      </div>
+
+      <button class="btn btn-ghost" onclick="resetData()">
+        Reset
+      </button>
+
+    </div>
 
   </div>
+
+</section>
+
 </main>
 
 
-<!-- ======================================================
+<!-- =======================================================
      BOTTOM NAV
-====================================================== -->
+     ======================================================= -->
+
 <nav class="bottom-nav">
 
-  <button class="nav-btn active" data-go="home" data-nav="home">
-    <span class="icon-home"></span>
-    <span>Home</span>
+  <button class="nav-btn active" data-nav="home" onclick="go('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10Z"/>
+    </svg>
+    Home
   </button>
 
-  <button class="nav-btn" data-go="learn" data-nav="learn">
-    <span class="icon-book"></span>
-    <span>Learn</span>
+  <button class="nav-btn" data-nav="learn" onclick="go('learn')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/>
+      <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>
+    </svg>
+    Learn
   </button>
 
-  <button class="nav-btn" data-go="work" data-nav="work">
-    <span class="icon-briefcase"></span>
-    <span>Work</span>
+  <button class="nav-btn" data-nav="work" onclick="go('work')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="3" y="7" width="18" height="13" rx="2"/>
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+    </svg>
+    Work
   </button>
 
-  <button class="nav-btn" data-go="ai" data-nav="ai">
-    <span class="icon-spark"></span>
-    <span>JG AI</span>
+  <button class="nav-btn" data-nav="ai" onclick="go('ai')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+      <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/>
+    </svg>
+    JG AI
   </button>
 
-  <button class="nav-btn" data-go="account" data-nav="account">
-    <span class="icon-user"></span>
-    <span>Account</span>
+  <button class="nav-btn" data-nav="account" onclick="go('account')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21a8 8 0 0 1 16 0"/>
+    </svg>
+    Account
   </button>
 
 </nav>
 
-</div>
 
-
-<!-- ======================================================
+<!-- =======================================================
      MODAL
-====================================================== -->
-<div class="modal-back" id="modalBack">
-  <div class="modal" role="dialog" aria-modal="true">
+     ======================================================= -->
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+
+  <div class="modal-box" onclick="event.stopPropagation()">
 
     <div class="modal-head">
+
       <h2 id="modalTitle">JG</h2>
 
-      <button class="close" id="modalClose">
-        <span class="icon-close"></span>
+      <button class="icon-btn" onclick="hideModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="m6 6 12 12M18 6 6 18"/>
+        </svg>
       </button>
+
     </div>
 
-    <div class="modal-body" id="modalBody"></div>
-
-    <div id="modalActions"></div>
+    <div id="modalContent"></div>
 
   </div>
+
 </div>
 
 
-<!-- ======================================================
-     TOAST
-====================================================== -->
-<div class="toast" id="toast"></div>
+<div id="toast"></div>
+
+</div>
 
 
 <script>
@@ -1980,203 +2833,160 @@ html[data-plan="premium"] .premium-ad{
    JG APPLICATION ENGINE
    ========================================================= */
 
-"use strict";
+const courses = {
 
-/* ---------------------------------------------------------
-   ICON SYSTEM
---------------------------------------------------------- */
-
-function icon(name,size=20){
-
-  const s = `width="${size}" height="${size}" viewBox="0 0 24 24"
-  fill="none" stroke="currentColor" stroke-width="1.9"
-  stroke-linecap="round" stroke-linejoin="round"`;
-
-  const icons = {
-
-    home:`<svg ${s}><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10Z"/></svg>`,
-
-    book:`<svg ${s}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg>`,
-
-    briefcase:`<svg ${s}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg>`,
-
-    spark:`<svg ${s}><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg>`,
-
-    user:`<svg ${s}><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
-
-    search:`<svg ${s}><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>`,
-
-    arrow:`<svg ${s}><path d="M5 12h13M13 6l6 6-6 6"/></svg>`,
-
-    back:`<svg ${s}><path d="m15 18-6-6 6-6"/></svg>`,
-
-    check:`<svg ${s}><path d="m5 12 4 4L19 6"/></svg>`,
-
-    award:`<svg ${s}><circle cx="12" cy="8" r="5"/><path d="M8.5 12 7 21l5-3 5 3-1.5-9"/></svg>`,
-
-    shield:`<svg ${s}><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg>`,
-
-    settings:`<svg ${s}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.1h-2.5V20a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.5h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.5v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.5h-.1a1.7 1.7 0 0 0-1.6 1.4Z"/></svg>`,
-
-    lock:`<svg ${s}><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`,
-
-    close:`<svg ${s}><path d="m6 6 12 12M18 6 6 18"/></svg>`,
-
-    plus:`<svg ${s}><path d="M12 5v14M5 12h14"/></svg>`,
-
-    send:`<svg ${s}><path d="m3 3 18 9-18 9 4-9-4-9Z"/><path d="M7 12h14"/></svg>`,
-
-    copy:`<svg ${s}><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>`,
-
-    refresh:`<svg ${s}><path d="M20 11a8 8 0 0 0-14.9-3M4 5v4h4M4 13a8 8 0 0 0 14.9 3M20 19v-4h-4"/></svg>`,
-
-    external:`<svg ${s}><path d="M14 5h5v5M19 5l-8 8"/><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>`,
-
-    play:`<svg ${s} fill="currentColor"><path d="m9 6 9 6-9 6V6Z" fill="currentColor" stroke="none"/></svg>`,
-
-    sun:`<svg ${s}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>`,
-
-    moon:`<svg ${s}><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>`,
-
-    video:`<svg ${s}><rect x="3" y="5" width="13" height="14" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg>`,
-
-    code:`<svg ${s}><path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></svg>`,
-
-    design:`<svg ${s}><path d="M4 20 15.5 8.5M14 4l6 6M5 19l2.5-6.5L15.5 8.5 18 11l-4 4.5L7.5 20H5Z"/></svg>`
-
-  };
-
-  return icons[name] || "";
-}
-
-
-/* ---------------------------------------------------------
-   PLACE ICONS
---------------------------------------------------------- */
-
-function mountIcons(){
-
-  document.querySelectorAll(".icon-home").forEach(x=>x.innerHTML=icon("home"));
-  document.querySelectorAll(".icon-book").forEach(x=>x.innerHTML=icon("book"));
-  document.querySelectorAll(".icon-briefcase").forEach(x=>x.innerHTML=icon("briefcase"));
-  document.querySelectorAll(".icon-spark").forEach(x=>x.innerHTML=icon("spark"));
-  document.querySelectorAll(".icon-user").forEach(x=>x.innerHTML=icon("user"));
-  document.querySelectorAll(".icon-arrow").forEach(x=>x.innerHTML=icon("arrow",17));
-  document.querySelectorAll(".icon-back").forEach(x=>x.innerHTML=icon("back"));
-  document.querySelectorAll(".icon-check").forEach(x=>x.innerHTML=icon("check",17));
-  document.querySelectorAll(".icon-award").forEach(x=>x.innerHTML=icon("award"));
-  document.querySelectorAll(".icon-shield").forEach(x=>x.innerHTML=icon("shield"));
-  document.querySelectorAll(".icon-settings").forEach(x=>x.innerHTML=icon("settings"));
-  document.querySelectorAll(".icon-lock").forEach(x=>x.innerHTML=icon("lock"));
-  document.querySelectorAll(".icon-close").forEach(x=>x.innerHTML=icon("close"));
-  document.querySelectorAll(".icon-plus").forEach(x=>x.innerHTML=icon("plus"));
-  document.querySelectorAll(".icon-sun").forEach(x=>x.innerHTML=icon("sun"));
-}
-
-
-/* ---------------------------------------------------------
-   DATA
---------------------------------------------------------- */
-
-const courses = [
-
-  {
+  web:{
     id:"web",
     title:"Web Development",
     category:"Development",
     level:"Beginner",
     duration:"8 weeks",
     lessons:24,
-    cover:"cover-web",
-    label:"WEB",
-    description:
-      "Learn how websites work from the ground up. Build real pages with HTML, CSS and JavaScript.",
+    description:"Learn how websites are structured, styled and made interactive using HTML, CSS and JavaScript.",
+    cover:"web",
     modules:[
       {
         title:"HTML Foundations",
-        lessons:["What is HTML?","Page Structure","Links & Media","Forms","Semantic HTML","Accessibility"]
+        lessons:[
+          "What is HTML?",
+          "Page Structure",
+          "Links & Media",
+          "Forms",
+          "Semantic HTML",
+          "Accessibility"
+        ]
       },
       {
         title:"CSS Foundations",
-        lessons:["Selectors","Colors & Typography","Box Model","Flexbox","Grid","Responsive Design"]
+        lessons:[
+          "Selectors",
+          "Colors & Typography",
+          "Box Model",
+          "Flexbox",
+          "Grid",
+          "Responsive Design"
+        ]
       },
       {
         title:"JavaScript Foundations",
-        lessons:["Variables","Functions","Events","Arrays","Objects","DOM"]
+        lessons:[
+          "Variables",
+          "Functions",
+          "Events",
+          "Arrays",
+          "Objects",
+          "DOM"
+        ]
       }
     ]
   },
 
-  {
+  design:{
     id:"design",
     title:"Graphic Design",
     category:"Design",
     level:"Beginner",
     duration:"6 weeks",
     lessons:20,
-    cover:"cover-design",
-    label:"DESIGN",
-    description:
-      "Learn visual communication, composition, typography, branding and practical digital design.",
+    description:"Understand layout, typography, color, composition and practical visual communication.",
+    cover:"design",
     modules:[
       {
         title:"Design Foundations",
-        lessons:["Design Principles","Color Theory","Typography","Composition"]
+        lessons:[
+          "What is Graphic Design?",
+          "Design Principles",
+          "Typography",
+          "Color Theory",
+          "Composition",
+          "Visual Hierarchy"
+        ]
       },
       {
-        title:"Digital Design",
-        lessons:["Layouts","Brand Systems","Social Graphics","Presentation Design"]
+        title:"Practical Design",
+        lessons:[
+          "Social Media Graphics",
+          "Posters",
+          "Branding",
+          "Logo Systems",
+          "Design Systems",
+          "Portfolio Basics"
+        ]
       }
     ]
   },
 
-  {
+  video:{
     id:"video",
     title:"Video Editing",
     category:"Creative",
     level:"Beginner",
     duration:"5 weeks",
     lessons:18,
-    cover:"cover-video",
-    label:"VIDEO",
-    description:
-      "Understand editing, storytelling, sound, pacing, transitions and professional video workflows.",
+    description:"Learn editing fundamentals, storytelling, pacing, sound and professional video workflows.",
+    cover:"video",
     modules:[
       {
         title:"Editing Foundations",
-        lessons:["Timeline","Cuts","Transitions","Audio","Color"]
+        lessons:[
+          "What is Video Editing?",
+          "Timeline Basics",
+          "Cuts & Transitions",
+          "Audio",
+          "Titles",
+          "Exporting"
+        ]
       },
       {
-        title:"Storytelling",
-        lessons:["Hooks","Pacing","B-Roll","Captions","Export"]
+        title:"Story & Production",
+        lessons:[
+          "Storytelling",
+          "Pacing",
+          "B-Roll",
+          "Color",
+          "Short-form Video",
+          "Final Project"
+        ]
       }
     ]
   },
 
-  {
+  python:{
     id:"python",
     title:"Python Programming",
     category:"Programming",
     level:"Beginner",
     duration:"8 weeks",
     lessons:26,
-    cover:"cover-python",
-    label:"PYTHON",
-    description:
-      "Start programming with Python and learn the thinking patterns behind software development.",
+    description:"Build programming foundations with Python through practical examples and exercises.",
+    cover:"python",
     modules:[
       {
         title:"Python Foundations",
-        lessons:["What is Python?","Variables","Data Types","Conditions","Loops","Functions"]
+        lessons:[
+          "What is Python?",
+          "Variables",
+          "Data Types",
+          "Conditions",
+          "Loops",
+          "Functions"
+        ]
       },
       {
-        title:"Building Programs",
-        lessons:["Lists","Dictionaries","Files","Errors","Modules","Projects"]
+        title:"Practical Python",
+        lessons:[
+          "Lists",
+          "Dictionaries",
+          "Files",
+          "Errors",
+          "Modules",
+          "Mini Project"
+        ]
       }
     ]
   }
 
-];
+};
 
 
 const opportunities = [
@@ -2184,109 +2994,1305 @@ const opportunities = [
   {
     title:"Junior Web Developer",
     type:"Remote opportunity",
-    category:"Development",
-    description:
-      "A sample external opportunity for learners building foundational web development skills."
+    description:"An external opportunity for learners building practical front-end development skills.",
+    tags:["HTML","CSS","JavaScript"],
+    mark:"WD"
   },
 
   {
     title:"Graphic Design Internship",
     type:"Remote opportunity",
-    category:"Design",
-    description:
-      "A sample external opportunity for learners developing design and portfolio skills."
+    description:"A design-focused opportunity suitable for learners building a visual portfolio.",
+    tags:["Design","Branding","Creative"],
+    mark:"GD"
   },
 
   {
     title:"Video Editor",
     type:"Contract opportunity",
-    category:"Creative",
-    description:
-      "A sample external opportunity for editors looking to build professional experience."
+    description:"An external opportunity for creators developing editing and storytelling skills.",
+    tags:["Editing","Video","Creative"],
+    mark:"VE"
   },
 
   {
     title:"Python Open Source Project",
     type:"Open source opportunity",
-    category:"Programming",
-    description:
-      "A sample external project opportunity for developers looking to practice Python."
+    description:"Explore an external project where Python learners can gain practical experience.",
+    tags:["Python","Git","Open Source"],
+    mark:"PY"
   }
 
 ];
 
 
-const validCertificates = {
+const certificates = {
 
   "JG-WEB-2026-0007":{
-    course:"Web Development Foundations",
-    status:"Verified in JG demo registry",
-    date:"2026"
+    title:"Web Development Foundations",
+    learner:"JG Member",
+    status:"Verified"
   },
 
   "JG-PY-2026-0003":{
-    course:"Python Programming Foundations",
-    status:"Verified in JG demo registry",
-    date:"2026"
+    title:"Python Programming Foundations",
+    learner:"JG Member",
+    status:"Verified"
   }
 
 };
 
 
-/* ---------------------------------------------------------
-   STATE
---------------------------------------------------------- */
-
-const state = {
+let state = {
 
   screen:"home",
-
+  filter:"all",
   theme:localStorage.getItem("jg-theme") || "light",
-
-  plan:localStorage.getItem("jg-plan") || "free",
-
-  activeCategory:"All",
-
-  search:"",
-
-  progress:JSON.parse(localStorage.getItem("jg-progress") || "{}"),
-
-  selectedCourse:"web",
-
-  selectedLesson:0,
-
-  quizAnswered:false,
-
-  aiStarted:false
+  premium:localStorage.getItem("jg-premium")==="true",
+  progress:Number(localStorage.getItem("jg-progress") || 0),
+  currentCourse:"web",
+  currentLesson:0
 
 };
 
 
-/* ---------------------------------------------------------
-   SAFE HTML
---------------------------------------------------------- */
+/* =========================================================
+   ICONS / COURSE CARDS
+   ========================================================= */
 
-function escapeHTML(value){
+function courseIcon(type){
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  const icons = {
+
+    web:`
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="m4 17 6-6-6-6"/>
+        <path d="M12 19h8"/>
+      </svg>
+    `,
+
+    design:`
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M4 19 15.5 7.5"/>
+        <path d="m14 5 5 5"/>
+        <path d="M4 19h4l11-11-4-4L4 15v4Z"/>
+      </svg>
+    `,
+
+    video:`
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="13" height="14" rx="2"/>
+        <path d="m16 10 5-3v10l-5-3"/>
+      </svg>
+    `,
+
+    python:`
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M12 3c-4 0-4 2-4 2v3h4"/>
+        <path d="M12 7H8c-3 0-3 2-3 5s0 5 3 5h4"/>
+        <path d="M12 21c4 0 4-2 4-2v-3h-4"/>
+        <path d="M12 17h4c3 0 3-2 3-5s0-5-3-5h-4"/>
+      </svg>
+    `
+
+  };
+
+  return icons[type] || icons.web;
+}
+
+
+function courseCard(c){
+
+  const progress = c.id==="web" ? state.progress : 0;
+
+  return `
+
+    <article class="card course-card" onclick="openCourse('${c.id}')">
+
+      <div class="course-cover ${c.cover}">
+
+        <div class="cover-icon">
+          ${courseIcon(c.id)}
+        </div>
+
+      </div>
+
+      <div class="course-body">
+
+        <div class="tag">${c.category}</div>
+
+        <h3>${c.title}</h3>
+
+        <p>${c.description}</p>
+
+        <div class="meta">
+          <span class="tag">${c.level}</span>
+          <span class="tag">${c.lessons} lessons</span>
+          <span class="tag">${c.duration}</span>
+        </div>
+
+        ${
+          progress>0
+          ?
+          `<div style="margin-top:13px">
+             <div class="progress">
+               <span style="--progress:${progress}%"></span>
+             </div>
+           </div>`
+          :
+          ""
+        }
+
+      </div>
+
+    </article>
+
+  `;
 
 }
 
 
-/* ---------------------------------------------------------
-   STORAGE
---------------------------------------------------------- */
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
-function saveState(){
+function go(screen){
 
-  localStorage.setItem(
-    "jg-progress",
-    JSON.stringify(state.progress)
+  state.screen=screen;
+
+  document.querySelectorAll(".screen").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  const target=document.getElementById("screen-"+screen);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.nav===screen
+    );
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(screen==="learn"){
+    renderCourses();
+  }
+
+  if(screen==="work"){
+    renderOpportunities();
+  }
+
+  if(screen==="account"){
+    updateAccount();
+  }
+
+  if(screen==="settings"){
+    updateSettings();
+  }
+
+}
+
+
+function openCourse(id){
+
+  state.currentCourse=id;
+
+  renderCourseDetail();
+
+  go("course");
+
+}
+
+
+function openLesson(index){
+
+  state.currentLesson=index;
+
+  renderLesson();
+
+  go("lesson");
+
+}
+
+
+/* =========================================================
+   COURSE RENDERING
+   ========================================================= */
+
+function renderCourses(){
+
+  const searchInput=document.getElementById("courseSearch");
+
+  const query=(searchInput?.value || "").toLowerCase().trim();
+
+  const list=Object.values(courses).filter(c=>{
+
+    const matchesFilter =
+      state.filter==="all" ||
+      c.category===state.filter;
+
+    const matchesSearch =
+      !query ||
+      c.title.toLowerCase().includes(query) ||
+      c.description.toLowerCase().includes(query) ||
+      c.category.toLowerCase().includes(query);
+
+    return matchesFilter && matchesSearch;
+
+  });
+
+  const html=list.map(courseCard).join("");
+
+  document.getElementById("learnCourses").innerHTML =
+    html || `
+      <div class="card" style="padding:25px;grid-column:1/-1">
+        <strong>No courses found.</strong>
+        <p style="color:var(--muted)">
+          Try another search or category.
+        </p>
+      </div>
+    `;
+
+}
+
+
+function renderHomeCourses(){
+
+  document.getElementById("homeCourses").innerHTML =
+    Object.values(courses)
+      .slice(0,4)
+      .map(courseCard)
+      .join("");
+
+}
+
+
+function setFilter(filter,button){
+
+  state.filter=filter;
+
+  document.querySelectorAll(".filter")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderCourses();
+
+}
+
+
+/* =========================================================
+   COURSE DETAIL
+   ========================================================= */
+
+function renderCourseDetail(){
+
+  const c=courses[state.currentCourse];
+
+  let lessonCounter=0;
+
+  const modules=c.modules.map((module,moduleIndex)=>{
+
+    const rows=module.lessons.map((lesson,lessonIndex)=>{
+
+      const globalIndex=lessonCounter++;
+
+      return `
+
+        <button class="lesson-row" onclick="openLesson(${globalIndex})">
+
+          <span class="lesson-number">
+            ${String(globalIndex+1).padStart(2,"0")}
+          </span>
+
+          <span style="flex:1">
+
+            <strong>${lesson}</strong>
+
+            <small>
+              ${lessonIndex===0 ? "Start here" : "Practical lesson"}
+            </small>
+
+          </span>
+
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+
+        </button>
+
+      `;
+
+    }).join("");
+
+    return `
+
+      <div class="card module">
+
+        <div class="module-head">
+
+          <strong>
+            Module ${moduleIndex+1} · ${module.title}
+          </strong>
+
+          <span>${module.lessons.length} lessons</span>
+
+        </div>
+
+        <div class="lesson-list">
+          ${rows}
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+
+  document.getElementById("courseDetail").innerHTML=`
+
+    <button class="back-btn" onclick="go('learn')" style="margin-bottom:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <div class="course-detail-hero">
+
+      <div class="eyebrow">
+        ${c.category}
+      </div>
+
+      <h1>${c.title}</h1>
+
+      <p>${c.description}</p>
+
+      <div class="detail-meta">
+        <span>${c.level}</span>
+        <span>${c.lessons} lessons</span>
+        <span>${c.duration}</span>
+        <span>Certificate pathway</span>
+      </div>
+
+      <button class="btn btn-secondary" onclick="openLesson(0)">
+        Start course
+      </button>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-head">
+        <div>
+          <h2>Course curriculum</h2>
+          <p>Learn step by step.</p>
+        </div>
+      </div>
+
+      ${modules}
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   LESSON SYSTEM
+   ========================================================= */
+
+function getLessonData(){
+
+  const c=courses[state.currentCourse];
+
+  const all=[];
+
+  c.modules.forEach(module=>{
+    module.lessons.forEach(lesson=>{
+      all.push({
+        module:module.title,
+        title:lesson
+      });
+    });
+  });
+
+  return all[state.currentLesson] || all[0];
+
+}
+
+
+function renderLesson(){
+
+  const c=courses[state.currentCourse];
+
+  const lesson=getLessonData();
+
+  const index=state.currentLesson;
+
+  let content="";
+
+  if(
+    c.id==="web" &&
+    lesson.title==="What is HTML?"
+  ){
+
+    content=`
+
+      <h2>What is HTML?</h2>
+
+      <p>
+        HTML stands for HyperText Markup Language.
+        It is the language used to describe the structure
+        of content on a web page.
+      </p>
+
+      <div class="definition">
+        <strong>Simple definition</strong>
+        HTML gives a webpage its structure — headings,
+        paragraphs, images, buttons, links and other elements.
+      </div>
+
+      <h2>Think of a house</h2>
+
+      <p>
+        Imagine a website as a house. HTML is the structure:
+        the rooms, doors, windows and walls. CSS controls
+        how those rooms look, while JavaScript adds behaviour.
+      </p>
+
+      <h2>Example</h2>
+
+      <div class="code">
+&lt;h1&gt;Welcome to JG&lt;/h1&gt;
+
+&lt;p&gt;Learn skills. Build your future.&lt;/p&gt;
+
+&lt;button&gt;Start Learning&lt;/button&gt;
+      </div>
+
+      <h2>Real-world example</h2>
+
+      <p>
+        When you see a headline on a website, a navigation
+        menu, a course card or a button, HTML is usually
+        responsible for describing that structure.
+      </p>
+
+    `;
+
+  }else if(
+    c.id==="web" &&
+    lesson.title==="Page Structure"
+  ){
+
+    content=`
+
+      <h2>How a webpage is structured</h2>
+
+      <p>
+        A modern HTML document normally has a document type,
+        an HTML root element, a head section and a body.
+      </p>
+
+      <div class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;Hello&lt;/h1&gt;
+    &lt;p&gt;My first page.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+      </div>
+
+      <div class="definition">
+        <strong>Key idea</strong>
+        The browser reads the HTML structure and turns it
+        into the visual document you see on screen.
+      </div>
+
+    `;
+
+  }else{
+
+    content=`
+
+      <h2>${lesson.title}</h2>
+
+      <p>
+        This lesson introduces an important part of
+        <strong>${c.title}</strong>.
+        The goal is to understand the concept first,
+        then practise it with a real example.
+      </p>
+
+      <div class="definition">
+        <strong>Learning objective</strong>
+        By the end of this lesson, you should be able to
+        explain the main idea, recognize where it is used,
+        and apply it in a small practical exercise.
+      </div>
+
+      <h2>Learn the idea</h2>
+
+      <p>
+        Strong learners do not only memorize definitions.
+        They understand why a concept exists, how it works,
+        and where it can solve a real problem.
+      </p>
+
+      <h2>Practical example</h2>
+
+      <div class="code">
+Concept → Example → Practice → Feedback → Improvement
+      </div>
+
+      <h2>Quick check</h2>
+
+      <p>
+        Ask yourself: what problem does this concept solve?
+        If you can explain that clearly, you are ready for
+        the next step.
+      </p>
+
+    `;
+
+  }
+
+
+  document.getElementById("lessonContainer").innerHTML=`
+
+    <div class="lesson-layout">
+
+      <div class="lesson-top">
+
+        <button class="back-btn" onclick="openCourse('${c.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <div class="lesson-top-text">
+          <small>${c.title} · ${lesson.module}</small>
+          <strong>Lesson ${index+1} of ${c.lessons}</strong>
+        </div>
+
+      </div>
+
+
+      <div class="video" onclick="playDemoVideo()">
+
+        <button class="video-play">
+
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7L8 5Z"/>
+          </svg>
+
+        </button>
+
+        <div class="video-label">
+          JG Learning Video · Demo Player
+        </div>
+
+      </div>
+
+
+      <article class="lesson-content">
+
+        <h1>${lesson.title}</h1>
+
+        ${content}
+
+      </article>
+
+
+      <div class="lesson-actions">
+
+        <button
+          class="btn btn-ghost"
+          ${index===0 ? "disabled" : ""}
+          onclick="previousLesson()"
+        >
+          Previous
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="completeLesson()"
+        >
+          ${index>=c.lessons-1 ? "Finish lesson" : "Complete & continue"}
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function previousLesson(){
+
+  if(state.currentLesson<=0){
+    toast("You are already on the first lesson.");
+    return;
+  }
+
+  state.currentLesson--;
+
+  renderLesson();
+
+}
+
+
+function completeLesson(){
+
+  const c=courses[state.currentCourse];
+
+  if(c.id==="web"){
+
+    const percentage=Math.min(
+      100,
+      Math.round(
+        ((state.currentLesson+1)/c.lessons)*100
+      )
+    );
+
+    state.progress=percentage;
+
+    localStorage.setItem(
+      "jg-progress",
+      String(percentage)
+    );
+
+  }
+
+  toast("Lesson completed.");
+
+  if(state.currentLesson < c.lessons-1){
+
+    state.currentLesson++;
+
+    renderLesson();
+
+  }else{
+
+    toast("Course pathway completed.");
+
+  }
+
+  updateProgressUI();
+
+}
+
+
+function playDemoVideo(){
+
+  toast("Demo video player ready. Connect your video CDN/backend here.");
+
+}
+
+
+/* =========================================================
+   OPPORTUNITIES
+   ========================================================= */
+
+function renderOpportunities(){
+
+  document.getElementById("opportunities").innerHTML =
+    opportunities.map(item=>`
+
+      <article class="card opportunity">
+
+        <div class="opportunity-top">
+
+          <div class="company-mark">
+            ${item.mark}
+          </div>
+
+          <span class="tag">
+            External
+          </span>
+
+        </div>
+
+        <h3>${item.title}</h3>
+
+        <p>${item.description}</p>
+
+        <div class="opportunity-tags">
+
+          ${item.tags.map(tag=>
+            `<span class="tag">${tag}</span>`
+          ).join("")}
+
+        </div>
+
+        <p style="font-size:11px">
+          ${item.type}
+        </p>
+
+        <button class="btn btn-primary" onclick="externalOpportunity()">
+          View opportunity
+        </button>
+
+      </article>
+
+    `).join("");
+
+}
+
+
+function externalOpportunity(){
+
+  showModal(
+    "External Opportunity",
+    `
+      <p style="color:var(--muted);line-height:1.7">
+        This JG demo shows how external opportunities can appear.
+        In production, this button can open a verified external
+        opportunity provider.
+      </p>
+
+      <div class="definition">
+        <strong>Important</strong>
+        JG does not employ or pay users for applying to or completing
+        external work.
+      </div>
+
+      <button class="btn btn-primary" style="width:100%" onclick="hideModal()">
+        Continue
+      </button>
+    `
+  );
+
+}
+
+
+function showWorkInfo(){
+
+  showModal(
+    "How JG Opportunities work",
+    `
+      <p style="color:var(--muted);line-height:1.7">
+        JG helps learners discover relevant external opportunities
+        based on their skills.
+      </p>
+
+      <div class="definition">
+        <strong>JG's role</strong>
+        Discover and organize useful opportunities.
+      </div>
+
+      <div class="definition">
+        <strong>External platform's role</strong>
+        Applications, hiring and work happen on the relevant
+        external platform or organization.
+      </div>
+
+      <p style="color:var(--muted);font-size:12px">
+        JG does not pay users for applying or completing external work.
+      </p>
+    `
+  );
+
+}
+
+
+/* =========================================================
+   JG AI
+   ========================================================= */
+
+function handleAIKey(event){
+
+  if(event.key==="Enter" && !event.shiftKey){
+
+    event.preventDefault();
+
+    sendAI();
+
+  }
+
+}
+
+
+function askSuggestion(text){
+
+  document.getElementById("aiInput").value=text;
+
+  sendAI();
+
+}
+
+
+function newChat(){
+
+  document.getElementById("aiMessages").innerHTML=`
+
+    <div id="aiWelcome" class="ai-welcome">
+
+      <div class="ai-welcome-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/>
+        </svg>
+      </div>
+
+      <h2>New JG AI session</h2>
+
+      <p>
+        Ask a question, learn a concept, practise coding
+        or build a study plan.
+      </p>
+
+      <div class="suggestions">
+
+        <button class="suggestion" onclick="askSuggestion('Explain API to me like I am a beginner.')">
+          <strong>Explain API</strong>
+          <span>Understand a technical concept</span>
+        </button>
+
+        <button class="suggestion" onclick="askSuggestion('Give me an HTML exercise.')">
+          <strong>HTML exercise</strong>
+          <span>Practice what you learned</span>
+        </button>
+
+        <button class="suggestion" onclick="askSuggestion('Create a coding study plan for me.')">
+          <strong>Study plan</strong>
+          <span>Build a learning roadmap</span>
+        </button>
+
+        <button class="suggestion" onclick="askSuggestion('What should I learn after CSS?')">
+          <strong>What next?</strong>
+          <span>Choose your next skill</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  toast("New JG AI chat started.");
+
+}
+
+
+function sendAI(){
+
+  const input=document.getElementById("aiInput");
+
+  const text=input.value.trim();
+
+  if(!text) return;
+
+  const welcome=document.getElementById("aiWelcome");
+
+  if(welcome){
+    welcome.remove();
+  }
+
+  addMessage("user",text);
+
+  input.value="";
+
+  const typing=document.createElement("div");
+
+  typing.className="message";
+
+  typing.id="typingMessage";
+
+  typing.innerHTML=`
+
+    <div class="message-avatar">JG</div>
+
+    <div class="bubble">
+
+      <div class="typing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+    </div>
+
+  `;
+
+  document.getElementById("aiMessages").appendChild(typing);
+
+  scrollAI();
+
+  setTimeout(()=>{
+
+    typing.remove();
+
+    addMessage(
+      "ai",
+      generateAIResponse(text)
+    );
+
+  },700);
+
+}
+
+
+function addMessage(role,text){
+
+  const wrap=document.createElement("div");
+
+  wrap.className="message "+(role==="user"?"user":"");
+
+  wrap.innerHTML=`
+
+    <div class="message-avatar">
+      ${role==="user" ? "YOU" : "JG"}
+    </div>
+
+    <div class="bubble">
+      ${formatAIText(text)}
+    </div>
+
+  `;
+
+  document.getElementById("aiMessages").appendChild(wrap);
+
+  scrollAI();
+
+}
+
+
+function formatAIText(text){
+
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\n/g,"<br>");
+
+}
+
+
+function generateAIResponse(input){
+
+  const q=input.toLowerCase();
+
+  if(q.includes("api")){
+
+    return `
+<strong>API explained simply</strong><br><br>
+
+API means <strong>Application Programming Interface</strong>.
+
+Think of an API like a waiter in a restaurant. You tell
+the waiter what you want, the waiter communicates with
+the kitchen, and then brings the result back to you.<br><br>
+
+In software, your application sends a request to an API.
+The API communicates with another system and returns data
+or performs an action.<br><br>
+
+<strong>Example:</strong><br>
+A weather app can request weather data from a weather API
+instead of calculating the weather itself.<br><br>
+
+<strong>Next step:</strong> Learn HTTP requests, endpoints,
+methods such as GET and POST, JSON and authentication.
+    `;
+
+  }
+
+  if(q.includes("html")){
+
+    return `
+<strong>HTML practice exercise</strong><br><br>
+
+Create a simple profile page containing:<br><br>
+
+1. A main heading with your name.<br>
+2. A paragraph describing yourself.<br>
+3. An image.<br>
+4. A list of three skills.<br>
+5. A button labelled "Contact Me".<br><br>
+
+Bonus challenge: put everything inside a semantic
+<code>&lt;main&gt;</code> element.
+    `;
+
+  }
+
+  if(q.includes("css")){
+
+    return `
+If you have finished basic CSS, your next step should
+be responsive design and then JavaScript.<br><br>
+
+A strong path is:<br><br>
+
+<strong>CSS → Responsive Design → JavaScript → DOM →
+APIs → Git → Projects.</strong><br><br>
+
+Do not rush through the fundamentals. Build small projects
+after each stage.
+    `;
+
+  }
+
+  if(q.includes("python")){
+
+    return `
+<strong>Python exercise</strong><br><br>
+
+Create a program that stores three numbers and calculates
+their average.<br><br>
+
+Then upgrade it so the user can enter the numbers using
+<code>input()</code>.<br><br>
+
+After that, try checking whether the average is above 50.
+That introduces variables, arithmetic, input and conditions.
+    `;
+
+  }
+
+  if(
+    q.includes("study") ||
+    q.includes("plan") ||
+    q.includes("roadmap")
+  ){
+
+    return `
+<strong>JG coding study plan</strong><br><br>
+
+Week 1–2: HTML fundamentals<br>
+Week 3–4: CSS fundamentals<br>
+Week 5–6: Responsive design<br>
+Week 7–9: JavaScript<br>
+Week 10: DOM and events<br>
+Week 11: APIs<br>
+Week 12: Build a real project<br><br>
+
+The most important rule: spend more time building than
+watching tutorials.
+    `;
+
+  }
+
+  if(q.includes("learn") || q.includes("next")){
+
+    return `
+Based on a beginner digital-skills path, I would recommend
+choosing one primary skill first instead of trying to master
+everything at once.<br><br>
+
+If you want to build websites, start with
+<strong>Web Development</strong>.<br><br>
+
+If you prefer visual creativity, try
+<strong>Graphic Design</strong> or <strong>Video Editing</strong>.<br><br>
+
+If you enjoy logic and programming, choose
+<strong>Python</strong>.
+    `;
+
+  }
+
+  return `
+I understand your question.
+
+For the JG demo, I can help you break a topic into
+simple explanations, examples, exercises and next steps.
+
+Try asking me something specific, such as:<br><br>
+
+• Explain APIs<br>
+• Teach me JavaScript<br>
+• Give me a Python exercise<br>
+• Build me a study plan<br>
+• What should I learn after HTML?
+  `;
+
+}
+
+
+function scrollAI(){
+
+  const box=document.getElementById("aiMessages");
+
+  box.scrollTop=box.scrollHeight;
+
+}
+
+
+function showAIInfo(){
+
+  showModal(
+    "JG AI",
+    `
+      <p style="color:var(--muted);line-height:1.7">
+        JG AI is designed to become the intelligent learning
+        workspace inside JG.
+      </p>
+
+      <div class="definition">
+        <strong>Current demo</strong>
+        This version uses a local response engine so the public
+        frontend does not expose an AI API key.
+      </div>
+
+      <div class="definition">
+        <strong>Production architecture</strong>
+        A secure backend can connect JG AI to a real AI model,
+        user accounts, course context, conversation history,
+        voice, image understanding and other advanced features.
+      </div>
+    `
+  );
+
+}
+
+
+/* =========================================================
+   ACCOUNT / PREMIUM
+   ========================================================= */
+
+function updateAccount(){
+
+  document.getElementById("accountPlan").textContent =
+    state.premium
+    ? "Premium plan · Ad-free experience"
+    : "Free plan · Learning locally on this device";
+
+}
+
+
+function activatePremium(){
+
+  state.premium=true;
+
+  localStorage.setItem("jg-premium","true");
+
+  updateAccount();
+
+  toast("Premium demo activated.");
+
+}
+
+
+function updateProgressUI(){
+
+  const progress=document.getElementById("homeProgress");
+
+  const lesson=document.getElementById("continueLesson");
+
+  if(progress){
+    progress.style.setProperty(
+      "--progress",
+      state.progress+"%"
+    );
+  }
+
+  if(lesson){
+
+    const lessonNumber =
+      Math.min(
+        24,
+        Math.max(
+          1,
+          Math.floor((state.progress/100)*24)+1
+        )
+      );
+
+    lesson.textContent=lessonNumber;
+
+  }
+
+}
+
+
+/* =========================================================
+   CERTIFICATE
+   ========================================================= */
+
+function verifyCertificate(){
+
+  const input=document.getElementById("certificateInput");
+
+  const id=input.value.trim().toUpperCase();
+
+  const result=document.getElementById("verifyResult");
+
+  const cert=certificates[id];
+
+  if(cert){
+
+    result.className="verify-result success";
+
+    result.innerHTML=`
+
+      <strong style="color:var(--success)">
+        Certificate verified
+      </strong>
+
+      <p style="color:var(--muted);line-height:1.7;font-size:13px">
+        Certificate ID: <strong>${id}</strong><br>
+        Credential: <strong>${cert.title}</strong><br>
+        Holder: <strong>${cert.learner}</strong><br>
+        Status: <strong>${cert.status}</strong>
+      </p>
+
+      <div class="tag">
+        JG demo registry
+      </div>
+
+      <p style="color:var(--muted);font-size:11px">
+        Government accreditation is not claimed by this demo.
+      </p>
+
+    `;
+
+  }else{
+
+    result.className="verify-result";
+
+    result.innerHTML=`
+
+      <strong style="color:var(--danger)">
+        Certificate not found
+      </strong>
+
+      <p style="color:var(--muted);font-size:12px">
+        Check the certificate ID and try again.
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   SETTINGS / THEME
+   ========================================================= */
+
+function applyTheme(){
+
+  document.documentElement.classList.toggle(
+    "dark",
+    state.theme==="dark"
   );
 
   localStorage.setItem(
@@ -2294,49 +4300,7 @@ function saveState(){
     state.theme
   );
 
-  localStorage.setItem(
-    "jg-plan",
-    state.plan
-  );
-
-}
-
-
-/* ---------------------------------------------------------
-   THEME
---------------------------------------------------------- */
-
-function updateTheme(){
-
-  document.documentElement.dataset.theme = state.theme;
-
-  document.querySelector('meta[name="theme-color"]')
-    .setAttribute(
-      "content",
-      state.theme === "dark" ? "#070b14" : "#f5f7fb"
-    );
-
-  const themeBtn = document.getElementById("themeBtn");
-
-  if(themeBtn){
-
-    themeBtn.innerHTML =
-      state.theme === "dark"
-      ? icon("sun")
-      : icon("moon");
-
-  }
-
-  const toggle = document.getElementById("settingsTheme");
-
-  if(toggle){
-
-    toggle.classList.toggle(
-      "on",
-      state.theme === "dark"
-    );
-
-  }
+  updateSettings();
 
 }
 
@@ -2344,1837 +4308,169 @@ function updateTheme(){
 function toggleTheme(){
 
   state.theme =
-    state.theme === "dark"
+    state.theme==="dark"
     ? "light"
     : "dark";
 
-  saveState();
-  updateTheme();
+  applyTheme();
 
-  showToast(
-    state.theme === "dark"
-    ? "Dark mode enabled"
-    : "Light mode enabled"
+  toast(
+    state.theme==="dark"
+    ? "Dark mode enabled."
+    : "Light mode enabled."
   );
 
 }
 
 
-/* ---------------------------------------------------------
-   PLAN
---------------------------------------------------------- */
+function updateSettings(){
 
-function updatePlanUI(){
+  const sw=document.getElementById("darkSwitch");
 
-  document.documentElement.dataset.plan = state.plan;
+  if(sw){
 
-  const planText = document.getElementById("planText");
-
-  if(planText){
-
-    planText.textContent =
-      state.plan === "premium"
-      ? "JG Premium"
-      : "Free plan";
-
-  }
-
-  const buttons = [
-    document.getElementById("premiumAccountBtn"),
-    document.getElementById("premiumPageBtn")
-  ];
-
-  buttons.forEach(btn=>{
-
-    if(!btn) return;
-
-    btn.textContent =
-      state.plan === "premium"
-      ? "Switch to Free Demo"
-      : "Activate Premium Demo";
-
-  });
-
-}
-
-
-function togglePremium(){
-
-  state.plan =
-    state.plan === "premium"
-    ? "free"
-    : "premium";
-
-  saveState();
-  updatePlanUI();
-
-  showToast(
-    state.plan === "premium"
-    ? "JG Premium demo activated"
-    : "Free demo restored"
-  );
-
-}
-
-
-/* ---------------------------------------------------------
-   NAVIGATION
---------------------------------------------------------- */
-
-function go(screen){
-
-  state.screen = screen;
-
-  document.querySelectorAll(".screen")
-    .forEach(el=>{
-      el.classList.toggle(
-        "active",
-        el.id === screen
-      );
-    });
-
-  const navScreen =
-    ["home","learn","work","ai","account"].includes(screen)
-    ? screen
-    : screen === "course-detail" || screen === "lesson"
-      ? "learn"
-      : screen === "premium" ||
-        screen === "certificates" ||
-        screen === "verify" ||
-        screen === "settings"
-        ? "account"
-        : "home";
-
-  document.querySelectorAll("[data-nav]")
-    .forEach(btn=>{
-      btn.classList.toggle(
-        "active",
-        btn.dataset.nav === navScreen
-      );
-    });
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  if(screen === "learn"){
-    renderCourses();
-  }
-
-  if(screen === "course-detail"){
-    renderCourseDetail();
-  }
-
-  if(screen === "lesson"){
-    renderLesson();
-  }
-
-  if(screen === "work"){
-    renderWork();
-  }
-
-  if(screen === "home"){
-    renderHome();
-  }
-
-  updateTheme();
-  updatePlanUI();
-
-}
-
-
-/* ---------------------------------------------------------
-   PROGRESS
---------------------------------------------------------- */
-
-function courseProgress(id){
-
-  return Number(state.progress[id] || 0);
-
-}
-
-
-function setCourseProgress(id,value){
-
-  state.progress[id] =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        Number(value)
-      )
+    sw.classList.toggle(
+      "on",
+      state.theme==="dark"
     );
 
-  saveState();
-
-}
-
-
-/* ---------------------------------------------------------
-   COURSE CARD
---------------------------------------------------------- */
-
-function courseCard(course){
-
-  const progress =
-    courseProgress(course.id);
-
-  return `
-
-    <article class="card course-card"
-             data-course="${course.id}">
-
-      <div class="course-cover ${course.cover}">
-        <span class="cover-label">${course.label}</span>
-      </div>
-
-      <div class="course-body">
-
-        <h3>${escapeHTML(course.title)}</h3>
-
-        <p>${escapeHTML(course.description)}</p>
-
-        <div class="meta">
-
-          <span class="pill">
-            ${escapeHTML(course.level)}
-          </span>
-
-          <span class="pill">
-            ${escapeHTML(course.duration)}
-          </span>
-
-          <span class="pill">
-            ${course.lessons} lessons
-          </span>
-
-        </div>
-
-        <div class="progress">
-          <span style="width:${progress}%"></span>
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          margin-top:7px;
-          font-size:10px;
-          color:var(--muted);
-        ">
-          <span>${progress}% complete</span>
-          <span>Open →</span>
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-/* ---------------------------------------------------------
-   HOME
---------------------------------------------------------- */
-
-function renderHome(){
-
-  const homeCourses =
-    document.getElementById("homeCourses");
-
-  if(homeCourses){
-
-    homeCourses.innerHTML =
-      courses.slice(0,4)
-      .map(courseCard)
-      .join("");
-
-  }
-
-  const continueCard =
-    document.getElementById("continueCard");
-
-  const course =
-    courses.find(c=>c.id==="web");
-
-  const progress =
-    courseProgress("web");
-
-  if(continueCard){
-
-    continueCard.innerHTML = `
-
-      <article class="card course-card"
-               data-course="web">
-
-        <div class="course-cover cover-web">
-
-          <span class="cover-label">
-            ${progress > 0 ? "CONTINUE" : "START"}
-          </span>
-
-        </div>
-
-        <div class="course-body">
-
-          <h3>Web Development</h3>
-
-          <p>
-            ${progress > 0
-              ? "Continue your Web Development pathway."
-              : "Start with HTML foundations and build from there."}
-          </p>
-
-          <div class="progress">
-            <span style="width:${progress}%"></span>
-          </div>
-
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            margin-top:9px;
-            font-size:11px;
-            color:var(--muted);
-          ">
-            <span>${progress}% complete</span>
-            <strong style="color:var(--primary);">
-              Continue →
-            </strong>
-          </div>
-
-        </div>
-
-      </article>
-
-    `;
-
   }
 
 }
 
 
-/* ---------------------------------------------------------
-   LEARN TABS
---------------------------------------------------------- */
+function resetData(){
 
-function renderTabs(){
+  localStorage.removeItem("jg-progress");
+  localStorage.removeItem("jg-premium");
+  localStorage.removeItem("jg-theme");
 
-  const tabs =
-    document.getElementById("courseTabs");
+  state.progress=0;
+  state.premium=false;
+  state.theme="light";
 
-  const categories =
-    ["All","Development","Design","Creative","Programming"];
+  applyTheme();
+  updateAccount();
+  updateProgressUI();
 
-  tabs.innerHTML =
-    categories.map(category=>`
-
-      <button
-        class="tab ${state.activeCategory===category ? "active":""}"
-        data-category="${category}">
-        ${category}
-      </button>
-
-    `).join("");
+  toast("JG demo data has been reset.");
 
 }
 
 
-/* ---------------------------------------------------------
-   COURSE GRID
---------------------------------------------------------- */
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
 
-function renderCourses(){
+function showNotifications(){
 
-  renderTabs();
-
-  const grid =
-    document.getElementById("courseGrid");
-
-  const search =
-    state.search.toLowerCase();
-
-  const filtered =
-    courses.filter(course=>{
-
-      const categoryMatch =
-        state.activeCategory === "All" ||
-        course.category === state.activeCategory;
-
-      const searchMatch =
-        !search ||
-        course.title.toLowerCase().includes(search) ||
-        course.description.toLowerCase().includes(search) ||
-        course.category.toLowerCase().includes(search);
-
-      return categoryMatch && searchMatch;
-
-    });
-
-  grid.innerHTML =
-    filtered.length
-      ? filtered.map(courseCard).join("")
-      : `
-        <div class="card empty" style="grid-column:1/-1;">
-          No courses found.
-        </div>
-      `;
-
-}
-
-
-/* ---------------------------------------------------------
-   COURSE DETAIL
---------------------------------------------------------- */
-
-function renderCourseDetail(){
-
-  const course =
-    courses.find(c=>c.id===state.selectedCourse)
-    || courses[0];
-
-  const progress =
-    courseProgress(course.id);
-
-  const detail =
-    document.getElementById("courseDetail");
-
-  detail.innerHTML = `
-
-    <section class="detail-hero">
-
-      <div class="course-cover ${course.cover}">
-        <span class="cover-label">${course.label}</span>
-      </div>
-
-      <h1>${escapeHTML(course.title)}</h1>
-
-      <p>${escapeHTML(course.description)}</p>
-
-      <div class="meta">
-
-        <span class="pill">${course.level}</span>
-        <span class="pill">${course.duration}</span>
-        <span class="pill">${course.lessons} lessons</span>
-
-      </div>
-
-      <div style="margin-top:18px;">
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          font-size:12px;
-          margin-bottom:7px;
-        ">
-          <strong>Your progress</strong>
-          <span style="color:var(--muted);">${progress}%</span>
-        </div>
-
-        <div class="progress">
-          <span style="width:${progress}%"></span>
-        </div>
-
-      </div>
-
-      <button
-        class="btn btn-primary btn-full"
-        data-action="start-course"
-        style="margin-top:18px;">
-
-        ${progress > 0 ? "Continue Learning" : "Start Learning"}
-
-      </button>
-
-    </section>
-
-
-    <section>
-
-      <div class="section-head">
-        <div>
-          <h2>Course pathway</h2>
-          <p>Course → Module → Topic → Practice → Assessment</p>
-        </div>
-      </div>
-
-      ${course.modules.map((module,index)=>`
-
-        <div class="card module">
-
-          <div class="module-head">
-
-            <div class="module-number">
-              ${String(index+1).padStart(2,"0")}
-            </div>
-
-            <div>
-              <h3>${escapeHTML(module.title)}</h3>
-              <small>${module.lessons.length} topics</small>
-            </div>
-
-          </div>
-
-          <div class="lesson-list">
-
-            ${module.lessons.map((lesson,i)=>`
-
-              <div class="lesson-item">
-
-                <span>
-                  ${index+1}.${i+1}
-                  &nbsp;
-                  ${escapeHTML(lesson)}
-                </span>
-
-                ${
-                  course.id === "web" && index === 0 && i === 0
-                  ? `<button data-action="open-lesson">
-                       Open
-                     </button>`
-                  : `<span>Locked</span>`
-                }
-
-              </div>
-
-            `).join("")}
-
-          </div>
-
-        </div>
-
-      `).join("")}
-
-    </section>
-
-  `;
-
-}
-
-
-/* ---------------------------------------------------------
-   LESSON
---------------------------------------------------------- */
-
-function renderLesson(){
-
-  const content =
-    document.getElementById("lessonContent");
-
-  const course =
-    courses.find(c=>c.id===state.selectedCourse)
-    || courses[0];
-
-  const progress =
-    courseProgress(course.id);
-
-  content.innerHTML = `
-
-    <section class="lesson-top">
-
-      <span class="pill">
-        Web Development • Module 1
-      </span>
-
-      <h1>HTML Foundations</h1>
-
-      <p>
-        Lesson 1 of 24 · Learn what HTML is and how a webpage
-        is structured.
-      </p>
-
-    </section>
-
-
-    <div class="video">
-
-      <div class="video-info">
-        <span>JG Learning Video</span>
-        <span>08:42</span>
-      </div>
-
-      <button class="play"
-              data-action="play-video"
-              aria-label="Play lesson">
-        ${icon("play",30)}
-      </button>
-
-    </div>
-
-
-    <article class="article">
-
-      <h2>What is HTML?</h2>
-
-      <p>
-        HTML means <strong>HyperText Markup Language</strong>.
-        It is the standard language used to describe the structure
-        of content on a webpage.
-      </p>
-
-      <p>
-        HTML does not primarily tell the browser how something
-        should look. It tells the browser what the content is:
-        a heading, paragraph, image, link, form, button and so on.
-      </p>
-
-
-      <div class="term">
-
-        <strong>Important term: Markup</strong>
-
-        Markup is a system of labels placed around content
-        so a computer can understand the role of that content.
-
-      </div>
-
-
-      <h2>A simple analogy</h2>
-
-      <p>
-        Imagine you are constructing a house.
-        HTML is similar to the structure of the house.
-        CSS controls the appearance, while JavaScript adds behavior.
-      </p>
-
-
-      <div class="diagram">
-
-        <strong>How the three layers work</strong>
-
-        <div class="diagram-flow">
-
-          <div class="diagram-box">
-            HTML<br>
-            <small>Structure</small>
-          </div>
-
-          <span>+</span>
-
-          <div class="diagram-box">
-            CSS<br>
-            <small>Appearance</small>
-          </div>
-
-          <span>+</span>
-
-          <div class="diagram-box">
-            JavaScript<br>
-            <small>Behavior</small>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <h2>Your first HTML page</h2>
-
-      <p>
-        A basic HTML document normally contains a document type,
-        an HTML element, a head section and a body section.
-      </p>
-
-
-      <pre class="code">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;title&gt;My First Page&lt;/title&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-  &lt;h1&gt;Hello JG&lt;/h1&gt;
-  &lt;p&gt;I am learning web development.&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre>
-
-
-      <h2>What do the tags mean?</h2>
-
-      <ul>
-
-        <li>
-          <strong>&lt;html&gt;</strong> contains the whole document.
-        </li>
-
-        <li>
-          <strong>&lt;head&gt;</strong> contains information about the page.
-        </li>
-
-        <li>
-          <strong>&lt;body&gt;</strong> contains visible page content.
-        </li>
-
-        <li>
-          <strong>&lt;h1&gt;</strong> creates a major heading.
-        </li>
-
-        <li>
-          <strong>&lt;p&gt;</strong> creates a paragraph.
-        </li>
-
-      </ul>
-
-
-      <h2>Real-world example</h2>
-
-      <p>
-        When you open a website, the browser receives HTML and builds
-        a structure called the DOM. CSS can then style that structure,
-        while JavaScript can interact with it.
-      </p>
-
-
-      <div class="term">
-
-        <strong>Remember this</strong>
-
-        HTML = structure.<br>
-        CSS = appearance.<br>
-        JavaScript = behavior.
-
-      </div>
-
-
-      <div class="quiz card">
-
-        <h3>Quick check</h3>
-
-        <p style="color:var(--muted);font-size:13px;">
-          What is the primary purpose of HTML?
-        </p>
-
-        <button class="quiz-option"
-                data-answer="wrong">
-          To store money in a website.
-        </button>
-
-        <button class="quiz-option"
-                data-answer="correct">
-          To structure content on a webpage.
-        </button>
-
-        <button class="quiz-option"
-                data-answer="wrong">
-          To automatically create internet connections.
-        </button>
-
-        <div class="feedback" id="quizFeedback"></div>
-
-      </div>
-
-
-      <button
-        class="btn btn-success btn-full"
-        data-action="complete-lesson">
-
-        ${progress >= 100 ? "Lesson Completed ✓" : "Complete Lesson"}
-
-      </button>
-
-    </article>
-
-  `;
-
-}
-
-
-/* ---------------------------------------------------------
-   WORK
---------------------------------------------------------- */
-
-function renderWork(){
-
-  const list =
-    document.getElementById("workList");
-
-  list.innerHTML =
-    opportunities.map((item,index)=>`
-
-      <article class="card work-card">
-
-        <div class="work-top">
-
-          <div>
-
-            <span class="pill">
-              ${escapeHTML(item.category)}
-            </span>
-
-            <h3>${escapeHTML(item.title)}</h3>
-
-          </div>
-
-          <span class="pill">
-            ${index+1}
-          </span>
-
-        </div>
-
-        <p>${escapeHTML(item.description)}</p>
-
-        <div class="meta">
-
-          <span class="pill">
-            ${escapeHTML(item.type)}
-          </span>
-
-          <span class="pill">
-            External
-          </span>
-
-        </div>
-
-        <button
-          class="external"
-          data-opportunity="${index}">
-
-          View opportunity
-          ${icon("external",15)}
-
-        </button>
-
-      </article>
-
-    `).join("");
-
-}
-
-
-/* ---------------------------------------------------------
-   AI
---------------------------------------------------------- */
-
-function aiResponse(question){
-
-  const q =
-    question.toLowerCase();
-
-  if(q.includes("api")){
-
-    return `
-      <strong>API explained simply</strong><br><br>
-
-      API means <strong>Application Programming Interface</strong>.
-
-      Think of an API like a waiter in a restaurant.
-      You tell the waiter what you want, the waiter communicates
-      with the kitchen, and the kitchen sends the result back.
-
-      In software, your app sends a request to an API.
-      The API communicates with another system and returns data.
-
-      <br><br>
-
-      <strong>Example:</strong>
-
-      A weather app can request today's weather from a weather API
-      instead of creating its own weather database.
-
-      <br><br>
-
-      <strong>Simple flow:</strong><br>
-      App → API → Server → API → App
-    `;
-
-  }
-
-
-  if(
-    q.includes("html") ||
-    q.includes("website")
-  ){
-
-    return `
-      <strong>Let's start with HTML.</strong><br><br>
-
-      HTML gives a webpage its structure.
-
-      <br><br>
-
-      For example:
-
-      <pre class="code">&lt;h1&gt;My Website&lt;/h1&gt;
-&lt;p&gt;Welcome to my website.&lt;/p&gt;</pre>
-
-      The <strong>h1</strong> creates a heading and
-      <strong>p</strong> creates a paragraph.
-
-      <br>
-
-      Next, learn CSS to control how those elements look,
-      then JavaScript to make them interactive.
-    `;
-
-  }
-
-
-  if(
-    q.includes("css")
-  ){
-
-    return `
-      <strong>CSS controls presentation.</strong><br><br>
-
-      CSS means Cascading Style Sheets.
-
-      HTML tells the browser what an element is.
-      CSS tells the browser how it should look.
-
-      <br><br>
-
-      Example:
-
-      <pre class="code">h1 {
-  font-size: 40px;
-  color: blue;
-}</pre>
-
-      This changes the appearance of an h1 element.
-    `;
-
-  }
-
-
-  if(
-    q.includes("python")
-  ){
-
-    return `
-      <strong>Python is a programming language.</strong><br><br>
-
-      It is popular because its syntax is relatively readable
-      and it can be used for automation, web development,
-      data work, artificial intelligence and many other areas.
-
-      <br><br>
-
-      Example:
-
-      <pre class="code">name = "JG"
-print("Hello " + name)</pre>
-
-      A good beginner path is:
-
-      <br>
-      1. Variables<br>
-      2. Data types<br>
-      3. Conditions<br>
-      4. Loops<br>
-      5. Functions<br>
-      6. Projects
-    `;
-
-  }
-
-
-  if(
-    q.includes("study") ||
-    q.includes("30 day") ||
-    q.includes("plan")
-  ){
-
-    return `
-      <strong>30-day beginner coding plan</strong><br><br>
-
-      <strong>Days 1–7:</strong>
-      HTML fundamentals and simple webpages.<br><br>
-
-      <strong>Days 8–14:</strong>
-      CSS, layouts, responsive design and styling.<br><br>
-
-      <strong>Days 15–21:</strong>
-      JavaScript fundamentals and interactions.<br><br>
-
-      <strong>Days 22–27:</strong>
-      Build a small project.<br><br>
-
-      <strong>Days 28–30:</strong>
-      Improve the project, test it and publish it.
-
-      <br><br>
-
-      The most important rule:
-      <strong>build while learning.</strong>
-    `;
-
-  }
-
-
-  return `
-    <strong>JG AI</strong><br><br>
-
-    I can help you learn skills step by step.
-
-    Try asking me something like:
-
-    <br><br>
-
-    • "Explain API to me."<br>
-    • "Teach me HTML."<br>
-    • "Give me a Python exercise."<br>
-    • "Create a coding study plan."<br>
-    • "What should I learn after CSS?"
-  `;
-
-}
-
-
-function appendAI(role,text){
-
-  const messages =
-    document.getElementById("aiMessages");
-
-  const div =
-    document.createElement("div");
-
-  div.className =
-    `message ${role}`;
-
-  div.innerHTML = `
-
-    <small>
-      ${role === "ai" ? "JG AI" : "You"}
-    </small>
-
-    <div>${role === "ai"
-      ? text
-      : escapeHTML(text)
-    }</div>
-
-    ${
-      role === "ai"
-      ? `
-        <button
-          class="link-btn"
-          data-action="copy-ai"
-          style="margin-top:9px;font-size:10px;">
-          Copy response
-        </button>
-      `
-      : ""
-    }
-
-  `;
-
-  messages.appendChild(div);
-
-  messages.scrollTop =
-    messages.scrollHeight;
-
-}
-
-
-function startAI(){
-
-  if(state.aiStarted) return;
-
-  state.aiStarted = true;
-
-  appendAI(
-    "ai",
+  showModal(
+    "Notifications",
     `
-      <strong>Welcome to JG AI.</strong><br><br>
+      <div class="definition">
+        <strong>Welcome to JG</strong>
+        Your learning workspace is ready.
+      </div>
 
-      I am your learning workspace inside JG.
+      <div class="definition">
+        <strong>Continue learning</strong>
+        Pick up your Web Development pathway from the home screen.
+      </div>
 
-      Ask me to explain a concept, create an exercise,
-      help you understand code or build a study plan.
+      <p style="color:var(--muted);font-size:12px">
+        Production notifications can later connect to your
+        secure account backend.
+      </p>
     `
   );
 
 }
 
 
-function sendAI(){
-
-  const input =
-    document.getElementById("aiInput");
-
-  if(!input) return;
-
-  const question =
-    input.value.trim();
-
-  if(!question) return;
-
-  appendAI("user",question);
-
-  input.value = "";
-
-  const messages =
-    document.getElementById("aiMessages");
-
-  const loading =
-    document.createElement("div");
-
-  loading.className =
-    "message ai";
-
-  loading.innerHTML = `
-    <small>JG AI</small>
-    <div>Thinking…</div>
-  `;
-
-  messages.appendChild(loading);
-
-  messages.scrollTop =
-    messages.scrollHeight;
-
-  setTimeout(()=>{
-
-    loading.remove();
-
-    appendAI(
-      "ai",
-      aiResponse(question)
-    );
-
-  },650);
-
-}
-
-
-/* ---------------------------------------------------------
+/* =========================================================
    MODAL
---------------------------------------------------------- */
+   ========================================================= */
 
-function showModal(title,body,actions=""){
+function showModal(title,content){
 
-  document.getElementById("modalTitle")
-    .textContent = title;
+  document.getElementById("modalTitle").textContent=title;
 
-  document.getElementById("modalBody")
-    .innerHTML = body;
+  document.getElementById("modalContent").innerHTML=content;
 
-  document.getElementById("modalActions")
-    .innerHTML = actions;
-
-  document.getElementById("modalBack")
-    .classList.add("show");
+  document.getElementById("modal").classList.add("show");
 
 }
 
 
 function hideModal(){
 
-  document.getElementById("modalBack")
-    .classList.remove("show");
+  document.getElementById("modal").classList.remove("show");
 
 }
 
 
-/* ---------------------------------------------------------
+function closeModal(event){
+
+  if(event.target.id==="modal"){
+    hideModal();
+  }
+
+}
+
+
+/* =========================================================
    TOAST
---------------------------------------------------------- */
+   ========================================================= */
 
 let toastTimer;
 
-function showToast(message){
+function toast(message){
 
-  const toast =
-    document.getElementById("toast");
+  const el=document.getElementById("toast");
 
-  toast.textContent =
-    message;
+  el.textContent=message;
 
-  toast.classList.add("show");
+  el.classList.add("show");
 
   clearTimeout(toastTimer);
 
-  toastTimer =
-    setTimeout(()=>{
-      toast.classList.remove("show");
-    },2200);
+  toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },2500);
 
 }
 
 
-/* ---------------------------------------------------------
-   EVENTS
---------------------------------------------------------- */
-
-document.addEventListener("click",async event=>{
-
-  const goButton =
-    event.target.closest("[data-go]");
-
-  if(goButton){
-
-    go(goButton.dataset.go);
-
-    return;
-
-  }
-
-
-  const courseCardElement =
-    event.target.closest("[data-course]");
-
-  if(courseCardElement){
-
-    state.selectedCourse =
-      courseCardElement.dataset.course;
-
-    go("course-detail");
-
-    return;
-
-  }
-
-
-  const category =
-    event.target.closest("[data-category]");
-
-  if(category){
-
-    state.activeCategory =
-      category.dataset.category;
-
-    renderCourses();
-
-    return;
-
-  }
-
-
-  const promptButton =
-    event.target.closest("[data-prompt]");
-
-  if(promptButton){
-
-    const input =
-      document.getElementById("aiInput");
-
-    if(input){
-
-      input.value =
-        promptButton.dataset.prompt;
-
-      input.focus();
-
-    }
-
-    return;
-
-  }
-
-
-  const opportunity =
-    event.target.closest("[data-opportunity]");
-
-  if(opportunity){
-
-    const item =
-      opportunities[
-        Number(opportunity.dataset.opportunity)
-      ];
-
-    showModal(
-      item.title,
-      `
-        <strong>${escapeHTML(item.type)}</strong><br><br>
-
-        ${escapeHTML(item.description)}
-
-        <br><br>
-
-        This is an external opportunity.
-        In the production JG platform, the opportunity provider's
-        verified application destination would be connected here.
-      `,
-      `
-        <button class="btn btn-primary btn-full"
-                data-action="close-modal">
-          Continue
-        </button>
-      `
-    );
-
-    return;
-
-  }
-
-
-  const action =
-    event.target.closest("[data-action]");
-
-  if(action){
-
-    const type =
-      action.dataset.action;
-
-
-    if(type === "premium"){
-
-      togglePremium();
-
-      return;
-
-    }
-
-
-    if(type === "start-course"){
-
-      state.selectedLesson = 0;
-
-      go("lesson");
-
-      return;
-
-    }
-
-
-    if(type === "open-lesson"){
-
-      state.selectedLesson = 0;
-
-      go("lesson");
-
-      return;
-
-    }
-
-
-    if(type === "complete-lesson"){
-
-      setCourseProgress(
-        state.selectedCourse,
-        100
-      );
-
-      renderLesson();
-
-      showToast(
-        "Lesson completed"
-      );
-
-      return;
-
-    }
-
-
-    if(type === "play-video"){
-
-      showModal(
-        "Lesson Video",
-        `
-          <strong>JG Learning Video</strong><br><br>
-
-          This single-file build contains the complete
-          video-player interface.
-
-          <br><br>
-
-          Production video delivery can later be connected
-          to your secure media storage/CDN.
-        `,
-        `
-          <button class="btn btn-primary btn-full"
-                  data-action="close-modal">
-            Close
-          </button>
-        `
-      );
-
-      return;
-
-    }
-
-
-    if(type === "close-modal"){
-
-      hideModal();
-
-      return;
-
-    }
-
-
-    if(type === "copy-ai"){
-
-      const message =
-        action.closest(".message");
-
-      const text =
-        message?.innerText || "";
-
-      try{
-
-        await navigator.clipboard.writeText(text);
-
-        showToast("Response copied");
-
-      }catch{
-
-        showToast("Copy unavailable on this browser");
-
-      }
-
-      return;
-
-    }
-
-  }
-
-
-  const quizOption =
-    event.target.closest(".quiz-option");
-
-  if(quizOption){
-
-    const options =
-      document.querySelectorAll(".quiz-option");
-
-    options.forEach(x=>{
-      x.disabled = true;
-    });
-
-    const correct =
-      quizOption.dataset.answer === "correct";
-
-    quizOption.classList.add(
-      correct ? "correct" : "wrong"
-    );
-
-    const feedback =
-      document.getElementById("quizFeedback");
-
-    if(feedback){
-
-      feedback.textContent =
-        correct
-        ? "Correct. HTML is used to structure content on webpages."
-        : "Not quite. HTML is primarily responsible for webpage structure.";
-
-      feedback.style.color =
-        correct
-        ? "var(--success)"
-        : "var(--danger)";
-
-    }
-
-    return;
-
-  }
-
-});
-
-
-/* ---------------------------------------------------------
-   THEME BUTTON
---------------------------------------------------------- */
-
-document.getElementById("themeBtn")
-  .addEventListener(
-    "click",
-    toggleTheme
-  );
-
-
-/* ---------------------------------------------------------
-   SEARCH
---------------------------------------------------------- */
-
-document.getElementById("courseSearch")
-  .addEventListener(
-    "input",
-    event=>{
-
-      state.search =
-        event.target.value;
-
-      renderCourses();
-
-    }
-  );
-
-
-/* ---------------------------------------------------------
-   AI COMPOSER
---------------------------------------------------------- */
-
-const aiMessages =
-  document.getElementById("aiMessages");
-
-if(aiMessages){
-
-  aiMessages.addEventListener(
-    "click",
-    event=>{}
-  );
-
-}
-
-
-const aiInput =
-  document.createElement("input");
-
-aiInput.type = "text";
-aiInput.id = "aiInput";
-aiInput.placeholder =
-  "Ask JG AI anything about learning...";
-aiInput.autocomplete = "off";
-
-
-const aiComposer =
-  document.createElement("div");
-
-aiComposer.className =
-  "ai-composer";
-
-aiComposer.appendChild(aiInput);
-
-
-const aiSend =
-  document.createElement("button");
-
-aiSend.className =
-  "ai-send";
-
-aiSend.id =
-  "aiSend";
-
-aiSend.setAttribute(
-  "aria-label",
-  "Send"
-);
-
-aiSend.innerHTML =
-  icon("send");
-
-aiComposer.appendChild(aiSend);
-
-document.body.appendChild(aiComposer);
-
-
-aiSend.addEventListener(
-  "click",
-  sendAI
-);
-
-
-aiInput.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key === "Enter"){
-
-      event.preventDefault();
-
-      sendAI();
-
-    }
-
-  }
-);
-
-
-/* ---------------------------------------------------------
-   NEW CHAT
---------------------------------------------------------- */
-
-document.getElementById("newChatBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      document.getElementById("aiMessages")
-        .innerHTML = "";
-
-      state.aiStarted = false;
-
-      startAI();
-
-      showToast("New JG AI conversation started");
-
-    }
-  );
-
-
-/* ---------------------------------------------------------
-   VERIFY
---------------------------------------------------------- */
-
-document.getElementById("verifyBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      const input =
-        document.getElementById("certInput");
-
-      const result =
-        document.getElementById("verifyResult");
-
-      const id =
-        input.value.trim().toUpperCase();
-
-      if(!id){
-
-        result.className =
-          "verify-result show bad";
-
-        result.innerHTML =
-          "<strong>Enter a certificate ID.</strong>";
-
-        return;
-
-      }
-
-      const certificate =
-        validCertificates[id];
-
-      if(certificate){
-
-        result.className =
-          "verify-result show good";
-
-        result.innerHTML = `
-
-          <strong>Certificate verified</strong>
-
-          <br><br>
-
-          Certificate ID:
-          <strong>${escapeHTML(id)}</strong>
-
-          <br>
-
-          Course:
-          ${escapeHTML(certificate.course)}
-
-          <br>
-
-          Year:
-          ${escapeHTML(certificate.date)}
-
-          <br>
-
-          Status:
-          ${escapeHTML(certificate.status)}
-
-          <br><br>
-
-          <small>
-            Government accreditation is not claimed
-            by this demo registry.
-          </small>
-
-        `;
-
-      }else{
-
-        result.className =
-          "verify-result show bad";
-
-        result.innerHTML = `
-
-          <strong>Certificate not found.</strong>
-
-          <br><br>
-
-          No matching certificate was found
-          in the JG demo registry.
-
-        `;
-
-      }
-
-    }
-  );
-
-
-/* ---------------------------------------------------------
-   SETTINGS THEME
---------------------------------------------------------- */
-
-document.getElementById("settingsTheme")
-  .addEventListener(
-    "click",
-    toggleTheme
-  );
-
-
-/* ---------------------------------------------------------
-   RESET
---------------------------------------------------------- */
-
-document.getElementById("demoReset")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      showModal(
-        "Reset JG Demo?",
-        `
-          This will clear your local course progress,
-          theme preference and Premium demo state.
-        `,
-        `
-          <div style="display:flex;gap:8px;">
-
-            <button
-              class="btn btn-secondary"
-              style="flex:1"
-              data-action="close-modal">
-              Cancel
-            </button>
-
-            <button
-              class="btn btn-danger"
-              style="flex:1"
-              id="confirmReset">
-              Reset
-            </button>
-
-          </div>
-        `
-      );
-
-      document.getElementById("confirmReset")
-        .addEventListener(
-          "click",
-          ()=>{
-
-            localStorage.removeItem("jg-progress");
-            localStorage.removeItem("jg-theme");
-            localStorage.removeItem("jg-plan");
-
-            state.progress = {};
-            state.theme = "light";
-            state.plan = "free";
-
-            saveState();
-            updateTheme();
-            updatePlanUI();
-            renderHome();
-            renderCourses();
-
-            hideModal();
-
-            showToast(
-              "JG demo data reset"
-            );
-
-          }
-        );
-
-    }
-  );
-
-
-/* ---------------------------------------------------------
-   MODAL CONTROLS
---------------------------------------------------------- */
-
-document.getElementById("modalClose")
-  .addEventListener(
-    "click",
-    hideModal
-  );
-
-
-document.getElementById("modalBack")
-  .addEventListener(
-    "click",
-    event=>{
-
-      if(event.target.id === "modalBack"){
-        hideModal();
-      }
-
-    }
-  );
-
-
-document.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key === "Escape"){
-      hideModal();
-    }
-
-  }
-);
-
-
-/* ---------------------------------------------------------
+/* =========================================================
    INITIALIZATION
---------------------------------------------------------- */
+   ========================================================= */
 
 function init(){
 
-  updateTheme();
-  updatePlanUI();
+  applyTheme();
 
-  renderHome();
+  renderHomeCourses();
+
   renderCourses();
-  renderWork();
 
-  startAI();
+  renderOpportunities();
 
-  mountIcons();
+  updateProgressUI();
 
-  /*
-    The AI composer is created dynamically above.
-    It is intentionally hidden on non-AI screens through CSS
-    below.
-  */
+  updateAccount();
 
-}
+  setTimeout(()=>{
 
+    document.getElementById("splash").classList.add("hide");
 
-init();
+    document.getElementById("app").classList.add("ready");
 
-
-/* ---------------------------------------------------------
-   SHOW AI COMPOSER ONLY ON AI SCREEN
---------------------------------------------------------- */
-
-function updateAIComposer(){
-
-  const composer =
-    document.querySelector(".ai-composer");
-
-  if(!composer) return;
-
-  composer.style.display =
-    state.screen === "ai"
-    ? "flex"
-    : "none";
+  },1100);
 
 }
 
 
-/* Patch navigation to update composer */
-const originalGo = go;
-
-go = function(screen){
-
-  originalGo(screen);
-
-  updateAIComposer();
-
-};
-
-
-/* Initial composer state */
-updateAIComposer();
-
-
-/* ---------------------------------------------------------
-   EXTRA ICON MOUNT FOR DYNAMIC UI
---------------------------------------------------------- */
-
-setTimeout(
-  ()=>{
-    mountIcons();
-  },
-  50
-);
+document.addEventListener("DOMContentLoaded",init);
 
 </script>
 
