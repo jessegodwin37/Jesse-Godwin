@@ -1,750 +1,4182 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-plan="free">
 <head>
-<meta charset="utf-8">
-
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<meta name="theme-color" content="#070b18">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="JG">
-
-<meta name="description"
-      content="JG — global learning, work, AI and digital services platform.">
-
-<title>JG — Learn. Work. Create.</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f7fb">
+<meta name="description" content="JG — Find Skills. Find Opportunities.">
+<title>JG — Find Skills. Find Opportunities.</title>
 
 <style>
+/* =========================================================
+   JG — FIND SKILLS. FIND OPPORTUNITIES.
+   COMPLETE SINGLE-FILE APPLICATION
+   HTML + CSS + JAVASCRIPT
+   ========================================================= */
 
-/* ================================
-   JG GLOBAL DESIGN SYSTEM
-================================ */
-
-:root {
-  --bg: #f5f7fb;
-  --panel: #ffffff;
-  --panel2: #eef1f8;
-  --text: #11162a;
-  --muted: #69738a;
-  --line: #dfe4ef;
-
-  --purple: #7c3aed;
-  --cyan: #06b6d4;
-
-  --success: #22c55e;
-  --danger: #ef4444;
-
-  --shadow: 0 18px 55px rgba(16,20,38,.08);
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface2:#eef2f8;
+  --text:#101828;
+  --muted:#667085;
+  --line:#e4e7ec;
+  --primary:#2563eb;
+  --primary2:#7c3aed;
+  --cyan:#06b6d4;
+  --success:#12b76a;
+  --danger:#f04438;
+  --warning:#f79009;
+  --shadow:0 12px 35px rgba(16,24,40,.08);
+  --shadow2:0 5px 18px rgba(16,24,40,.06);
+  --radius:22px;
+  --radius2:15px;
+  --nav:76px;
 }
 
-body.dark {
-  --bg: #060916;
-  --panel: #0d1427;
-  --panel2: #151d32;
-  --text: #f5f7ff;
-  --muted: #a5aec2;
-  --line: #222d46;
-
-  --shadow: 0 18px 55px rgba(0,0,0,.35);
+html[data-theme="dark"]{
+  --bg:#070b14;
+  --surface:#0e1523;
+  --surface2:#151e2f;
+  --text:#f5f7fa;
+  --muted:#98a2b3;
+  --line:#202b3d;
+  --shadow:0 16px 40px rgba(0,0,0,.32);
+  --shadow2:0 8px 24px rgba(0,0,0,.25);
 }
 
-
-/* ================================
-   RESET
-================================ */
-
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-html {
-  scroll-behavior: smooth;
+html{
+  scroll-behavior:smooth;
 }
 
-body {
-  margin: 0;
-
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background: var(--bg);
-  color: var(--text);
-
-  transition:
-    background .25s ease,
-    color .25s ease;
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+  "Inter","Segoe UI",Arial,sans-serif;
+  transition:background .25s,color .25s;
+  overflow-x:hidden;
 }
 
 button,
 input,
-select,
-textarea {
-  font: inherit;
+textarea{
+  font:inherit;
 }
 
-button {
-  cursor: pointer;
+button{
+  border:0;
+  cursor:pointer;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+button:active{
+  transform:scale(.98);
 }
 
-
-/* ================================
-   APP
-================================ */
-
-.app {
-  min-height: 100vh;
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
+svg{
+  display:block;
+}
 
-/* ================================
-   TOP NAVIGATION
-================================ */
+.app{
+  min-height:100vh;
+  padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 18px);
+}
 
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 20;
+.container{
+  width:min(1120px,100%);
+  margin:auto;
+  padding:0 18px;
+}
 
-  height: 70px;
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:850;
+  letter-spacing:-.03em;
+}
 
-  padding:
-    0
-    max(15px, calc((100vw - 1180px) / 2));
+.logo{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  box-shadow:0 7px 18px rgba(37,99,235,.25);
+}
 
+.brand small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:600;
+  letter-spacing:.01em;
+}
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  box-shadow:var(--shadow2);
+}
+
+.screen{
+  display:none;
+  animation:screenIn .25s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:none}
+}
+
+.section{
+  padding:28px 0;
+}
+
+.hero{
+  padding:34px 0 24px;
+}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:30px 24px;
+  border-radius:28px;
+  color:white;
   background:
-    color-mix(
-      in srgb,
-      var(--bg) 88%,
-      transparent
-    );
-
-  backdrop-filter: blur(18px);
-
-  border-bottom:
-    1px solid var(--line);
+    radial-gradient(circle at 90% 10%,rgba(255,255,255,.22),transparent 27%),
+    radial-gradient(circle at 5% 100%,rgba(6,182,212,.28),transparent 28%),
+    linear-gradient(135deg,#1d4ed8,#6d28d9 72%,#0891b2);
+  box-shadow:0 20px 55px rgba(37,99,235,.22);
 }
 
-.brand {
-  border: 0;
-  background: none;
-
-  color: var(--text);
-
-  font-weight: 900;
-  font-size: 21px;
-
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.hero-card:after{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  right:-85px;
+  bottom:-105px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:50%;
+  box-shadow:0 0 0 30px rgba(255,255,255,.05),
+             0 0 0 60px rgba(255,255,255,.04);
 }
 
-.logo {
-  width: 40px;
-  height: 40px;
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:12px;
+  font-weight:750;
+}
 
-  border-radius: 13px;
+.hero h1{
+  max-width:700px;
+  margin:18px 0 10px;
+  font-size:clamp(34px,8vw,64px);
+  line-height:.98;
+  letter-spacing:-.055em;
+}
 
-  display: grid;
-  place-items: center;
+.hero p{
+  max-width:650px;
+  margin:0;
+  line-height:1.65;
+  color:rgba(255,255,255,.83);
+}
 
-  color: white;
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
 
+.btn{
+  min-height:46px;
+  padding:0 17px;
+  border-radius:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:750;
+  transition:.2s;
+}
+
+.btn-primary{
+  color:#fff;
+  background:var(--primary);
+  box-shadow:0 8px 20px rgba(37,99,235,.2);
+}
+
+.hero .btn-primary{
+  background:#fff;
+  color:#1743a6;
+}
+
+.btn-secondary{
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+.hero .btn-secondary{
+  color:#fff;
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,255,255,.2);
+}
+
+.btn-ghost{
+  color:var(--primary);
+  background:transparent;
+}
+
+.btn-danger{
+  color:#fff;
+  background:var(--danger);
+}
+
+.btn-success{
+  color:#fff;
+  background:var(--success);
+}
+
+.btn-full{
+  width:100%;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.section-head h2{
+  margin:0;
+  font-size:22px;
+  letter-spacing:-.035em;
+}
+
+.section-head p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.link-btn{
+  background:none;
+  color:var(--primary);
+  font-weight:750;
+  padding:5px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow2);
+}
+
+.course-card{
+  overflow:hidden;
+  cursor:pointer;
+  transition:.22s;
+}
+
+.course-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+
+.course-cover{
+  height:145px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  padding:16px;
+  color:#fff;
+}
+
+.cover-web{
   background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--cyan)
-    );
-
-  box-shadow:
-    0 8px 25px rgba(124,58,237,.35);
+    linear-gradient(135deg,rgba(37,99,235,.85),rgba(124,58,237,.9)),
+    repeating-linear-gradient(45deg,transparent 0 12px,rgba(255,255,255,.08) 12px 13px);
 }
 
-.topActions {
-  display: flex;
-  gap: 8px;
-}
-
-.icon {
-  position: relative;
-
-  width: 42px;
-  height: 42px;
-
-  border:
-    1px solid var(--line);
-
-  background: var(--panel);
-  color: var(--text);
-
-  border-radius: 13px;
-
-  display: grid;
-  place-items: center;
-}
-
-.badge {
-  position: absolute;
-
-  right: -3px;
-  top: -4px;
-
-  background: var(--danger);
-  color: white;
-
-  border-radius: 9px;
-
-  font-size: 9px;
-
-  padding:
-    2px 5px;
-}
-
-
-/* ================================
-   MAIN CONTAINER
-================================ */
-
-.wrap {
-  max-width: 1180px;
-
-  margin: auto;
-
-  padding:
-    28px
-    18px
-    110px;
-}
-
-
-/* ================================
-   HERO
-================================ */
-
-.hero {
-  min-height: 410px;
-
-  padding: 45px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius: 30px;
-
+.cover-design{
   background:
-    radial-gradient(
-      circle at 80% 15%,
-      rgba(6,182,212,.15),
-      transparent 27%
-    ),
-    radial-gradient(
-      circle at 60% 100%,
-      rgba(124,58,237,.18),
-      transparent 32%
-    ),
-    var(--panel);
-
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 30px;
-
-  box-shadow: var(--shadow);
-
-  overflow: hidden;
+    linear-gradient(135deg,#7c3aed,#db2777),
+    repeating-radial-gradient(circle,transparent 0 18px,rgba(255,255,255,.1) 19px 20px);
 }
 
-.eyebrow {
-  font-size: 11px;
-
-  font-weight: 900;
-
-  letter-spacing: .15em;
-
-  color: var(--muted);
-}
-
-h1 {
-  font-size:
-    clamp(
-      38px,
-      6vw,
-      68px
-    );
-
-  line-height: 1.02;
-
-  margin:
-    12px 0;
-}
-
-h2 {
-  margin:
-    0 0 8px;
-}
-
-h3 {
-  margin:
-    0 0 8px;
-}
-
-.gradient {
+.cover-video{
   background:
-    linear-gradient(
-      90deg,
-      var(--purple),
-      var(--cyan)
-    );
-
-  color: transparent;
-
-  background-clip: text;
+    linear-gradient(135deg,#0891b2,#2563eb),
+    repeating-linear-gradient(-45deg,transparent 0 14px,rgba(255,255,255,.08) 14px 15px);
 }
 
-.lead {
-  font-size: 17px;
-
-  line-height: 1.6;
-
-  color: var(--muted);
-
-  max-width: 670px;
-}
-
-.actions {
-  display: flex;
-
-  gap: 10px;
-
-  flex-wrap: wrap;
-
-  margin-top: 24px;
-}
-
-
-/* ================================
-   BUTTONS
-================================ */
-
-.btn {
-  border: 0;
-
-  border-radius: 13px;
-
-  padding:
-    12px
-    16px;
-
-  font-weight: 850;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-}
-
-.primary {
-  color: white;
-
+.cover-python{
   background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--cyan)
-    );
-
-  box-shadow:
-    0 10px 28px
-    rgba(124,58,237,.30);
+    linear-gradient(135deg,#059669,#2563eb),
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.2),transparent 20%);
 }
 
-.secondary {
-  color: var(--text);
-
-  background: var(--panel);
-
-  border:
-    1px solid var(--line);
+.cover-label{
+  position:relative;
+  z-index:2;
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:-.04em;
 }
 
+.course-body{
+  padding:16px;
+}
 
-/* ================================
-   AI ORB
-================================ */
+.course-body h3{
+  margin:0 0 7px;
+  font-size:17px;
+  letter-spacing:-.025em;
+}
 
-.orb {
-  width: 210px;
-  height: 210px;
+.course-body p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+}
 
-  flex: none;
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
 
-  border-radius: 50%;
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 9px;
+  border-radius:999px;
+  background:var(--surface2);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
 
-  display: grid;
-  place-items: center;
+.progress{
+  height:6px;
+  border-radius:99px;
+  background:var(--surface2);
+  overflow:hidden;
+  margin-top:13px;
+}
 
-  text-align: center;
+.progress span{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,var(--primary),var(--primary2));
+  transition:.4s;
+}
 
-  color: white;
+.search{
+  position:relative;
+  margin:20px 0 13px;
+}
 
+.search svg{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
+}
+
+.search input{
+  width:100%;
+  height:50px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  padding:0 15px 0 45px;
+  outline:none;
+}
+
+.search input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(37,99,235,.09);
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  scrollbar-width:none;
+  padding-bottom:3px;
+  margin-bottom:16px;
+}
+
+.tabs::-webkit-scrollbar{
+  display:none;
+}
+
+.tab{
+  white-space:nowrap;
+  padding:9px 13px;
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--muted);
+  border:1px solid var(--line);
+  font-weight:700;
+  font-size:12px;
+}
+
+.tab.active{
+  color:#fff;
+  background:var(--primary);
+  border-color:var(--primary);
+}
+
+.ad{
+  min-height:90px;
+  margin:20px 0;
+  border:1px dashed var(--line);
+  border-radius:18px;
+  background:var(--surface);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:15px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.ad strong{
+  display:block;
+  color:var(--text);
+  margin-bottom:3px;
+}
+
+.premium-ad{
+  display:none;
+}
+
+html[data-plan="premium"] .free-ad{
+  display:none;
+}
+
+html[data-plan="premium"] .premium-ad{
+  display:flex;
+}
+
+.back-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px 0 5px;
+}
+
+.back-row button{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  display:grid;
+  place-items:center;
+}
+
+.detail-hero{
+  padding:20px 0;
+}
+
+.detail-hero .course-cover{
+  height:220px;
+  border-radius:26px;
+}
+
+.detail-hero h1{
+  font-size:32px;
+  line-height:1.05;
+  letter-spacing:-.05em;
+  margin:20px 0 10px;
+}
+
+.detail-hero p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.module{
+  padding:17px;
+  margin-bottom:10px;
+}
+
+.module-head{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.module-number{
+  width:38px;
+  height:38px;
+  flex:none;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:var(--primary);
+  background:rgba(37,99,235,.1);
+  font-weight:850;
+}
+
+.module h3{
+  margin:0;
+  font-size:15px;
+}
+
+.module small{
+  color:var(--muted);
+}
+
+.lesson-list{
+  margin:15px 0 0 50px;
+  display:grid;
+  gap:7px;
+}
+
+.lesson-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border-radius:11px;
+  background:var(--surface2);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.lesson-item button{
+  color:var(--primary);
+  background:none;
+  font-weight:800;
+}
+
+.lesson-top{
+  padding:25px 0 12px;
+}
+
+.lesson-top h1{
+  margin:8px 0;
+  font-size:32px;
+  line-height:1.03;
+  letter-spacing:-.05em;
+}
+
+.lesson-top p{
+  color:var(--muted);
+}
+
+.video{
+  min-height:230px;
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+  display:grid;
+  place-items:center;
   background:
-    radial-gradient(
-      circle at 30% 20%,
-      #67e8f9,
-      #7c3aed 55%,
-      #111827
-    );
-
-  box-shadow:
-    0 0 90px
-    rgba(124,58,237,.33);
+    radial-gradient(circle at 50% 45%,rgba(37,99,235,.38),transparent 24%),
+    linear-gradient(135deg,#09152f,#15102e);
+  border:1px solid #273452;
 }
 
-.orb b {
-  font-size: 27px;
+.video-info{
+  position:absolute;
+  top:17px;
+  left:17px;
+  right:17px;
+  display:flex;
+  justify-content:space-between;
+  color:#cbd5e1;
+  font-size:11px;
 }
 
-.orb small {
-  display: block;
+.play{
+  width:68px;
+  height:68px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
 }
 
-
-/* ================================
-   STATS
-================================ */
-
-.stats {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 12px;
-
-  margin: 16px 0;
+.article{
+  padding:22px 0;
 }
 
-.card {
-  background: var(--panel);
-
-  border:
-    1px solid var(--line);
-
-  border-radius: 18px;
-
-  box-shadow: var(--shadow);
+.article h2{
+  margin:25px 0 10px;
+  font-size:22px;
+  letter-spacing:-.035em;
 }
 
-.stat {
-  padding: 20px;
+.article h3{
+  margin:21px 0 8px;
 }
 
-.stat b {
-  font-size: 25px;
+.article p,
+.article li{
+  color:var(--muted);
+  line-height:1.75;
 }
 
-.stat span {
-  display: block;
-
-  color: var(--muted);
-
-  font-size: 12px;
-
-  margin-top: 4px;
+.article ul{
+  padding-left:20px;
 }
 
-
-/* ================================
-   SECTION HEADERS
-================================ */
-
-.sectionHead {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  margin:
-    32px 0
-    14px;
+.code{
+  margin:16px 0;
+  padding:17px;
+  overflow:auto;
+  border-radius:16px;
+  background:#09111f;
+  color:#dbeafe;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;
+  line-height:1.7;
+  border:1px solid #1e293b;
 }
 
-.sectionHead button {
-  border: 0;
-
-  background: none;
-
-  color: var(--purple);
-
-  font-weight: 800;
+.term{
+  padding:18px;
+  margin:17px 0;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(124,58,237,.08));
+  border:1px solid rgba(37,99,235,.18);
 }
 
-
-/* ================================
-   COURSE GRID
-================================ */
-
-.grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 15px;
+.term strong{
+  display:block;
+  margin-bottom:5px;
 }
 
-.course {
-  overflow: hidden;
+.diagram{
+  padding:18px;
+  border-radius:18px;
+  background:var(--surface);
+  border:1px solid var(--line);
 }
 
-.cover {
-  height: 135px;
+.diagram-flow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
 
-  padding: 15px;
+.diagram-box{
+  padding:12px 14px;
+  border-radius:12px;
+  background:var(--surface2);
+  border:1px solid var(--line);
+  font-size:12px;
+  font-weight:750;
+}
 
-  display: flex;
+.quiz{
+  padding:20px;
+  margin:25px 0;
+}
 
-  justify-content: space-between;
+.quiz h3{
+  margin:0 0 14px;
+}
 
-  align-items: flex-end;
+.quiz-option{
+  width:100%;
+  text-align:left;
+  padding:13px;
+  margin:7px 0;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:var(--surface2);
+  color:var(--text);
+}
 
-  color: white;
+.quiz-option.correct{
+  border-color:var(--success);
+  background:rgba(18,183,106,.12);
+}
 
+.quiz-option.wrong{
+  border-color:var(--danger);
+  background:rgba(240,68,56,.1);
+}
+
+.feedback{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.work-list{
+  display:grid;
+  gap:12px;
+}
+
+.work-card{
+  padding:18px;
+}
+
+.work-card h3{
+  margin:0 0 7px;
+  font-size:17px;
+}
+
+.work-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:13px;
+}
+
+.work-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.external{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:var(--primary);
+  font-size:11px;
+  font-weight:800;
+  margin-top:13px;
+}
+
+.ai-shell{
+  padding:20px 0;
+}
+
+.ai-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.ai-title{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.ai-orb{
+  width:45px;
+  height:45px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  box-shadow:0 9px 24px rgba(37,99,235,.23);
+}
+
+.ai-header h1{
+  margin:0;
+  font-size:25px;
+  letter-spacing:-.04em;
+}
+
+.ai-header p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.ai-messages{
+  min-height:430px;
+  padding:22px 0 100px;
+}
+
+.message{
+  max-width:88%;
+  margin:10px 0;
+  padding:14px 15px;
+  border-radius:18px;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.message.ai{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-top-left-radius:6px;
+}
+
+.message.user{
+  margin-left:auto;
+  color:#fff;
+  background:var(--primary);
+  border-top-right-radius:6px;
+}
+
+.message small{
+  display:block;
+  margin-bottom:5px;
+  opacity:.65;
+  font-size:10px;
+  font-weight:800;
+}
+
+.ai-composer{
+  position:fixed;
+  left:50%;
+  bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);
+  transform:translateX(-50%);
+  width:min(700px,calc(100% - 28px));
+  z-index:35;
+  display:flex;
+  gap:8px;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+}
+
+.ai-composer input{
+  min-width:0;
+  flex:1;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  padding:0 8px;
+}
+
+.ai-send{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:var(--primary);
+}
+
+.suggestions{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:5px 0 10px;
+  scrollbar-width:none;
+}
+
+.suggestions::-webkit-scrollbar{
+  display:none;
+}
+
+.suggestion{
+  white-space:nowrap;
+  padding:9px 12px;
+  border-radius:999px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+
+.account-head{
+  padding:30px 0 20px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.avatar{
+  width:62px;
+  height:62px;
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+
+.account-head h1{
+  margin:0;
+  font-size:24px;
+}
+
+.account-head p{
+  margin:4px 0;
+  color:var(--muted);
+}
+
+.menu-card{
+  overflow:hidden;
+}
+
+.menu-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:17px;
+  background:var(--surface);
+  color:var(--text);
+  text-align:left;
+  border-bottom:1px solid var(--line);
+}
+
+.menu-item:last-child{
+  border-bottom:0;
+}
+
+.menu-icon{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:var(--surface2);
+  color:var(--primary);
+}
+
+.menu-copy{
+  flex:1;
+}
+
+.menu-copy strong{
+  display:block;
+  font-size:14px;
+}
+
+.menu-copy span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.premium{
+  margin:20px 0;
+  padding:23px;
+  color:#fff;
+  border-radius:24px;
   background:
-    linear-gradient(
-      135deg,
-      #312e81,
-      #7c3aed,
-      #0891b2
-    );
+    radial-gradient(circle at 85% 10%,rgba(255,255,255,.2),transparent 25%),
+    linear-gradient(135deg,#111827,#312e81);
 }
 
-.tag {
-  font-size: 10px;
-
-  font-weight: 900;
-
-  padding:
-    6px 8px;
-
-  border-radius: 8px;
-
-  background:
-    rgba(255,255,255,.17);
+.premium h2{
+  margin:0 0 7px;
 }
 
-.courseBody {
-  padding: 16px;
+.premium p{
+  color:#cbd5e1;
+  line-height:1.55;
+  font-size:13px;
 }
 
-.muted {
-  color: var(--muted);
-
-  font-size: 12px;
+.checks{
+  display:grid;
+  gap:9px;
+  margin:17px 0;
 }
 
-.progress {
-  height: 6px;
-
-  background:
-    var(--panel2);
-
-  border-radius: 9px;
-
-  overflow: hidden;
-
-  margin-top: 15px;
+.check{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-size:13px;
+  color:#e2e8f0;
 }
 
-.progress i {
-  display: block;
-
-  height: 100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--purple),
-      var(--cyan)
-    );
+.cert{
+  padding:22px;
+  text-align:center;
 }
 
-.courseFoot {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-top: 9px;
-
-  font-size: 12px;
+.cert-mark{
+  width:70px;
+  height:70px;
+  margin:0 auto 15px;
+  display:grid;
+  place-items:center;
+  border-radius:22px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
 }
 
-.courseFoot button {
-  border: 0;
-
-  background: none;
-
-  color: var(--purple);
-
-  font-weight: 850;
+.cert h2{
+  margin:0 0 8px;
 }
 
-
-/* ================================
-   FEATURE CARDS
-================================ */
-
-.features {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 12px;
+.cert p{
+  color:var(--muted);
+  line-height:1.6;
 }
 
-.feature {
-  padding: 19px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  text-align: left;
-
-  color: var(--text);
+.verify-box{
+  padding:20px;
 }
 
-.feature .fi {
-  width: 45px;
-  height: 45px;
-
-  border-radius: 13px;
-
-  display: grid;
-  place-items: center;
-
-  color: white;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--cyan)
-    );
+.verify-box input{
+  width:100%;
+  height:50px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--surface2);
+  color:var(--text);
+  padding:0 14px;
+  outline:none;
+  margin:10px 0;
 }
 
-.feature div:nth-child(2) {
-  flex: 1;
+.verify-result{
+  margin-top:15px;
+  padding:15px;
+  border-radius:15px;
+  display:none;
 }
 
-.feature p {
-  margin: 3px 0 0;
-
-  color: var(--muted);
-
-  font-size: 13px;
+.verify-result.show{
+  display:block;
 }
 
+.verify-result.good{
+  background:rgba(18,183,106,.11);
+  border:1px solid rgba(18,183,106,.3);
+}
 
-/* ================================
-   RESPONSIVE
-================================ */
+.verify-result.bad{
+  background:rgba(240,68,56,.1);
+  border:1px solid rgba(240,68,56,.3);
+}
 
-@media(max-width:800px) {
+.settings{
+  display:grid;
+  gap:12px;
+}
 
-  .hero {
-    padding: 30px;
+.setting{
+  padding:17px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.setting-copy{
+  flex:1;
+}
+
+.setting-copy strong{
+  display:block;
+}
+
+.setting-copy span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.toggle{
+  width:48px;
+  height:28px;
+  padding:3px;
+  border-radius:99px;
+  background:var(--surface2);
+  border:1px solid var(--line);
+}
+
+.toggle span{
+  display:block;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--muted);
+  transition:.2s;
+}
+
+.toggle.on{
+  background:var(--primary);
+  border-color:var(--primary);
+}
+
+.toggle.on span{
+  transform:translateX(20px);
+  background:#fff;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  z-index:60;
+  width:100%;
+  max-width:700px;
+  transform:translateX(-50%);
+  min-height:var(--nav);
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  background:color-mix(in srgb,var(--surface) 93%,transparent);
+  border-top:1px solid var(--line);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+
+.nav-btn{
+  min-width:0;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  background:transparent;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:750;
+}
+
+.nav-btn.active{
+  color:var(--primary);
+  background:rgba(37,99,235,.08);
+}
+
+.nav-btn svg{
+  width:20px;
+  height:20px;
+}
+
+.modal-back{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  place-items:end center;
+  background:rgba(0,0,0,.52);
+  backdrop-filter:blur(5px);
+}
+
+.modal-back.show{
+  display:grid;
+}
+
+.modal{
+  width:min(600px,100%);
+  max-height:85vh;
+  overflow:auto;
+  padding:22px;
+  border-radius:25px 25px 0 0;
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:0 -20px 50px rgba(0,0,0,.2);
+  animation:modalUp .25s ease;
+}
+
+@keyframes modalUp{
+  from{transform:translateY(100%)}
+  to{transform:none}
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.modal h2{
+  margin:0;
+  font-size:21px;
+}
+
+.modal-body{
+  color:var(--muted);
+  line-height:1.65;
+  margin:15px 0;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:var(--surface2);
+  color:var(--text);
+}
+
+.toast{
+  position:fixed;
+  z-index:150;
+  left:50%;
+  bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 18px);
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:12px 16px;
+  border-radius:14px;
+  color:#fff;
+  background:#101828;
+  box-shadow:var(--shadow);
+  font-size:12px;
+  font-weight:700;
+  transition:.25s;
+  max-width:calc(100% - 30px);
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+.empty{
+  padding:35px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(min-width:760px){
+  .container{
+    padding-left:26px;
+    padding-right:26px;
   }
 
-  .orb {
-    width: 155px;
-    height: 155px;
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
 
-  .grid {
-    grid-template-columns:
-      1fr 1fr;
+  .hero{
+    padding-top:45px;
   }
 
-  .stats {
-    grid-template-columns:
-      1fr 1fr;
+  .bottom-nav{
+    bottom:15px;
+    border:1px solid var(--line);
+    border-radius:22px;
+    width:calc(100% - 30px);
+    padding-bottom:8px;
+    box-shadow:var(--shadow);
   }
 
+  .ai-composer{
+    bottom:105px;
+  }
+
+  .app{
+    padding-bottom:120px;
+  }
 }
 
-@media(max-width:560px) {
-
-  .top {
-    height: 63px;
+@media(max-width:520px){
+  .grid{
+    grid-template-columns:1fr;
   }
 
-  .wrap {
-    padding:
-      20px
-      13px
-      100px;
+  .course-cover{
+    height:165px;
   }
 
-  .hero {
-    display: block;
-
-    border-radius: 23px;
+  .hero-card{
+    padding:26px 20px;
   }
 
-  .hero h1 {
-    font-size: 42px;
+  .hero h1{
+    font-size:40px;
   }
-
-  .orb {
-    margin:
-      25px
-      auto
-      0;
-  }
-
-  .grid,
-  .features {
-    grid-template-columns: 1fr;
-  }
-
-  .pageTitle {
-    display: block;
-  }
-
-  .pageTitle .btn {
-    width: 100%;
-    margin-top: 12px;
-  }
-
 }
-
 </style>
 </head>
+
+<body>
+
+<div class="app">
+
+<!-- ======================================================
+     TOP BAR
+====================================================== -->
+<header class="topbar">
+  <button class="brand" data-go="home" aria-label="JG Home">
+    <span class="logo">JG</span>
+    <span>
+      JG
+      <small>Find Skills. Find Opportunities.</small>
+    </span>
+  </button>
+
+  <button class="icon-btn" id="themeBtn" aria-label="Change theme"></button>
+</header>
+
+
+<!-- ======================================================
+     HOME
+====================================================== -->
+<main id="home" class="screen active">
+  <div class="container">
+
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">
+          <span id="statusDot">●</span>
+          Built for the next generation
+        </span>
+
+        <h1>Build skills.<br>Build your future.</h1>
+
+        <p>
+          Learn practical digital skills, understand how they work,
+          practice with real examples and discover opportunities beyond the classroom.
+        </p>
+
+        <div class="actions">
+          <button class="btn btn-primary" data-go="learn">
+            Explore Skills
+            <span class="icon-arrow"></span>
+          </button>
+
+          <button class="btn btn-secondary" data-go="ai">
+            Ask JG AI
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Continue learning</h2>
+          <p>Pick up where you stopped.</p>
+        </div>
+        <button class="link-btn" data-go="learn">View all</button>
+      </div>
+
+      <div id="continueCard"></div>
+    </section>
+
+    <div class="ad free-ad">
+      <div>
+        <strong>Sponsored space</strong>
+        Relevant advertising helps keep JG free.
+      </div>
+    </div>
+
+    <div class="ad premium-ad">
+      <div>
+        <strong>Premium experience</strong>
+        Your JG experience is ad-free.
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Popular skills</h2>
+          <p>Start with something useful.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="homeCourses"></div>
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     LEARN
+====================================================== -->
+<main id="learn" class="screen">
+  <div class="container">
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Learn</h2>
+          <p>Practical skills, explained clearly.</p>
+        </div>
+      </div>
+
+      <div class="search">
+        <span id="searchIcon"></span>
+        <input id="courseSearch" type="search" placeholder="Search skills or courses...">
+      </div>
+
+      <div class="tabs" id="courseTabs"></div>
+
+      <div class="grid" id="courseGrid"></div>
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     COURSE DETAIL
+====================================================== -->
+<main id="course-detail" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="learn" aria-label="Back">
+        <span class="icon-back"></span>
+      </button>
+      <span>Course</span>
+    </div>
+
+    <section id="courseDetail"></section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     LESSON
+====================================================== -->
+<main id="lesson" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="course-detail" aria-label="Back">
+        <span class="icon-back"></span>
+      </button>
+      <span>Lesson</span>
+    </div>
+
+    <section id="lessonContent"></section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     WORK
+====================================================== -->
+<main id="work" class="screen">
+  <div class="container">
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Find Opportunities</h2>
+          <p>Discover opportunities from external platforms.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding:17px;margin-bottom:15px;">
+        <strong>How opportunities work</strong>
+        <p style="color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:0;">
+          JG helps you discover opportunities. Applications and work happen
+          on the relevant external platform. JG does not pay users for applying
+          or completing external work.
+        </p>
+      </div>
+
+      <div class="work-list" id="workList"></div>
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     JG AI
+====================================================== -->
+<main id="ai" class="screen">
+  <div class="container">
+
+    <section class="ai-shell">
+
+      <div class="ai-header">
+        <div class="ai-title">
+          <div class="ai-orb">
+            <span class="icon-spark"></span>
+          </div>
+
+          <div>
+            <h1>JG AI</h1>
+            <p>Your learning and skills workspace.</p>
+          </div>
+        </div>
+
+        <button class="icon-btn" id="newChatBtn" aria-label="New chat">
+          <span class="icon-plus"></span>
+        </button>
+      </div>
+
+      <div class="suggestions">
+        <button class="suggestion" data-prompt="Explain API to me like I am a beginner.">
+          Explain API
+        </button>
+        <button class="suggestion" data-prompt="Give me a simple HTML practice exercise.">
+          HTML exercise
+        </button>
+        <button class="suggestion" data-prompt="Create a 30 day coding study plan for me.">
+          Study plan
+        </button>
+        <button class="suggestion" data-prompt="What should I learn after HTML and CSS?">
+          What next?
+        </button>
+      </div>
+
+      <div class="ai-messages" id="aiMessages"></div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     ACCOUNT
+====================================================== -->
+<main id="account" class="screen">
+  <div class="container">
+
+    <section class="account-head">
+      <div class="avatar">JG</div>
+      <div>
+        <h1>Your Account</h1>
+        <p id="planText">Free plan</p>
+      </div>
+    </section>
+
+    <div class="premium" id="premiumCard">
+      <h2>JG Premium</h2>
+      <p>
+        Upgrade your learning experience with an ad-free interface
+        and premium-ready features.
+      </p>
+
+      <div class="checks">
+        <div class="check">
+          <span class="icon-check"></span>
+          Ad-free experience
+        </div>
+        <div class="check">
+          <span class="icon-check"></span>
+          Premium learning features
+        </div>
+        <div class="check">
+          <span class="icon-check"></span>
+          Priority product access
+        </div>
+      </div>
+
+      <button class="btn btn-primary" data-action="premium" id="premiumAccountBtn">
+        Explore Premium
+      </button>
+    </div>
+
+    <div class="card menu-card">
+
+      <button class="menu-item" data-go="certificates">
+        <span class="menu-icon"><span class="icon-award"></span></span>
+        <span class="menu-copy">
+          <strong>Certificates</strong>
+          <span>View your learning credentials.</span>
+        </span>
+        <span class="icon-arrow"></span>
+      </button>
+
+      <button class="menu-item" data-go="verify">
+        <span class="menu-icon"><span class="icon-shield"></span></span>
+        <span class="menu-copy">
+          <strong>Verify Certificate</strong>
+          <span>Check a JG certificate ID.</span>
+        </span>
+        <span class="icon-arrow"></span>
+      </button>
+
+      <button class="menu-item" data-go="settings">
+        <span class="menu-icon"><span class="icon-settings"></span></span>
+        <span class="menu-copy">
+          <strong>Settings & Security</strong>
+          <span>Theme, privacy and local settings.</span>
+        </span>
+        <span class="icon-arrow"></span>
+      </button>
+
+    </div>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     PREMIUM
+====================================================== -->
+<main id="premium" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="account">
+        <span class="icon-back"></span>
+      </button>
+      <span>Premium</span>
+    </div>
+
+    <section class="section">
+      <div class="premium" style="margin-top:10px;">
+        <span class="eyebrow">JG Premium</span>
+
+        <h1 style="font-size:38px;letter-spacing:-.05em;margin:20px 0 10px;">
+          Learn without distractions.
+        </h1>
+
+        <p>
+          Premium is designed for learners who want an ad-free
+          JG experience and access to premium product features.
+        </p>
+
+        <div class="checks">
+          <div class="check">
+            <span class="icon-check"></span>
+            Ad-free learning
+          </div>
+          <div class="check">
+            <span class="icon-check"></span>
+            Premium learning experience
+          </div>
+          <div class="check">
+            <span class="icon-check"></span>
+            Future premium tools
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" data-action="premium" id="premiumPageBtn">
+          Activate Premium Demo
+        </button>
+      </div>
+
+      <p style="color:var(--muted);font-size:11px;line-height:1.6;">
+        This single-file version uses a local demo subscription state.
+        A production version should connect this button to a secure payment
+        backend before accepting real payments.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     CERTIFICATES
+====================================================== -->
+<main id="certificates" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="account">
+        <span class="icon-back"></span>
+      </button>
+      <span>Certificates</span>
+    </div>
+
+    <section class="section">
+
+      <div class="card cert">
+        <div class="cert-mark">
+          <span class="icon-award" style="width:34px;height:34px;"></span>
+        </div>
+
+        <h2>Web Development Foundations</h2>
+
+        <p>
+          Complete the learning pathway and assessments to qualify
+          for a JG certificate.
+        </p>
+
+        <div class="pill" style="margin:8px auto;width:max-content;">
+          Demo certificate pathway
+        </div>
+
+        <div style="margin-top:20px;">
+          <strong>Certificate ID</strong>
+          <p style="margin:5px 0;font-family:monospace;">
+            JG-WEB-2026-0007
+          </p>
+        </div>
+
+        <button class="btn btn-primary" data-go="verify" style="margin-top:10px;">
+          Verify Certificate
+        </button>
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     VERIFY
+====================================================== -->
+<main id="verify" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="account">
+        <span class="icon-back"></span>
+      </button>
+      <span>Verification</span>
+    </div>
+
+    <section class="section">
+
+      <div class="card verify-box">
+
+        <h2 style="margin:0;">Certificate Verification</h2>
+
+        <p style="color:var(--muted);line-height:1.6;font-size:13px;">
+          Enter a JG certificate ID to check the demo registry.
+        </p>
+
+        <input
+          id="certInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Example: JG-WEB-2026-0007"
+        >
+
+        <button class="btn btn-primary btn-full" id="verifyBtn">
+          Verify Certificate
+        </button>
+
+        <div id="verifyResult" class="verify-result"></div>
+
+      </div>
+
+      <div class="card" style="padding:17px;margin-top:13px;">
+        <strong>Verification status</strong>
+        <p style="color:var(--muted);font-size:12px;line-height:1.6;">
+          This demo contains a local JG registry example.
+          Government accreditation is not claimed by this demo.
+        </p>
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     SETTINGS
+====================================================== -->
+<main id="settings" class="screen">
+  <div class="container">
+
+    <div class="back-row">
+      <button data-go="account">
+        <span class="icon-back"></span>
+      </button>
+      <span>Settings</span>
+    </div>
+
+    <section class="section">
+
+      <div class="settings">
+
+        <div class="card setting">
+          <div class="menu-icon">
+            <span class="icon-sun"></span>
+          </div>
+
+          <div class="setting-copy">
+            <strong>Appearance</strong>
+            <span>Switch between light and dark mode.</span>
+          </div>
+
+          <button class="toggle" id="settingsTheme">
+            <span></span>
+          </button>
+        </div>
+
+        <div class="card setting">
+          <div class="menu-icon">
+            <span class="icon-shield"></span>
+          </div>
+
+          <div class="setting-copy">
+            <strong>Account Security</strong>
+            <span>Production security requires a secure backend.</span>
+          </div>
+
+          <span class="pill">Ready</span>
+        </div>
+
+        <div class="card setting">
+          <div class="menu-icon">
+            <span class="icon-lock"></span>
+          </div>
+
+          <div class="setting-copy">
+            <strong>Local Privacy</strong>
+            <span>Your demo progress is stored locally on this device.</span>
+          </div>
+
+          <span class="pill">Local</span>
+        </div>
+
+        <button class="btn btn-danger btn-full" id="demoReset">
+          Reset JG Demo Data
+        </button>
+
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- ======================================================
+     BOTTOM NAV
+====================================================== -->
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-go="home" data-nav="home">
+    <span class="icon-home"></span>
+    <span>Home</span>
+  </button>
+
+  <button class="nav-btn" data-go="learn" data-nav="learn">
+    <span class="icon-book"></span>
+    <span>Learn</span>
+  </button>
+
+  <button class="nav-btn" data-go="work" data-nav="work">
+    <span class="icon-briefcase"></span>
+    <span>Work</span>
+  </button>
+
+  <button class="nav-btn" data-go="ai" data-nav="ai">
+    <span class="icon-spark"></span>
+    <span>JG AI</span>
+  </button>
+
+  <button class="nav-btn" data-go="account" data-nav="account">
+    <span class="icon-user"></span>
+    <span>Account</span>
+  </button>
+
+</nav>
+
+</div>
+
+
+<!-- ======================================================
+     MODAL
+====================================================== -->
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true">
+
+    <div class="modal-head">
+      <h2 id="modalTitle">JG</h2>
+
+      <button class="close" id="modalClose">
+        <span class="icon-close"></span>
+      </button>
+    </div>
+
+    <div class="modal-body" id="modalBody"></div>
+
+    <div id="modalActions"></div>
+
+  </div>
+</div>
+
+
+<!-- ======================================================
+     TOAST
+====================================================== -->
+<div class="toast" id="toast"></div>
+
+
+<script>
+/* =========================================================
+   JG APPLICATION ENGINE
+   ========================================================= */
+
+"use strict";
+
+/* ---------------------------------------------------------
+   ICON SYSTEM
+--------------------------------------------------------- */
+
+function icon(name,size=20){
+
+  const s = `width="${size}" height="${size}" viewBox="0 0 24 24"
+  fill="none" stroke="currentColor" stroke-width="1.9"
+  stroke-linecap="round" stroke-linejoin="round"`;
+
+  const icons = {
+
+    home:`<svg ${s}><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10Z"/></svg>`,
+
+    book:`<svg ${s}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg>`,
+
+    briefcase:`<svg ${s}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg>`,
+
+    spark:`<svg ${s}><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg>`,
+
+    user:`<svg ${s}><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
+
+    search:`<svg ${s}><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>`,
+
+    arrow:`<svg ${s}><path d="M5 12h13M13 6l6 6-6 6"/></svg>`,
+
+    back:`<svg ${s}><path d="m15 18-6-6 6-6"/></svg>`,
+
+    check:`<svg ${s}><path d="m5 12 4 4L19 6"/></svg>`,
+
+    award:`<svg ${s}><circle cx="12" cy="8" r="5"/><path d="M8.5 12 7 21l5-3 5 3-1.5-9"/></svg>`,
+
+    shield:`<svg ${s}><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg>`,
+
+    settings:`<svg ${s}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.1h-2.5V20a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.5h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.5v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.5h-.1a1.7 1.7 0 0 0-1.6 1.4Z"/></svg>`,
+
+    lock:`<svg ${s}><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`,
+
+    close:`<svg ${s}><path d="m6 6 12 12M18 6 6 18"/></svg>`,
+
+    plus:`<svg ${s}><path d="M12 5v14M5 12h14"/></svg>`,
+
+    send:`<svg ${s}><path d="m3 3 18 9-18 9 4-9-4-9Z"/><path d="M7 12h14"/></svg>`,
+
+    copy:`<svg ${s}><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>`,
+
+    refresh:`<svg ${s}><path d="M20 11a8 8 0 0 0-14.9-3M4 5v4h4M4 13a8 8 0 0 0 14.9 3M20 19v-4h-4"/></svg>`,
+
+    external:`<svg ${s}><path d="M14 5h5v5M19 5l-8 8"/><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>`,
+
+    play:`<svg ${s} fill="currentColor"><path d="m9 6 9 6-9 6V6Z" fill="currentColor" stroke="none"/></svg>`,
+
+    sun:`<svg ${s}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>`,
+
+    moon:`<svg ${s}><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>`,
+
+    video:`<svg ${s}><rect x="3" y="5" width="13" height="14" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg>`,
+
+    code:`<svg ${s}><path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></svg>`,
+
+    design:`<svg ${s}><path d="M4 20 15.5 8.5M14 4l6 6M5 19l2.5-6.5L15.5 8.5 18 11l-4 4.5L7.5 20H5Z"/></svg>`
+
+  };
+
+  return icons[name] || "";
+}
+
+
+/* ---------------------------------------------------------
+   PLACE ICONS
+--------------------------------------------------------- */
+
+function mountIcons(){
+
+  document.querySelectorAll(".icon-home").forEach(x=>x.innerHTML=icon("home"));
+  document.querySelectorAll(".icon-book").forEach(x=>x.innerHTML=icon("book"));
+  document.querySelectorAll(".icon-briefcase").forEach(x=>x.innerHTML=icon("briefcase"));
+  document.querySelectorAll(".icon-spark").forEach(x=>x.innerHTML=icon("spark"));
+  document.querySelectorAll(".icon-user").forEach(x=>x.innerHTML=icon("user"));
+  document.querySelectorAll(".icon-arrow").forEach(x=>x.innerHTML=icon("arrow",17));
+  document.querySelectorAll(".icon-back").forEach(x=>x.innerHTML=icon("back"));
+  document.querySelectorAll(".icon-check").forEach(x=>x.innerHTML=icon("check",17));
+  document.querySelectorAll(".icon-award").forEach(x=>x.innerHTML=icon("award"));
+  document.querySelectorAll(".icon-shield").forEach(x=>x.innerHTML=icon("shield"));
+  document.querySelectorAll(".icon-settings").forEach(x=>x.innerHTML=icon("settings"));
+  document.querySelectorAll(".icon-lock").forEach(x=>x.innerHTML=icon("lock"));
+  document.querySelectorAll(".icon-close").forEach(x=>x.innerHTML=icon("close"));
+  document.querySelectorAll(".icon-plus").forEach(x=>x.innerHTML=icon("plus"));
+  document.querySelectorAll(".icon-sun").forEach(x=>x.innerHTML=icon("sun"));
+}
+
+
+/* ---------------------------------------------------------
+   DATA
+--------------------------------------------------------- */
+
+const courses = [
+
+  {
+    id:"web",
+    title:"Web Development",
+    category:"Development",
+    level:"Beginner",
+    duration:"8 weeks",
+    lessons:24,
+    cover:"cover-web",
+    label:"WEB",
+    description:
+      "Learn how websites work from the ground up. Build real pages with HTML, CSS and JavaScript.",
+    modules:[
+      {
+        title:"HTML Foundations",
+        lessons:["What is HTML?","Page Structure","Links & Media","Forms","Semantic HTML","Accessibility"]
+      },
+      {
+        title:"CSS Foundations",
+        lessons:["Selectors","Colors & Typography","Box Model","Flexbox","Grid","Responsive Design"]
+      },
+      {
+        title:"JavaScript Foundations",
+        lessons:["Variables","Functions","Events","Arrays","Objects","DOM"]
+      }
+    ]
+  },
+
+  {
+    id:"design",
+    title:"Graphic Design",
+    category:"Design",
+    level:"Beginner",
+    duration:"6 weeks",
+    lessons:20,
+    cover:"cover-design",
+    label:"DESIGN",
+    description:
+      "Learn visual communication, composition, typography, branding and practical digital design.",
+    modules:[
+      {
+        title:"Design Foundations",
+        lessons:["Design Principles","Color Theory","Typography","Composition"]
+      },
+      {
+        title:"Digital Design",
+        lessons:["Layouts","Brand Systems","Social Graphics","Presentation Design"]
+      }
+    ]
+  },
+
+  {
+    id:"video",
+    title:"Video Editing",
+    category:"Creative",
+    level:"Beginner",
+    duration:"5 weeks",
+    lessons:18,
+    cover:"cover-video",
+    label:"VIDEO",
+    description:
+      "Understand editing, storytelling, sound, pacing, transitions and professional video workflows.",
+    modules:[
+      {
+        title:"Editing Foundations",
+        lessons:["Timeline","Cuts","Transitions","Audio","Color"]
+      },
+      {
+        title:"Storytelling",
+        lessons:["Hooks","Pacing","B-Roll","Captions","Export"]
+      }
+    ]
+  },
+
+  {
+    id:"python",
+    title:"Python Programming",
+    category:"Programming",
+    level:"Beginner",
+    duration:"8 weeks",
+    lessons:26,
+    cover:"cover-python",
+    label:"PYTHON",
+    description:
+      "Start programming with Python and learn the thinking patterns behind software development.",
+    modules:[
+      {
+        title:"Python Foundations",
+        lessons:["What is Python?","Variables","Data Types","Conditions","Loops","Functions"]
+      },
+      {
+        title:"Building Programs",
+        lessons:["Lists","Dictionaries","Files","Errors","Modules","Projects"]
+      }
+    ]
+  }
+
+];
+
+
+const opportunities = [
+
+  {
+    title:"Junior Web Developer",
+    type:"Remote opportunity",
+    category:"Development",
+    description:
+      "A sample external opportunity for learners building foundational web development skills."
+  },
+
+  {
+    title:"Graphic Design Internship",
+    type:"Remote opportunity",
+    category:"Design",
+    description:
+      "A sample external opportunity for learners developing design and portfolio skills."
+  },
+
+  {
+    title:"Video Editor",
+    type:"Contract opportunity",
+    category:"Creative",
+    description:
+      "A sample external opportunity for editors looking to build professional experience."
+  },
+
+  {
+    title:"Python Open Source Project",
+    type:"Open source opportunity",
+    category:"Programming",
+    description:
+      "A sample external project opportunity for developers looking to practice Python."
+  }
+
+];
+
+
+const validCertificates = {
+
+  "JG-WEB-2026-0007":{
+    course:"Web Development Foundations",
+    status:"Verified in JG demo registry",
+    date:"2026"
+  },
+
+  "JG-PY-2026-0003":{
+    course:"Python Programming Foundations",
+    status:"Verified in JG demo registry",
+    date:"2026"
+  }
+
+};
+
+
+/* ---------------------------------------------------------
+   STATE
+--------------------------------------------------------- */
+
+const state = {
+
+  screen:"home",
+
+  theme:localStorage.getItem("jg-theme") || "light",
+
+  plan:localStorage.getItem("jg-plan") || "free",
+
+  activeCategory:"All",
+
+  search:"",
+
+  progress:JSON.parse(localStorage.getItem("jg-progress") || "{}"),
+
+  selectedCourse:"web",
+
+  selectedLesson:0,
+
+  quizAnswered:false,
+
+  aiStarted:false
+
+};
+
+
+/* ---------------------------------------------------------
+   SAFE HTML
+--------------------------------------------------------- */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ---------------------------------------------------------
+   STORAGE
+--------------------------------------------------------- */
+
+function saveState(){
+
+  localStorage.setItem(
+    "jg-progress",
+    JSON.stringify(state.progress)
+  );
+
+  localStorage.setItem(
+    "jg-theme",
+    state.theme
+  );
+
+  localStorage.setItem(
+    "jg-plan",
+    state.plan
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   THEME
+--------------------------------------------------------- */
+
+function updateTheme(){
+
+  document.documentElement.dataset.theme = state.theme;
+
+  document.querySelector('meta[name="theme-color"]')
+    .setAttribute(
+      "content",
+      state.theme === "dark" ? "#070b14" : "#f5f7fb"
+    );
+
+  const themeBtn = document.getElementById("themeBtn");
+
+  if(themeBtn){
+
+    themeBtn.innerHTML =
+      state.theme === "dark"
+      ? icon("sun")
+      : icon("moon");
+
+  }
+
+  const toggle = document.getElementById("settingsTheme");
+
+  if(toggle){
+
+    toggle.classList.toggle(
+      "on",
+      state.theme === "dark"
+    );
+
+  }
+
+}
+
+
+function toggleTheme(){
+
+  state.theme =
+    state.theme === "dark"
+    ? "light"
+    : "dark";
+
+  saveState();
+  updateTheme();
+
+  showToast(
+    state.theme === "dark"
+    ? "Dark mode enabled"
+    : "Light mode enabled"
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   PLAN
+--------------------------------------------------------- */
+
+function updatePlanUI(){
+
+  document.documentElement.dataset.plan = state.plan;
+
+  const planText = document.getElementById("planText");
+
+  if(planText){
+
+    planText.textContent =
+      state.plan === "premium"
+      ? "JG Premium"
+      : "Free plan";
+
+  }
+
+  const buttons = [
+    document.getElementById("premiumAccountBtn"),
+    document.getElementById("premiumPageBtn")
+  ];
+
+  buttons.forEach(btn=>{
+
+    if(!btn) return;
+
+    btn.textContent =
+      state.plan === "premium"
+      ? "Switch to Free Demo"
+      : "Activate Premium Demo";
+
+  });
+
+}
+
+
+function togglePremium(){
+
+  state.plan =
+    state.plan === "premium"
+    ? "free"
+    : "premium";
+
+  saveState();
+  updatePlanUI();
+
+  showToast(
+    state.plan === "premium"
+    ? "JG Premium demo activated"
+    : "Free demo restored"
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   NAVIGATION
+--------------------------------------------------------- */
+
+function go(screen){
+
+  state.screen = screen;
+
+  document.querySelectorAll(".screen")
+    .forEach(el=>{
+      el.classList.toggle(
+        "active",
+        el.id === screen
+      );
+    });
+
+  const navScreen =
+    ["home","learn","work","ai","account"].includes(screen)
+    ? screen
+    : screen === "course-detail" || screen === "lesson"
+      ? "learn"
+      : screen === "premium" ||
+        screen === "certificates" ||
+        screen === "verify" ||
+        screen === "settings"
+        ? "account"
+        : "home";
+
+  document.querySelectorAll("[data-nav]")
+    .forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.nav === navScreen
+      );
+    });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(screen === "learn"){
+    renderCourses();
+  }
+
+  if(screen === "course-detail"){
+    renderCourseDetail();
+  }
+
+  if(screen === "lesson"){
+    renderLesson();
+  }
+
+  if(screen === "work"){
+    renderWork();
+  }
+
+  if(screen === "home"){
+    renderHome();
+  }
+
+  updateTheme();
+  updatePlanUI();
+
+}
+
+
+/* ---------------------------------------------------------
+   PROGRESS
+--------------------------------------------------------- */
+
+function courseProgress(id){
+
+  return Number(state.progress[id] || 0);
+
+}
+
+
+function setCourseProgress(id,value){
+
+  state.progress[id] =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Number(value)
+      )
+    );
+
+  saveState();
+
+}
+
+
+/* ---------------------------------------------------------
+   COURSE CARD
+--------------------------------------------------------- */
+
+function courseCard(course){
+
+  const progress =
+    courseProgress(course.id);
+
+  return `
+
+    <article class="card course-card"
+             data-course="${course.id}">
+
+      <div class="course-cover ${course.cover}">
+        <span class="cover-label">${course.label}</span>
+      </div>
+
+      <div class="course-body">
+
+        <h3>${escapeHTML(course.title)}</h3>
+
+        <p>${escapeHTML(course.description)}</p>
+
+        <div class="meta">
+
+          <span class="pill">
+            ${escapeHTML(course.level)}
+          </span>
+
+          <span class="pill">
+            ${escapeHTML(course.duration)}
+          </span>
+
+          <span class="pill">
+            ${course.lessons} lessons
+          </span>
+
+        </div>
+
+        <div class="progress">
+          <span style="width:${progress}%"></span>
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          margin-top:7px;
+          font-size:10px;
+          color:var(--muted);
+        ">
+          <span>${progress}% complete</span>
+          <span>Open →</span>
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* ---------------------------------------------------------
+   HOME
+--------------------------------------------------------- */
+
+function renderHome(){
+
+  const homeCourses =
+    document.getElementById("homeCourses");
+
+  if(homeCourses){
+
+    homeCourses.innerHTML =
+      courses.slice(0,4)
+      .map(courseCard)
+      .join("");
+
+  }
+
+  const continueCard =
+    document.getElementById("continueCard");
+
+  const course =
+    courses.find(c=>c.id==="web");
+
+  const progress =
+    courseProgress("web");
+
+  if(continueCard){
+
+    continueCard.innerHTML = `
+
+      <article class="card course-card"
+               data-course="web">
+
+        <div class="course-cover cover-web">
+
+          <span class="cover-label">
+            ${progress > 0 ? "CONTINUE" : "START"}
+          </span>
+
+        </div>
+
+        <div class="course-body">
+
+          <h3>Web Development</h3>
+
+          <p>
+            ${progress > 0
+              ? "Continue your Web Development pathway."
+              : "Start with HTML foundations and build from there."}
+          </p>
+
+          <div class="progress">
+            <span style="width:${progress}%"></span>
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-top:9px;
+            font-size:11px;
+            color:var(--muted);
+          ">
+            <span>${progress}% complete</span>
+            <strong style="color:var(--primary);">
+              Continue →
+            </strong>
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   LEARN TABS
+--------------------------------------------------------- */
+
+function renderTabs(){
+
+  const tabs =
+    document.getElementById("courseTabs");
+
+  const categories =
+    ["All","Development","Design","Creative","Programming"];
+
+  tabs.innerHTML =
+    categories.map(category=>`
+
+      <button
+        class="tab ${state.activeCategory===category ? "active":""}"
+        data-category="${category}">
+        ${category}
+      </button>
+
+    `).join("");
+
+}
+
+
+/* ---------------------------------------------------------
+   COURSE GRID
+--------------------------------------------------------- */
+
+function renderCourses(){
+
+  renderTabs();
+
+  const grid =
+    document.getElementById("courseGrid");
+
+  const search =
+    state.search.toLowerCase();
+
+  const filtered =
+    courses.filter(course=>{
+
+      const categoryMatch =
+        state.activeCategory === "All" ||
+        course.category === state.activeCategory;
+
+      const searchMatch =
+        !search ||
+        course.title.toLowerCase().includes(search) ||
+        course.description.toLowerCase().includes(search) ||
+        course.category.toLowerCase().includes(search);
+
+      return categoryMatch && searchMatch;
+
+    });
+
+  grid.innerHTML =
+    filtered.length
+      ? filtered.map(courseCard).join("")
+      : `
+        <div class="card empty" style="grid-column:1/-1;">
+          No courses found.
+        </div>
+      `;
+
+}
+
+
+/* ---------------------------------------------------------
+   COURSE DETAIL
+--------------------------------------------------------- */
+
+function renderCourseDetail(){
+
+  const course =
+    courses.find(c=>c.id===state.selectedCourse)
+    || courses[0];
+
+  const progress =
+    courseProgress(course.id);
+
+  const detail =
+    document.getElementById("courseDetail");
+
+  detail.innerHTML = `
+
+    <section class="detail-hero">
+
+      <div class="course-cover ${course.cover}">
+        <span class="cover-label">${course.label}</span>
+      </div>
+
+      <h1>${escapeHTML(course.title)}</h1>
+
+      <p>${escapeHTML(course.description)}</p>
+
+      <div class="meta">
+
+        <span class="pill">${course.level}</span>
+        <span class="pill">${course.duration}</span>
+        <span class="pill">${course.lessons} lessons</span>
+
+      </div>
+
+      <div style="margin-top:18px;">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          font-size:12px;
+          margin-bottom:7px;
+        ">
+          <strong>Your progress</strong>
+          <span style="color:var(--muted);">${progress}%</span>
+        </div>
+
+        <div class="progress">
+          <span style="width:${progress}%"></span>
+        </div>
+
+      </div>
+
+      <button
+        class="btn btn-primary btn-full"
+        data-action="start-course"
+        style="margin-top:18px;">
+
+        ${progress > 0 ? "Continue Learning" : "Start Learning"}
+
+      </button>
+
+    </section>
+
+
+    <section>
+
+      <div class="section-head">
+        <div>
+          <h2>Course pathway</h2>
+          <p>Course → Module → Topic → Practice → Assessment</p>
+        </div>
+      </div>
+
+      ${course.modules.map((module,index)=>`
+
+        <div class="card module">
+
+          <div class="module-head">
+
+            <div class="module-number">
+              ${String(index+1).padStart(2,"0")}
+            </div>
+
+            <div>
+              <h3>${escapeHTML(module.title)}</h3>
+              <small>${module.lessons.length} topics</small>
+            </div>
+
+          </div>
+
+          <div class="lesson-list">
+
+            ${module.lessons.map((lesson,i)=>`
+
+              <div class="lesson-item">
+
+                <span>
+                  ${index+1}.${i+1}
+                  &nbsp;
+                  ${escapeHTML(lesson)}
+                </span>
+
+                ${
+                  course.id === "web" && index === 0 && i === 0
+                  ? `<button data-action="open-lesson">
+                       Open
+                     </button>`
+                  : `<span>Locked</span>`
+                }
+
+              </div>
+
+            `).join("")}
+
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </section>
+
+  `;
+
+}
+
+
+/* ---------------------------------------------------------
+   LESSON
+--------------------------------------------------------- */
+
+function renderLesson(){
+
+  const content =
+    document.getElementById("lessonContent");
+
+  const course =
+    courses.find(c=>c.id===state.selectedCourse)
+    || courses[0];
+
+  const progress =
+    courseProgress(course.id);
+
+  content.innerHTML = `
+
+    <section class="lesson-top">
+
+      <span class="pill">
+        Web Development • Module 1
+      </span>
+
+      <h1>HTML Foundations</h1>
+
+      <p>
+        Lesson 1 of 24 · Learn what HTML is and how a webpage
+        is structured.
+      </p>
+
+    </section>
+
+
+    <div class="video">
+
+      <div class="video-info">
+        <span>JG Learning Video</span>
+        <span>08:42</span>
+      </div>
+
+      <button class="play"
+              data-action="play-video"
+              aria-label="Play lesson">
+        ${icon("play",30)}
+      </button>
+
+    </div>
+
+
+    <article class="article">
+
+      <h2>What is HTML?</h2>
+
+      <p>
+        HTML means <strong>HyperText Markup Language</strong>.
+        It is the standard language used to describe the structure
+        of content on a webpage.
+      </p>
+
+      <p>
+        HTML does not primarily tell the browser how something
+        should look. It tells the browser what the content is:
+        a heading, paragraph, image, link, form, button and so on.
+      </p>
+
+
+      <div class="term">
+
+        <strong>Important term: Markup</strong>
+
+        Markup is a system of labels placed around content
+        so a computer can understand the role of that content.
+
+      </div>
+
+
+      <h2>A simple analogy</h2>
+
+      <p>
+        Imagine you are constructing a house.
+        HTML is similar to the structure of the house.
+        CSS controls the appearance, while JavaScript adds behavior.
+      </p>
+
+
+      <div class="diagram">
+
+        <strong>How the three layers work</strong>
+
+        <div class="diagram-flow">
+
+          <div class="diagram-box">
+            HTML<br>
+            <small>Structure</small>
+          </div>
+
+          <span>+</span>
+
+          <div class="diagram-box">
+            CSS<br>
+            <small>Appearance</small>
+          </div>
+
+          <span>+</span>
+
+          <div class="diagram-box">
+            JavaScript<br>
+            <small>Behavior</small>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <h2>Your first HTML page</h2>
+
+      <p>
+        A basic HTML document normally contains a document type,
+        an HTML element, a head section and a body section.
+      </p>
+
+
+      <pre class="code">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Hello JG&lt;/h1&gt;
+  &lt;p&gt;I am learning web development.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+
+      <h2>What do the tags mean?</h2>
+
+      <ul>
+
+        <li>
+          <strong>&lt;html&gt;</strong> contains the whole document.
+        </li>
+
+        <li>
+          <strong>&lt;head&gt;</strong> contains information about the page.
+        </li>
+
+        <li>
+          <strong>&lt;body&gt;</strong> contains visible page content.
+        </li>
+
+        <li>
+          <strong>&lt;h1&gt;</strong> creates a major heading.
+        </li>
+
+        <li>
+          <strong>&lt;p&gt;</strong> creates a paragraph.
+        </li>
+
+      </ul>
+
+
+      <h2>Real-world example</h2>
+
+      <p>
+        When you open a website, the browser receives HTML and builds
+        a structure called the DOM. CSS can then style that structure,
+        while JavaScript can interact with it.
+      </p>
+
+
+      <div class="term">
+
+        <strong>Remember this</strong>
+
+        HTML = structure.<br>
+        CSS = appearance.<br>
+        JavaScript = behavior.
+
+      </div>
+
+
+      <div class="quiz card">
+
+        <h3>Quick check</h3>
+
+        <p style="color:var(--muted);font-size:13px;">
+          What is the primary purpose of HTML?
+        </p>
+
+        <button class="quiz-option"
+                data-answer="wrong">
+          To store money in a website.
+        </button>
+
+        <button class="quiz-option"
+                data-answer="correct">
+          To structure content on a webpage.
+        </button>
+
+        <button class="quiz-option"
+                data-answer="wrong">
+          To automatically create internet connections.
+        </button>
+
+        <div class="feedback" id="quizFeedback"></div>
+
+      </div>
+
+
+      <button
+        class="btn btn-success btn-full"
+        data-action="complete-lesson">
+
+        ${progress >= 100 ? "Lesson Completed ✓" : "Complete Lesson"}
+
+      </button>
+
+    </article>
+
+  `;
+
+}
+
+
+/* ---------------------------------------------------------
+   WORK
+--------------------------------------------------------- */
+
+function renderWork(){
+
+  const list =
+    document.getElementById("workList");
+
+  list.innerHTML =
+    opportunities.map((item,index)=>`
+
+      <article class="card work-card">
+
+        <div class="work-top">
+
+          <div>
+
+            <span class="pill">
+              ${escapeHTML(item.category)}
+            </span>
+
+            <h3>${escapeHTML(item.title)}</h3>
+
+          </div>
+
+          <span class="pill">
+            ${index+1}
+          </span>
+
+        </div>
+
+        <p>${escapeHTML(item.description)}</p>
+
+        <div class="meta">
+
+          <span class="pill">
+            ${escapeHTML(item.type)}
+          </span>
+
+          <span class="pill">
+            External
+          </span>
+
+        </div>
+
+        <button
+          class="external"
+          data-opportunity="${index}">
+
+          View opportunity
+          ${icon("external",15)}
+
+        </button>
+
+      </article>
+
+    `).join("");
+
+}
+
+
+/* ---------------------------------------------------------
+   AI
+--------------------------------------------------------- */
+
+function aiResponse(question){
+
+  const q =
+    question.toLowerCase();
+
+  if(q.includes("api")){
+
+    return `
+      <strong>API explained simply</strong><br><br>
+
+      API means <strong>Application Programming Interface</strong>.
+
+      Think of an API like a waiter in a restaurant.
+      You tell the waiter what you want, the waiter communicates
+      with the kitchen, and the kitchen sends the result back.
+
+      In software, your app sends a request to an API.
+      The API communicates with another system and returns data.
+
+      <br><br>
+
+      <strong>Example:</strong>
+
+      A weather app can request today's weather from a weather API
+      instead of creating its own weather database.
+
+      <br><br>
+
+      <strong>Simple flow:</strong><br>
+      App → API → Server → API → App
+    `;
+
+  }
+
+
+  if(
+    q.includes("html") ||
+    q.includes("website")
+  ){
+
+    return `
+      <strong>Let's start with HTML.</strong><br><br>
+
+      HTML gives a webpage its structure.
+
+      <br><br>
+
+      For example:
+
+      <pre class="code">&lt;h1&gt;My Website&lt;/h1&gt;
+&lt;p&gt;Welcome to my website.&lt;/p&gt;</pre>
+
+      The <strong>h1</strong> creates a heading and
+      <strong>p</strong> creates a paragraph.
+
+      <br>
+
+      Next, learn CSS to control how those elements look,
+      then JavaScript to make them interactive.
+    `;
+
+  }
+
+
+  if(
+    q.includes("css")
+  ){
+
+    return `
+      <strong>CSS controls presentation.</strong><br><br>
+
+      CSS means Cascading Style Sheets.
+
+      HTML tells the browser what an element is.
+      CSS tells the browser how it should look.
+
+      <br><br>
+
+      Example:
+
+      <pre class="code">h1 {
+  font-size: 40px;
+  color: blue;
+}</pre>
+
+      This changes the appearance of an h1 element.
+    `;
+
+  }
+
+
+  if(
+    q.includes("python")
+  ){
+
+    return `
+      <strong>Python is a programming language.</strong><br><br>
+
+      It is popular because its syntax is relatively readable
+      and it can be used for automation, web development,
+      data work, artificial intelligence and many other areas.
+
+      <br><br>
+
+      Example:
+
+      <pre class="code">name = "JG"
+print("Hello " + name)</pre>
+
+      A good beginner path is:
+
+      <br>
+      1. Variables<br>
+      2. Data types<br>
+      3. Conditions<br>
+      4. Loops<br>
+      5. Functions<br>
+      6. Projects
+    `;
+
+  }
+
+
+  if(
+    q.includes("study") ||
+    q.includes("30 day") ||
+    q.includes("plan")
+  ){
+
+    return `
+      <strong>30-day beginner coding plan</strong><br><br>
+
+      <strong>Days 1–7:</strong>
+      HTML fundamentals and simple webpages.<br><br>
+
+      <strong>Days 8–14:</strong>
+      CSS, layouts, responsive design and styling.<br><br>
+
+      <strong>Days 15–21:</strong>
+      JavaScript fundamentals and interactions.<br><br>
+
+      <strong>Days 22–27:</strong>
+      Build a small project.<br><br>
+
+      <strong>Days 28–30:</strong>
+      Improve the project, test it and publish it.
+
+      <br><br>
+
+      The most important rule:
+      <strong>build while learning.</strong>
+    `;
+
+  }
+
+
+  return `
+    <strong>JG AI</strong><br><br>
+
+    I can help you learn skills step by step.
+
+    Try asking me something like:
+
+    <br><br>
+
+    • "Explain API to me."<br>
+    • "Teach me HTML."<br>
+    • "Give me a Python exercise."<br>
+    • "Create a coding study plan."<br>
+    • "What should I learn after CSS?"
+  `;
+
+}
+
+
+function appendAI(role,text){
+
+  const messages =
+    document.getElementById("aiMessages");
+
+  const div =
+    document.createElement("div");
+
+  div.className =
+    `message ${role}`;
+
+  div.innerHTML = `
+
+    <small>
+      ${role === "ai" ? "JG AI" : "You"}
+    </small>
+
+    <div>${role === "ai"
+      ? text
+      : escapeHTML(text)
+    }</div>
+
+    ${
+      role === "ai"
+      ? `
+        <button
+          class="link-btn"
+          data-action="copy-ai"
+          style="margin-top:9px;font-size:10px;">
+          Copy response
+        </button>
+      `
+      : ""
+    }
+
+  `;
+
+  messages.appendChild(div);
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+function startAI(){
+
+  if(state.aiStarted) return;
+
+  state.aiStarted = true;
+
+  appendAI(
+    "ai",
+    `
+      <strong>Welcome to JG AI.</strong><br><br>
+
+      I am your learning workspace inside JG.
+
+      Ask me to explain a concept, create an exercise,
+      help you understand code or build a study plan.
+    `
+  );
+
+}
+
+
+function sendAI(){
+
+  const input =
+    document.getElementById("aiInput");
+
+  if(!input) return;
+
+  const question =
+    input.value.trim();
+
+  if(!question) return;
+
+  appendAI("user",question);
+
+  input.value = "";
+
+  const messages =
+    document.getElementById("aiMessages");
+
+  const loading =
+    document.createElement("div");
+
+  loading.className =
+    "message ai";
+
+  loading.innerHTML = `
+    <small>JG AI</small>
+    <div>Thinking…</div>
+  `;
+
+  messages.appendChild(loading);
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+  setTimeout(()=>{
+
+    loading.remove();
+
+    appendAI(
+      "ai",
+      aiResponse(question)
+    );
+
+  },650);
+
+}
+
+
+/* ---------------------------------------------------------
+   MODAL
+--------------------------------------------------------- */
+
+function showModal(title,body,actions=""){
+
+  document.getElementById("modalTitle")
+    .textContent = title;
+
+  document.getElementById("modalBody")
+    .innerHTML = body;
+
+  document.getElementById("modalActions")
+    .innerHTML = actions;
+
+  document.getElementById("modalBack")
+    .classList.add("show");
+
+}
+
+
+function hideModal(){
+
+  document.getElementById("modalBack")
+    .classList.remove("show");
+
+}
+
+
+/* ---------------------------------------------------------
+   TOAST
+--------------------------------------------------------- */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2200);
+
+}
+
+
+/* ---------------------------------------------------------
+   EVENTS
+--------------------------------------------------------- */
+
+document.addEventListener("click",async event=>{
+
+  const goButton =
+    event.target.closest("[data-go]");
+
+  if(goButton){
+
+    go(goButton.dataset.go);
+
+    return;
+
+  }
+
+
+  const courseCardElement =
+    event.target.closest("[data-course]");
+
+  if(courseCardElement){
+
+    state.selectedCourse =
+      courseCardElement.dataset.course;
+
+    go("course-detail");
+
+    return;
+
+  }
+
+
+  const category =
+    event.target.closest("[data-category]");
+
+  if(category){
+
+    state.activeCategory =
+      category.dataset.category;
+
+    renderCourses();
+
+    return;
+
+  }
+
+
+  const promptButton =
+    event.target.closest("[data-prompt]");
+
+  if(promptButton){
+
+    const input =
+      document.getElementById("aiInput");
+
+    if(input){
+
+      input.value =
+        promptButton.dataset.prompt;
+
+      input.focus();
+
+    }
+
+    return;
+
+  }
+
+
+  const opportunity =
+    event.target.closest("[data-opportunity]");
+
+  if(opportunity){
+
+    const item =
+      opportunities[
+        Number(opportunity.dataset.opportunity)
+      ];
+
+    showModal(
+      item.title,
+      `
+        <strong>${escapeHTML(item.type)}</strong><br><br>
+
+        ${escapeHTML(item.description)}
+
+        <br><br>
+
+        This is an external opportunity.
+        In the production JG platform, the opportunity provider's
+        verified application destination would be connected here.
+      `,
+      `
+        <button class="btn btn-primary btn-full"
+                data-action="close-modal">
+          Continue
+        </button>
+      `
+    );
+
+    return;
+
+  }
+
+
+  const action =
+    event.target.closest("[data-action]");
+
+  if(action){
+
+    const type =
+      action.dataset.action;
+
+
+    if(type === "premium"){
+
+      togglePremium();
+
+      return;
+
+    }
+
+
+    if(type === "start-course"){
+
+      state.selectedLesson = 0;
+
+      go("lesson");
+
+      return;
+
+    }
+
+
+    if(type === "open-lesson"){
+
+      state.selectedLesson = 0;
+
+      go("lesson");
+
+      return;
+
+    }
+
+
+    if(type === "complete-lesson"){
+
+      setCourseProgress(
+        state.selectedCourse,
+        100
+      );
+
+      renderLesson();
+
+      showToast(
+        "Lesson completed"
+      );
+
+      return;
+
+    }
+
+
+    if(type === "play-video"){
+
+      showModal(
+        "Lesson Video",
+        `
+          <strong>JG Learning Video</strong><br><br>
+
+          This single-file build contains the complete
+          video-player interface.
+
+          <br><br>
+
+          Production video delivery can later be connected
+          to your secure media storage/CDN.
+        `,
+        `
+          <button class="btn btn-primary btn-full"
+                  data-action="close-modal">
+            Close
+          </button>
+        `
+      );
+
+      return;
+
+    }
+
+
+    if(type === "close-modal"){
+
+      hideModal();
+
+      return;
+
+    }
+
+
+    if(type === "copy-ai"){
+
+      const message =
+        action.closest(".message");
+
+      const text =
+        message?.innerText || "";
+
+      try{
+
+        await navigator.clipboard.writeText(text);
+
+        showToast("Response copied");
+
+      }catch{
+
+        showToast("Copy unavailable on this browser");
+
+      }
+
+      return;
+
+    }
+
+  }
+
+
+  const quizOption =
+    event.target.closest(".quiz-option");
+
+  if(quizOption){
+
+    const options =
+      document.querySelectorAll(".quiz-option");
+
+    options.forEach(x=>{
+      x.disabled = true;
+    });
+
+    const correct =
+      quizOption.dataset.answer === "correct";
+
+    quizOption.classList.add(
+      correct ? "correct" : "wrong"
+    );
+
+    const feedback =
+      document.getElementById("quizFeedback");
+
+    if(feedback){
+
+      feedback.textContent =
+        correct
+        ? "Correct. HTML is used to structure content on webpages."
+        : "Not quite. HTML is primarily responsible for webpage structure.";
+
+      feedback.style.color =
+        correct
+        ? "var(--success)"
+        : "var(--danger)";
+
+    }
+
+    return;
+
+  }
+
+});
+
+
+/* ---------------------------------------------------------
+   THEME BUTTON
+--------------------------------------------------------- */
+
+document.getElementById("themeBtn")
+  .addEventListener(
+    "click",
+    toggleTheme
+  );
+
+
+/* ---------------------------------------------------------
+   SEARCH
+--------------------------------------------------------- */
+
+document.getElementById("courseSearch")
+  .addEventListener(
+    "input",
+    event=>{
+
+      state.search =
+        event.target.value;
+
+      renderCourses();
+
+    }
+  );
+
+
+/* ---------------------------------------------------------
+   AI COMPOSER
+--------------------------------------------------------- */
+
+const aiMessages =
+  document.getElementById("aiMessages");
+
+if(aiMessages){
+
+  aiMessages.addEventListener(
+    "click",
+    event=>{}
+  );
+
+}
+
+
+const aiInput =
+  document.createElement("input");
+
+aiInput.type = "text";
+aiInput.id = "aiInput";
+aiInput.placeholder =
+  "Ask JG AI anything about learning...";
+aiInput.autocomplete = "off";
+
+
+const aiComposer =
+  document.createElement("div");
+
+aiComposer.className =
+  "ai-composer";
+
+aiComposer.appendChild(aiInput);
+
+
+const aiSend =
+  document.createElement("button");
+
+aiSend.className =
+  "ai-send";
+
+aiSend.id =
+  "aiSend";
+
+aiSend.setAttribute(
+  "aria-label",
+  "Send"
+);
+
+aiSend.innerHTML =
+  icon("send");
+
+aiComposer.appendChild(aiSend);
+
+document.body.appendChild(aiComposer);
+
+
+aiSend.addEventListener(
+  "click",
+  sendAI
+);
+
+
+aiInput.addEventListener(
+  "keydown",
+  event=>{
+
+    if(event.key === "Enter"){
+
+      event.preventDefault();
+
+      sendAI();
+
+    }
+
+  }
+);
+
+
+/* ---------------------------------------------------------
+   NEW CHAT
+--------------------------------------------------------- */
+
+document.getElementById("newChatBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      document.getElementById("aiMessages")
+        .innerHTML = "";
+
+      state.aiStarted = false;
+
+      startAI();
+
+      showToast("New JG AI conversation started");
+
+    }
+  );
+
+
+/* ---------------------------------------------------------
+   VERIFY
+--------------------------------------------------------- */
+
+document.getElementById("verifyBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      const input =
+        document.getElementById("certInput");
+
+      const result =
+        document.getElementById("verifyResult");
+
+      const id =
+        input.value.trim().toUpperCase();
+
+      if(!id){
+
+        result.className =
+          "verify-result show bad";
+
+        result.innerHTML =
+          "<strong>Enter a certificate ID.</strong>";
+
+        return;
+
+      }
+
+      const certificate =
+        validCertificates[id];
+
+      if(certificate){
+
+        result.className =
+          "verify-result show good";
+
+        result.innerHTML = `
+
+          <strong>Certificate verified</strong>
+
+          <br><br>
+
+          Certificate ID:
+          <strong>${escapeHTML(id)}</strong>
+
+          <br>
+
+          Course:
+          ${escapeHTML(certificate.course)}
+
+          <br>
+
+          Year:
+          ${escapeHTML(certificate.date)}
+
+          <br>
+
+          Status:
+          ${escapeHTML(certificate.status)}
+
+          <br><br>
+
+          <small>
+            Government accreditation is not claimed
+            by this demo registry.
+          </small>
+
+        `;
+
+      }else{
+
+        result.className =
+          "verify-result show bad";
+
+        result.innerHTML = `
+
+          <strong>Certificate not found.</strong>
+
+          <br><br>
+
+          No matching certificate was found
+          in the JG demo registry.
+
+        `;
+
+      }
+
+    }
+  );
+
+
+/* ---------------------------------------------------------
+   SETTINGS THEME
+--------------------------------------------------------- */
+
+document.getElementById("settingsTheme")
+  .addEventListener(
+    "click",
+    toggleTheme
+  );
+
+
+/* ---------------------------------------------------------
+   RESET
+--------------------------------------------------------- */
+
+document.getElementById("demoReset")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      showModal(
+        "Reset JG Demo?",
+        `
+          This will clear your local course progress,
+          theme preference and Premium demo state.
+        `,
+        `
+          <div style="display:flex;gap:8px;">
+
+            <button
+              class="btn btn-secondary"
+              style="flex:1"
+              data-action="close-modal">
+              Cancel
+            </button>
+
+            <button
+              class="btn btn-danger"
+              style="flex:1"
+              id="confirmReset">
+              Reset
+            </button>
+
+          </div>
+        `
+      );
+
+      document.getElementById("confirmReset")
+        .addEventListener(
+          "click",
+          ()=>{
+
+            localStorage.removeItem("jg-progress");
+            localStorage.removeItem("jg-theme");
+            localStorage.removeItem("jg-plan");
+
+            state.progress = {};
+            state.theme = "light";
+            state.plan = "free";
+
+            saveState();
+            updateTheme();
+            updatePlanUI();
+            renderHome();
+            renderCourses();
+
+            hideModal();
+
+            showToast(
+              "JG demo data reset"
+            );
+
+          }
+        );
+
+    }
+  );
+
+
+/* ---------------------------------------------------------
+   MODAL CONTROLS
+--------------------------------------------------------- */
+
+document.getElementById("modalClose")
+  .addEventListener(
+    "click",
+    hideModal
+  );
+
+
+document.getElementById("modalBack")
+  .addEventListener(
+    "click",
+    event=>{
+
+      if(event.target.id === "modalBack"){
+        hideModal();
+      }
+
+    }
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(event.key === "Escape"){
+      hideModal();
+    }
+
+  }
+);
+
+
+/* ---------------------------------------------------------
+   INITIALIZATION
+--------------------------------------------------------- */
+
+function init(){
+
+  updateTheme();
+  updatePlanUI();
+
+  renderHome();
+  renderCourses();
+  renderWork();
+
+  startAI();
+
+  mountIcons();
+
+  /*
+    The AI composer is created dynamically above.
+    It is intentionally hidden on non-AI screens through CSS
+    below.
+  */
+
+}
+
+
+init();
+
+
+/* ---------------------------------------------------------
+   SHOW AI COMPOSER ONLY ON AI SCREEN
+--------------------------------------------------------- */
+
+function updateAIComposer(){
+
+  const composer =
+    document.querySelector(".ai-composer");
+
+  if(!composer) return;
+
+  composer.style.display =
+    state.screen === "ai"
+    ? "flex"
+    : "none";
+
+}
+
+
+/* Patch navigation to update composer */
+const originalGo = go;
+
+go = function(screen){
+
+  originalGo(screen);
+
+  updateAIComposer();
+
+};
+
+
+/* Initial composer state */
+updateAIComposer();
+
+
+/* ---------------------------------------------------------
+   EXTRA ICON MOUNT FOR DYNAMIC UI
+--------------------------------------------------------- */
+
+setTimeout(
+  ()=>{
+    mountIcons();
+  },
+  50
+);
+
+</script>
+
+</body>
+</html>
